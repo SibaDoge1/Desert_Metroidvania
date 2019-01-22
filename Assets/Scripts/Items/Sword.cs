@@ -4,20 +4,16 @@ using UnityEngine;
 
 public class Sword : Weapon
 {
-
     void Awake()
     {
-        Atk = 1;
-        preDelay = 1;
-        postDelay = 1;
-        inDelay = 1;
+
     }
-    public override void Action() // 최종적으로 이걸로 공격행동 시작
+    public override void Action() // 최종적으로 이걸로 공격함
     {
-        Debug.Log('h');
+        Debug.Log("attack!");
     }
 
-    void OnTriggerEnter(Collider2D col)
+    void OnTriggerEnter2D(Collider2D col)
     {
 
     }

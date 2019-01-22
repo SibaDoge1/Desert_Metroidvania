@@ -151,10 +151,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84d1a6ee89ff64348b12939779c83e7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hp: 0
-  Spd: 0
-  Def: 0
-  maxHp: 0
+  hp: 1
+  spd: 1
+  def: 0
+  maxHp: 10
+  atk: 1
+  atkDelay: 1
 --- !u!50 &4305939392522340978
 Rigidbody2D:
   serializedVersion: 4
@@ -175,4 +177,4 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4

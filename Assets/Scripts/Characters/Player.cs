@@ -30,4 +30,9 @@ public class Player : Character
     {
         EquipManager.Instance.equipedWeapon.Action();
     }
+
+    public override void OnDieCallBack() //죽을 때 부르는 함수
+    {
+
+    }
 }

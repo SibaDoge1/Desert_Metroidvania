@@ -6,10 +6,17 @@ using UnityEngine;
 
 public abstract class Weapon : Item
 {
-    protected float Atk;
-    protected float preDelay;
-    protected float postDelay;
-    protected float inDelay;
+    [Header("AtackStatus")]
+    [SerializeField]
+    protected float atk = 1;  //default value
+    [SerializeField]
+    protected float preDelay = 0.5f;
+    [SerializeField]
+    protected float postDelay = 0.5f;
+    [SerializeField]
+    protected float inDelay = 0.5f;
+    [SerializeField]
+    protected float range = 0.5f;
 
     public abstract void Action();
 }

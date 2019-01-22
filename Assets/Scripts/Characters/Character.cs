@@ -9,20 +9,20 @@ public abstract class Character : MonoBehaviour
     const float speedConst = 1;
     protected Rigidbody2D rigid;
 
-    #region 스테이터스
+    #region Status //이거 더블클릭 하셈
     [Header("Status")]
-    [SerializeField] //에디터상으로 수정가능하게 함
-    private float Hp;
     [SerializeField]
-    private int Spd;
+    protected float hp = 1; //default value
     [SerializeField]
-    private int Def;
+    protected int spd = 1;
     [SerializeField]
-    private float maxHp;
+    protected int def = 0;
+    [SerializeField]
+    protected float maxHp = 10;
 
-    public float hp { get { return Hp; } set { Hp = value; } } //c#의 프로퍼티 기능, 접근제한자가 있는것들의 get set을 간편히 만듬
-    public int spd { get { return Spd; } set { Spd = value; } }
-    public int def { get { return Def; } set { Def = value; } }
+    public float Hp { get { return hp; } set { hp = value; } }
+    public int Spd { get { return spd; } set { spd = value; } }
+    public int Def { get { return def; } set { Def = value; } }
     #endregion
 
     bool isGround;
@@ -50,12 +50,13 @@ public abstract class Character : MonoBehaviour
 
     protected void Jump()
     {
+        rigid.velocity = new Vector2(0, 5);
         //점프 구현
     }
 
-    public virtual void GetDamage(float damage) // 순수한 기본 데미지를 전달
+    public virtual void GetDamage(float damage) // 공격받을시 실행, 초기 데미지를 전달
     {
-        //방어력 등등 데미지 연산 후 줄이기, 0이하로 줄어들면 사망
+        //방어력 등등 데미지 연산 후 최종데미지, 0이하로 줄어들면 사망
     }
 
     public virtual void OnDieCallBack() //죽을 때 부르는 함수

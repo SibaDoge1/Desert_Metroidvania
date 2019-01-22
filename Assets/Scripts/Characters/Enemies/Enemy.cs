@@ -4,10 +4,15 @@ using UnityEngine;
 
 public abstract class Enemy : Character
 {
-    protected float Atk;
-    protected float preDelay;
-    protected float postDelay;
-    protected float inDelay;
+    #region Status
+    [Header("AttackStatus")] 
+    [SerializeField]
+    protected float atk = 1; //default value
+    [SerializeField]
+    protected float atkDelay = 1;
+    #endregion
 
-    public abstract void Action();
+    protected abstract void Action();
+    protected abstract void Think();
+
 }
