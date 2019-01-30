@@ -21,14 +21,13 @@ public abstract class Character : MonoBehaviour
     protected float maxHp = 10;
 
     [SerializeField]
-    protected float currentHp = 1; //현재값(기본값에서 버프 / 디버프 등으로 바뀐 상태, 즉, 실제 게임 상에 적용되는 값)
-    [SerializeField]
     protected float currentSpd = 1f;
     [SerializeField]
     protected int currentDef = 0;
-    [SerializeField]
-    protected float currentMaxHp = 10;
     //자신의 버프, 디버프 상태에만 영향을 받으므로 프로퍼티는 만들지 않았음
+
+    protected float isSuper = 0f; //무적
+    public float IsSuper { get { return isSuper; } set { isSuper = value; } }
 
     public float Hp { get { return hp; } set { hp = value; } }
     public float Spd { get { return spd; } set { spd = value; } }
@@ -40,6 +39,12 @@ public abstract class Character : MonoBehaviour
     void Awake()
     {
         rigid = transform.GetComponent<Rigidbody2D>();
+    }
+    
+    protected virtual void Update()
+    {
+        if (IsSuper > 0f)
+            IsSuper -= Time.deltaTime;
     }
 
 
@@ -71,7 +76,7 @@ public abstract class Character : MonoBehaviour
         if (jumpCount < 0.25f)
         {
             jumpCount += Time.deltaTime;
-            rigid.velocity = new Vector2(rigid.velocity.x, 5f);
+            rigid.velocity = new Vector2(rigid.velocity.x, 10f);
         }
         //점프 구현
     }
@@ -83,19 +88,26 @@ public abstract class Character : MonoBehaviour
 
     public virtual void GetDamage(float damage) // 공격받을시 실행, 초기 데미지를 전달
     {
+        //임시
+        Hp -= damage;
+        IsSuper = 1f;
+
+        if (Hp <= 0)
+        {
+            OnDieCallBack();
+        }
         //방어력 등등 데미지 연산 후 최종데미지, 0이하로 줄어들면 사망
     }
 
     public virtual void OnDieCallBack() //죽을 때 부르는 함수
     {
-
+        //임시
+        Destroy(gameObject);
     }
 
-    protected void CheckBuffAndDebuff() //기본값과 버프 디버프 상태를 종합하여 실제 게임에 적용되는 현재 스텟값을 정함
+    protected virtual void CheckBuffAndDebuff() //기본값과 버프 디버프 상태를 종합하여 실제 게임에 적용되는 현재 스텟값을 정함
     {
-        currentHp = Hp;
         currentDef = Def;
-        currentMaxHp = maxHp;
         currentSpd = Spd;
 
         if (rigid.velocity.y != 0f) //공중에서 횡이동 속도 0.5배

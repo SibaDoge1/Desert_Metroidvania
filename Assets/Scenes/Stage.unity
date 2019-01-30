@@ -206,6 +206,7 @@ GameObject:
   - component: {fileID: 637487471}
   - component: {fileID: 637487473}
   - component: {fileID: 637487475}
+  - component: {fileID: 637487474}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -292,12 +293,24 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 2
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &637487474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 637487470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 523ad6df0a69f514eabebe00ae5996c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &637487475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,10 +327,8 @@ MonoBehaviour:
   spd: 10
   def: 0
   maxHp: 10
-  currentHp: 1
   currentSpd: 1
   currentDef: 0
-  currentMaxHp: 10
 --- !u!1 &811097050
 GameObject:
   m_ObjectHideFlags: 0
@@ -874,15 +885,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 4305939392522340982, guid: 999d087cc8ab2374d881cb3f2701c6c6,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 4305939392522340980, guid: 999d087cc8ab2374d881cb3f2701c6c6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.888
+      value: 1.73
       objectReference: {fileID: 0}
     - target: {fileID: 4305939392522340980, guid: 999d087cc8ab2374d881cb3f2701c6c6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.538
+      value: -1.74
       objectReference: {fileID: 0}
     - target: {fileID: 4305939392522340980, guid: 999d087cc8ab2374d881cb3f2701c6c6,
         type: 3}

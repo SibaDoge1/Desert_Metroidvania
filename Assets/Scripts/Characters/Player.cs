@@ -10,8 +10,10 @@ public enum WeaponList
 public class Player : Character
 {
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
+
         CheckBuffAndDebuff();
 
         if (Input.GetKey(KeyCode.RightArrow)) Move(Direction.right);
@@ -39,6 +41,6 @@ public class Player : Character
 
     public override void OnDieCallBack() //죽을 때 부르는 함수
     {
-
+        Destroy(gameObject);
     }
 }

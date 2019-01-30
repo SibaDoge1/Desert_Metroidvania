@@ -18,5 +18,8 @@ public abstract class Weapon : Item
     [SerializeField]
     protected float range = 0.5f;
 
+
+    protected bool onAttack = false;
+
     public abstract void Action();
 }
