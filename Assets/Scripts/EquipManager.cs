@@ -11,7 +11,7 @@ public class EquipManager : MonoBehaviour
     void Awake()
     {
         if (_instance == null) _instance = this;
-        equipedWeapon = GameObject.Find("Weapon").transform.GetChild(0).GetComponent<Weapon>();     //왠지 안돼서 플레이어 컴포넌트에 붙임
+        equipedWeapon = transform.Find("Equip").transform.Find("Weapon").transform.GetChild(0).GetComponent<Weapon>();     //왠지 안돼서 플레이어 컴포넌트에 붙임
         Debug.Log(equipedWeapon.gameObject.name);
     }
 

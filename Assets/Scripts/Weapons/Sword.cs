@@ -3,42 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Sword : Weapon
-{
-    void Awake()
+{    
+    protected override void Awake() //attackInfo
     {
+        AttackInfo[] tempInfos = new AttackInfo[1];
 
+        tempInfos[0].attackRange = new Vector2(1f, 1f);
+        tempInfos[0].hitBoxPostion = new Vector2(1f, 0f);
+        tempInfos[0].damage = 1;
+        tempInfos[0].duration = 0.15f;
+
+        foreach(var tempInfo in tempInfos)
+        {
+            attackInfos.Add(tempInfo);
+        }
     }
     public override void Action() // 최종적으로 이걸로 공격함
     {
-
-        StartCoroutine(Action_Attack());
+        if (!onAttack)
+            StartCoroutine(Action_Attack());
     }
-
+    
     IEnumerator Action_Attack() //임시로 만든 거
     {
-        float timer = 0f;
-
         onAttack = true;
 
-        while (true)
-        {
-            if (timer >= 0.5f)
-            {
-                break;
-            }
+        CombatSystem.Instance.InstantiateHitBox(attackInfos[0], gameObject.transform);
 
-            transform.Translate(new Vector2(1f * Time.deltaTime, 0f));
+        yield return new WaitForSeconds(0.25f);
 
-            timer += Time.deltaTime;
-
-            yield return null;
-        }
-
-        transform.Translate(new Vector2(-0.5f, 0f));
-        Debug.Log(onAttack.ToString());
         onAttack = false;
     }
-
+    /*
     void OnTriggerStay2D(Collider2D col)   //임시로 만든 거
     {
 
@@ -50,5 +46,5 @@ public class Sword : Weapon
 
         }
     }
-
+    */
 }
