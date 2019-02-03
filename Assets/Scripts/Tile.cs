@@ -5,8 +5,8 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     [SerializeField]
-    private bool downEnabled = true;
-    private const float clickThreshold = 0.5f;
+    private bool downEnabled;
+    private const float clickThreshold = 1f;
     private bool isAtTile;
     private float clickCheckTimer;
     private Player player;
@@ -19,9 +19,9 @@ public class Tile : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        if (isAtTile && Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow) && isAtTile && downEnabled)
         {
             if (clickCheckTimer <= 0) StartCoroutine("ClickCheck");
             else Down();
@@ -33,7 +33,7 @@ public class Tile : MonoBehaviour
         Debug.Log("down");
         StopCoroutine("ClickCheck");
         clickCheckTimer = 0;
-        player.transform.Translate(Vector2.down * transform.localScale.y);
+        player.transform.Translate(Vector2.down * (transform.localScale.y+ player.transform.localScale.y/2f));
     }
 
     IEnumerator ClickCheck()
@@ -51,7 +51,7 @@ public class Tile : MonoBehaviour
     {
         if (col.transform.CompareTag("Player"))
         {
-            if(col.transform.position.y - col.transform.localScale.y/2f >= transform.position.y + transform.localScale.y / 2f)
+            if (col.transform.position.y - col.transform.localScale.y / 2f >= transform.position.y + transform.localScale.y / 2f)
             {
                 Debug.Log("Tile");
                 isAtTile = true;

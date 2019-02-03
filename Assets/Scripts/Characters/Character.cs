@@ -37,8 +37,6 @@ public abstract class Character : MonoBehaviour
     public int Def { get { return def; } set { Def = value; } }
     #endregion
 
-    protected bool isGround;
-    public bool IsGround { get { return isGround; }}
 
     void Awake()
     {
@@ -51,7 +49,6 @@ public abstract class Character : MonoBehaviour
             IsSuper -= Time.deltaTime;
 
         CheckBuffAndDebuff();
-        CheckGround();
     }
 
     protected virtual void FixedUpdate()
@@ -101,11 +98,8 @@ public abstract class Character : MonoBehaviour
 
     protected virtual void Jump()
     {
-        if (isGround)
-        {
-            rigid.AddForce(new Vector2(0, jumpConst * jumpPower));
-            isGround = false;
-        }
+        rigid.velocity = Vector2.zero;
+        rigid.AddForce(new Vector2(0, jumpConst * jumpPower));
         //점프 구현
     }
 
@@ -135,31 +129,5 @@ public abstract class Character : MonoBehaviour
         currentSpd = Spd;
     }
 
-    
-    protected virtual void OnDrawGizmos()
-    {
-        Vector3 pos = new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2f - 0.01f, transform.position.z);
-        Vector2 scale = new Vector2(transform.localScale.x, 0.005f);
-        RaycastHit2D hit = Physics2D.BoxCast(pos, scale, 0, Vector2.down, 0.05f);
-        Gizmos.color = Color.red;
-        if (hit.transform != null)
-        {
-            Gizmos.DrawRay(pos, Vector2.down * hit.distance);
-            Gizmos.DrawWireCube(pos + Vector3.down * hit.distance, scale);
-        }
-        else
-			Gizmos.DrawRay(pos, Vector3.down *5f);
-    }
-
-    protected virtual void CheckGround()
-    {
-        Vector3 pos = new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2f - 0.02f, transform.position.z);
-        Vector2 scale = new Vector2(transform.localScale.x, 0.005f);
-        RaycastHit2D hit = Physics2D.BoxCast(pos, scale, 0, Vector2.down, 0.05f);
-        if (hit.transform != null && !hit.collider.isTrigger)
-            isGround = true;
-        else
-            isGround = false;
-    }
 
 }

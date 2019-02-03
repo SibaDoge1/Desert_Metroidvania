@@ -12,14 +12,13 @@ public class Player : Character
     private bool isMovable;
     public bool IsMovable { get{ return isMovable ;} set { isMovable = value; } }
     private BoxCollider2D myCollider;
-    private bool isJumping;
-    private int jumpCount;
-    public int JumpCount { set { jumpCount = value; } }
-    private int maxJumpCount = 1;
     private GameObject sprite;
+    private bool isGround;
+    public bool IsGround { get { return isGround; } }
 
     void Start()
     {
+        isGround = true;
         isMovable = true;
         myCollider = gameObject.GetComponent<BoxCollider2D>();
         sprite = transform.Find("Sprite").gameObject;
@@ -69,14 +68,17 @@ public class Player : Character
         }
     }
 
+    private bool isJumping;
+    private int jumpCount;
+    public int JumpCount { set { jumpCount = value; } }
+    private int maxJumpCount = 1;
+
     protected override void Jump()
     {
         if (jumpCount < maxJumpCount)
         {
-            SetVelocity(Vector2.zero);
-            rigid.AddForce(new Vector2(0, jumpConst * jumpPower));
-            jumpCount++;
-            isGround = false;
+            StopCoroutine("JumpRoutine");
+            StartCoroutine("JumpRoutine");
         }
         //점프 구현
     }
@@ -106,6 +108,32 @@ public class Player : Character
         }
     }
 
+    protected virtual void OnDrawGizmos()
+    {
+        Vector3 pos = new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2f - 0.01f, transform.position.z);
+        Vector2 scale = new Vector2(transform.localScale.x, 0.005f);
+        RaycastHit2D hit = Physics2D.BoxCast(pos, scale, 0, Vector2.down, 0.05f);
+        Gizmos.color = Color.red;
+        if (hit.transform != null)
+        {
+            Gizmos.DrawRay(pos, Vector2.down * hit.distance);
+            Gizmos.DrawWireCube(pos + Vector3.down * hit.distance, scale);
+        }
+        else
+            Gizmos.DrawRay(pos, Vector3.down * 5f);
+    }
+
+    protected virtual void CheckGround()
+    {
+        if (isGround) return;
+
+        Vector3 pos = new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2f - 0.02f, transform.position.z);
+        Vector2 scale = new Vector2(transform.localScale.x, 0.005f);
+        RaycastHit2D hit = Physics2D.BoxCast(pos, scale, 0, Vector2.down, 0.05f);
+        if (hit.transform != null && !hit.collider.isTrigger)
+            isGround = true;
+    }
+
     public void SetTrigger(bool value)
     {
         myCollider.isTrigger = value;
@@ -120,7 +148,17 @@ public class Player : Character
         rigid.velocity = value;
     }
 
-
-
-
+    IEnumerator JumpRoutine()
+    {
+        rigid.velocity = Vector2.zero;
+        rigid.AddForce(new Vector2(0, jumpConst * jumpPower));
+        jumpCount++;
+        isGround = false;
+        while (!isGround)
+        {
+            yield return new WaitForSeconds(0.1f);
+            CheckGround();
+        }
+    }
+    
 }

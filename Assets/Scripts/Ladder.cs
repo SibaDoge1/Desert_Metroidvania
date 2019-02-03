@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Ladder : MonoBehaviour
 {
-    private bool isUsingLadder = false;
+    private bool isUsingLadder;
     private Player player;
 
     // Start is called before the first frame update
@@ -104,7 +104,7 @@ public class Ladder : MonoBehaviour
             {
                 UseLadder(true);
             }
-            if (col.transform.position.y >= transform.position.y + transform.localScale.y / 2f)
+            if (col.transform.position.y - col.transform.localScale.y/2f >= transform.position.y + transform.localScale.y / 2f)
             {
                 Debug.Log("ladder");
                 if (Input.GetKey(KeyCode.DownArrow))
