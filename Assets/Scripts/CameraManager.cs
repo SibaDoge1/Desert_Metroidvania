@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,18 +11,19 @@ public class CameraManager : MonoBehaviour
         get { return instance; }
     }
 
-    Camera mainCamera;
-    GameObject player;
-
-    [SerializeField]
-    float mapX = 0f;
-    [SerializeField]
-    float mapY = 0f;
+    private Camera mainCamera;
+    private GameObject player;
+    private Vector2 camWorldScale;
 
     // Start is called before the first frame update
     void Awake()
     {
         if (instance == null) instance = this;
+        else
+        {
+            Debug.LogError("Singleton Error! : " + this.name);
+            Destroy(gameObject);
+        }
 
     }
 
@@ -29,17 +31,21 @@ public class CameraManager : MonoBehaviour
     {
         mainCamera = GetComponent<Camera>();
         player = GameObject.Find("Player");
+        camWorldScale = (mainCamera.ScreenToWorldPoint(new Vector2(mainCamera.pixelWidth, mainCamera.pixelHeight)) - mainCamera.ScreenToWorldPoint(new Vector2(0, 0))) / 2f;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        var pos = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
-        transform.position = pos;
+        Vector2 pos = player.transform.position;
+        pos.x = Mathf.Clamp(pos.x, -Map.Instance.MapX + camWorldScale.x, Map.Instance.MapX - camWorldScale.x);
+        pos.y = Mathf.Clamp(pos.y, -Map.Instance.MapY + camWorldScale.y, Map.Instance.MapY - camWorldScale.y);
 
-        CheckCameraBoundary();
+        transform.position = new Vector3(pos.x, pos.y, transform.position.z);
+        //transform.position = Vector3.Lerp(transform.position, new Vector3(pos.x, pos.y, transform.position.z), Time.deltaTime*5f);
     }
 
+    /*
     public void ResetMapInfo()
     {
         string currentMap;
@@ -58,15 +64,5 @@ public class CameraManager : MonoBehaviour
                 break;
         }
     }
-
-    private void CheckCameraBoundary()
-    {
-        var pos = transform.position;
-
-        pos.x = Mathf.Clamp(pos.x, -mapX + 9f, mapX - 9f);
-        pos.y = Mathf.Clamp(pos.y, -mapY + 5.5f, mapY - 5.5f);
-
-        transform.position = pos;
-    }
-    
+    */
 }

@@ -6,19 +6,22 @@ public enum Direction { left, right, zero }
 
 public abstract class Character : MonoBehaviour
 {
-    const float speedConst = 1;
+    protected const float speedConst = 1;
+    protected const float jumpConst = 100f;
     protected Rigidbody2D rigid;
 
     #region Status //이거 더블클릭 하셈
     [Header("Status")]
     [SerializeField]
-    protected float hp = 1; //기본값
+    protected float hp = 1; // 기본값
     [SerializeField]
     protected float spd = 1f;
     [SerializeField]
     protected int def = 0;
     [SerializeField]
     protected float maxHp = 10;
+    [SerializeField]
+    protected float jumpPower = 2f;
 
     [SerializeField]
     protected float currentSpd = 1f;
@@ -34,7 +37,8 @@ public abstract class Character : MonoBehaviour
     public int Def { get { return def; } set { Def = value; } }
     #endregion
 
-    bool isGround;
+    protected bool isGround;
+    public bool IsGround { get { return isGround; }}
 
     void Awake()
     {
@@ -45,8 +49,14 @@ public abstract class Character : MonoBehaviour
     {
         if (IsSuper > 0f)
             IsSuper -= Time.deltaTime;
+
+        CheckBuffAndDebuff();
+        CheckGround();
     }
 
+    protected virtual void FixedUpdate()
+    {
+    }
 
     protected void Move(Direction dir)
     {
@@ -63,15 +73,17 @@ public abstract class Character : MonoBehaviour
         transform.Translate(vec * currentSpd * speedConst * Time.deltaTime);
     }
 
+
+    /*
     float jumpCount = 0f;
 
-    protected void JumpAccept()
+    protected void JumpAccept() // 기획서 상 점프는 일정함, 바뀔수도 있으니 일단 보존
     {
         if (jumpCount > 0f && rigid.velocity.y == 0f)
             jumpCount = 0f;
     }
 
-    protected void Jump()       //점프 높이를 점프 조작키 누른 시간과 비례하도록
+    protected void Jump()       
     {
         if (jumpCount < 0.25f)
         {
@@ -85,6 +97,18 @@ public abstract class Character : MonoBehaviour
     {
         jumpCount = 1f;
     }
+    */
+
+    protected virtual void Jump()
+    {
+        if (isGround)
+        {
+            rigid.AddForce(new Vector2(0, jumpConst * jumpPower));
+            isGround = false;
+        }
+        //점프 구현
+    }
+
 
     public virtual void GetDamage(float damage) // 공격받을시 실행, 초기 데미지를 전달
     {
@@ -99,7 +123,7 @@ public abstract class Character : MonoBehaviour
         //방어력 등등 데미지 연산 후 최종데미지, 0이하로 줄어들면 사망
     }
 
-    public virtual void OnDieCallBack() //죽을 때 부르는 함수
+    protected virtual void OnDieCallBack() //죽을 때 부르는 함수
     {
         //임시
         Destroy(gameObject);
@@ -109,10 +133,33 @@ public abstract class Character : MonoBehaviour
     {
         currentDef = Def;
         currentSpd = Spd;
-
-        if (rigid.velocity.y != 0f) //공중에서 횡이동 속도 0.5배
-        {
-            currentSpd *= 0.5f;
-        }
     }
+
+    
+    protected virtual void OnDrawGizmos()
+    {
+        Vector3 pos = new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2f - 0.01f, transform.position.z);
+        Vector2 scale = new Vector2(transform.localScale.x, 0.005f);
+        RaycastHit2D hit = Physics2D.BoxCast(pos, scale, 0, Vector2.down, 0.05f);
+        Gizmos.color = Color.red;
+        if (hit.transform != null)
+        {
+            Gizmos.DrawRay(pos, Vector2.down * hit.distance);
+            Gizmos.DrawWireCube(pos + Vector3.down * hit.distance, scale);
+        }
+        else
+			Gizmos.DrawRay(pos, Vector3.down *5f);
+    }
+
+    protected virtual void CheckGround()
+    {
+        Vector3 pos = new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2f - 0.02f, transform.position.z);
+        Vector2 scale = new Vector2(transform.localScale.x, 0.005f);
+        RaycastHit2D hit = Physics2D.BoxCast(pos, scale, 0, Vector2.down, 0.05f);
+        if (hit.transform != null && !hit.collider.isTrigger)
+            isGround = true;
+        else
+            isGround = false;
+    }
+
 }

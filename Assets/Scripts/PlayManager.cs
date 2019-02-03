@@ -13,12 +13,16 @@ public class PlayManager : MonoBehaviour
     void Awake()
     {
         if (instance == null) instance = this;
+        else
+        {
+            Debug.LogError("Singleton Error! : " + this.name);
+            Destroy(this);
+        }
     }
 
     void Start()
     {
         PlayerPrefs.SetString("Map", "A2");
-        CameraManager.Instance.ResetMapInfo();
     }
 
     void Update()

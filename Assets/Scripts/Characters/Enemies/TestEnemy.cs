@@ -19,7 +19,7 @@ public class TestEnemy : Enemy
 
     }
 
-    public override void OnDieCallBack() //죽을 때 부르는 함수
+    protected override void OnDieCallBack() //죽을 때 부르는 함수
     {
         Destroy(gameObject);
     }
