@@ -25,6 +25,8 @@ public class EquipManager : MonoBehaviour
 
     public void changeWeapon(WeaponList weaponName)
     {
-
+        equipedWeapon = transform.Find("Equip").transform.Find("Weapon").transform.GetChild((int)weaponName).GetComponent<Weapon>();
+        Debug.Log((int)weaponName + " : " + equipedWeapon.gameObject.name);
     }
 }
+

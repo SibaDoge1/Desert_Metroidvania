@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum WeaponList
 {
-    sword, shield, fist
+    sword = 0, shield, fist
 }
 
 public class Player : Character
