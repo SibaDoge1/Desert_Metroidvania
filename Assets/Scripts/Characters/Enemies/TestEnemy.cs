@@ -6,7 +6,7 @@ public class TestEnemy : Enemy
 {
     void Awake()
     {
-
+        Hp = 3;
     }
 
     protected override void Action() //몬스터 공격 구현
@@ -21,6 +21,6 @@ public class TestEnemy : Enemy
 
     public override void OnDieCallBack() //죽을 때 부르는 함수
     {
-
+        Destroy(gameObject);
     }
 }

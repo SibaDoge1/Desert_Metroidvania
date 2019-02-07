@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Enemy : Character
 {
     #region Status
-    [Header("AttackStatus")] 
+    [Header("AttackStatus")]
     [SerializeField]
     protected float atk = 1; //default value
     [SerializeField]
@@ -14,5 +14,4 @@ public abstract class Enemy : Character
 
     protected abstract void Action();
     protected abstract void Think();
-
 }

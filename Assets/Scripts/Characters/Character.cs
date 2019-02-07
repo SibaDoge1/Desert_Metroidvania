@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Direction { left, right, zero }
+public enum Direction { left = -1, right = 1, zero = 0 }
 
 public abstract class Character : MonoBehaviour
 {
@@ -12,16 +12,27 @@ public abstract class Character : MonoBehaviour
     #region Status //이거 더블클릭 하셈
     [Header("Status")]
     [SerializeField]
-    protected float hp = 1; //default value
+    protected float hp = 1; //기본값
     [SerializeField]
-    protected int spd = 1;
+    protected float spd = 1f;
     [SerializeField]
     protected int def = 0;
     [SerializeField]
     protected float maxHp = 10;
 
+    [SerializeField]
+    protected float currentSpd = 1f;
+    [SerializeField]
+    protected int currentDef = 0;
+    //자신의 버프, 디버프 상태에만 영향을 받으므로 프로퍼티는 만들지 않았음
+
+    protected float isSuper = 0f; //무적
+    public float IsSuper { get { return isSuper; } set { isSuper = value; } }
+
+    public Direction direction = Direction.right;
+
     public float Hp { get { return hp; } set { hp = value; } }
-    public int Spd { get { return spd; } set { spd = value; } }
+    public float Spd { get { return spd; } set { spd = value; } }
     public int Def { get { return def; } set { Def = value; } }
     #endregion
 
@@ -30,6 +41,13 @@ public abstract class Character : MonoBehaviour
     void Awake()
     {
         rigid = transform.GetComponent<Rigidbody2D>();
+        rigid.gravityScale = 3f;
+    }
+    
+    protected virtual void Update()
+    {
+        if (IsSuper > 0f)
+            IsSuper -= Time.deltaTime;
     }
 
 
@@ -45,22 +63,87 @@ public abstract class Character : MonoBehaviour
             default:
                 vec = Vector2.zero; break;
         }
-        transform.Translate(vec * spd * speedConst * Time.deltaTime);
+        transform.Translate(vec * currentSpd * speedConst * Time.deltaTime);
     }
 
-    protected void Jump()
+    
+    //float jumpCount = 0f;
+
+    protected void JumpAccept()
     {
-        rigid.velocity = new Vector2(0, 5);
+        if (jumpCount > 0 && rigid.velocity.y == 0f)
+            jumpCount = 0;
+    }
+
+    int jumpCount = 0;
+
+    protected void Jump()       //주석 처리 : 점프 높이를 점프 조작키 누른 시간과 비례하도록
+    {
+        if (jumpCount == 0)
+        {
+            rigid.velocity = new Vector2(rigid.velocity.x, 15f);
+            jumpCount++;
+        }
+        else if (jumpCount == 1 && EquipManager.Instance.equipedWeapon.gameObject.name == "Sword")
+            //양손 검 이단 점프
+        {
+            rigid.velocity = new Vector2(rigid.velocity.x, 15f);
+            jumpCount++;
+        }
+        /*
+        if (jumpCount < 0.25f)
+        {
+            jumpCount += Time.deltaTime;
+        }
+        */
         //점프 구현
     }
 
+    /*
+    protected void JumpStop()
+    {
+        jumpCount = 1f;
+    }
+    */
+
     public virtual void GetDamage(float damage) // 공격받을시 실행, 초기 데미지를 전달
     {
+        //임시
+        Hp -= damage;
+        IsSuper = 1f;
+
+        Debug.Log("Damaged : " + gameObject.name);
+
+        if (Hp <= 0)
+        {
+            OnDieCallBack();
+        }
         //방어력 등등 데미지 연산 후 최종데미지, 0이하로 줄어들면 사망
     }
 
     public virtual void OnDieCallBack() //죽을 때 부르는 함수
     {
+        //임시
+        Destroy(gameObject);
+    }
 
+    protected virtual void CheckBuffAndDebuff() //기본값과 버프 디버프 상태를 종합하여 실제 게임에 적용되는 현재 스텟값을 정함
+    {
+        currentDef = Def;
+        currentSpd = Spd;
+
+        if (rigid.velocity.y != 0f) //공중에서 횡이동 속도 0.5배
+        {
+            currentSpd *= 0.5f;
+        }
+        else
+        {
+            if (gameObject.name == "Player" && EquipManager.Instance.equipedWeapon.gameObject.name == "Sword" && Input.GetKey(KeyCode.Space))
+                //양손검 상태 플레이어가 Space 입력 시, 대쉬
+            {
+                currentSpd *= 1.3f;
+            }
+
+        }
     }
 }
