@@ -2,19 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum WeaponList
-{
-    sword = 0, shield, fist
-}
 
 public class Player : Character
 {
+    private static Player instance = null;
+    public static Player Instance
+    {
+        get { return instance; }
+    }
     private bool isMovable;
-    public bool IsMovable { get{ return isMovable ;} set { isMovable = value; } }
+    public bool IsMovable { get { return isMovable; } set { isMovable = value; } }
     private BoxCollider2D myCollider;
     private GameObject sprite;
     private bool isGround;
     public bool IsGround { get { return isGround; } }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        if (instance == null) instance = this;
+        else if (instance != this)
+        {
+            Debug.LogError("Singleton Error! : " + this.name);
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
@@ -30,37 +42,18 @@ public class Player : Character
     {
         base.Update();
 
-        CheckBuffAndDebuff();
-
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            Move(Direction.right);
-            direction = Direction.right;
-            GetComponent<SpriteRenderer>().flipX = false;
-        }
-        //if (Input.GetKeyUp(KeyCode.RightArrow)) Move(Direction.zero);
-        if (Input.GetKey(KeyCode.LeftArrow)) 
-        {
-            Move(Direction.left);
-            direction = Direction.left;
-            GetComponent<SpriteRenderer>().flipX = true;
-        }
-        //if (Input.GetKeyUp(KeyCode.RightArrow)) Move(Direction.zero);
-        if (Input.GetKeyDown(KeyCode.UpArrow)){
-            JumpAccept();
-            Jump();
-        }
         /*if (Input.GetKeyDown(KeyCode.UpArrow)) JumpAccept();
         //if (Input.GetKeyUp(KeyCode.UpArrow)) JumpStop();
         if (Input.GetKey(KeyCode.UpArrow)) Jump();  여기까지는 옛 점프(누른 시간 비례 점프) */
-        if (Input.GetKeyDown(KeyCode.Alpha1)) circleWeapon(WeaponList.sword);
-        if (Input.GetKeyDown(KeyCode.Alpha2)) circleWeapon(WeaponList.shield);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) circleWeapon(WeaponList.fist);
-        if (Input.GetKeyDown(KeyCode.S)) Action();
+        if (Input.GetKeyDown(KeyCode.Q)) circleWeapon(WeaponList.sword);
+        if (Input.GetKeyDown(KeyCode.W)) circleWeapon(WeaponList.shield);
+        if (Input.GetKeyDown(KeyCode.E)) circleWeapon(WeaponList.fist);
+        if (Input.GetKeyDown(KeyCode.A)) Action();
         if (isGround) jumpCount = 0;
+
         if (IsMovable)
         {
-            if (Input.GetKeyDown(KeyCode.X)) // FixedUpdate에서 사용하면 키가 씹힘
+            if (Input.GetKeyDown(KeyCode.S)) // FixedUpdate에서 사용하면 키가 씹힘
                 isJumping = true;
             if (Input.GetKeyUp(KeyCode.RightArrow)) sprite.GetComponent<Animator>().SetBool("isRunning", false);
             if (Input.GetKeyUp(KeyCode.LeftArrow)) sprite.GetComponent<Animator>().SetBool("isRunning", false);
@@ -70,6 +63,7 @@ public class Player : Character
     protected override void FixedUpdate() //물리연산용
     {
         base.FixedUpdate();
+        CheckGround();
         if (IsMovable)
         {
             if (Input.GetKey(KeyCode.RightArrow))
@@ -84,6 +78,11 @@ public class Player : Character
                 sprite.GetComponent<Animator>().SetBool("isRunning", true);
                 Move(Direction.left);
             }
+            if (Input.GetKey(KeyCode.Space) && EquipManager.Instance.equipedWeapon.gameObject.name == "Sword")
+            //양손검 상태 플레이어가 Space 입력 시, 대쉬
+            {
+                currentSpd *= 1.3f;
+            }
         }
         if (isJumping)
         {
@@ -96,7 +95,9 @@ public class Player : Character
     private int jumpCount;
     public int JumpCount { set { jumpCount = value; } }
     private int maxJumpCount = 1;
+    public int MaxJumpCount { set { maxJumpCount = value; } }
 
+    #region Jump
     protected override void Jump()
     {
         if (jumpCount < maxJumpCount)
@@ -104,8 +105,43 @@ public class Player : Character
             StopCoroutine("JumpRoutine");
             StartCoroutine("JumpRoutine");
         }
+        else if (jumpCount < maxJumpCount+1 && EquipManager.Instance.equipedWeapon.gameObject.name == "Sword")
+        {
+            StopCoroutine("JumpRoutine");
+            StartCoroutine("JumpRoutine");
+        }
         //점프 구현
     }
+
+    IEnumerator JumpRoutine()
+    {
+        rigid.velocity = Vector2.zero;
+        rigid.AddForce(new Vector2(0, jumpConst * jumpPower));
+        jumpCount++;
+        isGround = false;
+        stopGroundCheck = true;
+        yield return new WaitForSeconds(0.1f);
+        stopGroundCheck = false;
+    }
+    
+    /*
+    //float jumpCount = 0f;
+
+    protected void JumpAccept() // 기획서 상 점프는 일정함, 바뀔수도 있으니 일단 보존
+    {
+        if (jumpCount > 0 && rigid.velocity.y == 0f)
+            jumpCount = 0;
+    }
+
+    int jumpCount = 0;
+
+protected void JumpStop()
+    {
+        jumpCount = 1f;
+    }
+    */
+    #endregion
+
 
     private void circleWeapon(WeaponList _weapon) //무기교체
     {
@@ -125,10 +161,18 @@ public class Player : Character
     protected override void CheckBuffAndDebuff()
     {
         base.CheckBuffAndDebuff();
-
         if (!isGround) //공중에서 횡이동 속도 0.5배
         {
-           currentSpd *= 0.5f;
+            currentSpd *= 0.5f;
+        }
+        else
+        {
+            if (EquipManager.Instance.equipedWeapon.gameObject.name == "Sword" && Input.GetKey(KeyCode.Space))
+            //양손검 상태 플레이어가 Space 입력 시, 대쉬
+            {
+                currentSpd *= 1.3f;
+            }
+
         }
     }
 
@@ -147,9 +191,13 @@ public class Player : Character
             Gizmos.DrawRay(pos, Vector3.down * 5f);
     }
 
+    private bool stopGroundCheck =false;
+    /// <summary>
+    ///  땅에 있는지 체크
+    /// </summary>
     protected virtual void CheckGround()
     {
-        if (isGround) return;
+        if (isGround || stopGroundCheck) return;
 
         Vector3 pos = new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2f - 0.02f, transform.position.z);
         Vector2 scale = new Vector2(transform.localScale.x, 0.005f);
@@ -158,31 +206,28 @@ public class Player : Character
             isGround = true;
     }
 
+    #region setter
     public void SetTrigger(bool value)
     {
         myCollider.isTrigger = value;
     }
-
-    public void SetGravity(float value)
+    
+    /// <summary>
+    /// 중력값을 수정
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="setDefault"> 트루면 기본값으로 변경</param>
+    public void SetGravity(float value, bool setDefault)
     {
-        rigid.gravityScale = value;
+        if (setDefault)
+            rigid.gravityScale = gravityDefault;
+        else
+            rigid.gravityScale = value;
     }
+
     public void SetVelocity(Vector2 value)
     {
         rigid.velocity = value;
     }
-
-    IEnumerator JumpRoutine()
-    {
-        rigid.velocity = Vector2.zero;
-        rigid.AddForce(new Vector2(0, jumpConst * jumpPower));
-        jumpCount++;
-        isGround = false;
-        while (!isGround)
-        {
-            yield return new WaitForSeconds(0.1f);
-            CheckGround();
-        }
-    }
-    
+    #endregion
 }

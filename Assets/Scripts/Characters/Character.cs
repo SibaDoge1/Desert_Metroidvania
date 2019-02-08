@@ -8,6 +8,7 @@ public abstract class Character : MonoBehaviour
 {
     protected const float speedConst = 1;
     protected const float jumpConst = 100f;
+    protected const float gravityDefault = 2f;
     protected Rigidbody2D rigid;
 
     #region Status //이거 더블클릭 하셈
@@ -40,12 +41,14 @@ public abstract class Character : MonoBehaviour
     #endregion
 
 
-    void Awake()
+    protected virtual void Awake()
     {
         rigid = transform.GetComponent<Rigidbody2D>();
-        rigid.gravityScale = 3f;
+        rigid.gravityScale = gravityDefault;
+        if (rigid == null)
+        Debug.Log("Noooooo");
     }
-    
+
     protected virtual void Update()
     {
         if (IsSuper > 0f)
@@ -64,56 +67,20 @@ public abstract class Character : MonoBehaviour
         switch (dir)
         {
             case Direction.right:
-                vec = Vector2.right; break;
+                vec = Vector2.right; direction = Direction.right;  break;
             case Direction.left:
-                vec = Vector2.left; break;
+                vec = Vector2.left; direction = Direction.left; break;
             default:
                 vec = Vector2.zero; break;
         }
+
         transform.Translate(vec * currentSpd * speedConst * Time.deltaTime);
     }
 
-    
-    //float jumpCount = 0f;
 
-    protected void JumpAccept() // 기획서 상 점프는 일정함, 바뀔수도 있으니 일단 보존
-    {
-        if (jumpCount > 0 && rigid.velocity.y == 0f)
-            jumpCount = 0;
-    }
 
-    int jumpCount = 0;
 
-    protected void Jump()       //주석 처리 : 점프 높이를 점프 조작키 누른 시간과 비례하도록
-    {
-        if (jumpCount == 0)
-        {
-            rigid.velocity = new Vector2(rigid.velocity.x, 15f);
-            jumpCount++;
-        }
-        else if (jumpCount == 1 && EquipManager.Instance.equipedWeapon.gameObject.name == "Sword")
-            //양손 검 이단 점프
-        {
-            rigid.velocity = new Vector2(rigid.velocity.x, 15f);
-            jumpCount++;
-        }
-        /*
-        if (jumpCount < 0.25f)
-        {
-            jumpCount += Time.deltaTime;
-        }
-        */
-        //점프 구현
-    }
-
-    /*
-    protected void JumpStop()
-    {
-        jumpCount = 1f;
-    }
-    */
-
-    protected virtual void Jump()
+    protected virtual void Jump() //일반적인 캐릭터의 점프, 플레이어 점프는 플레이어에 있음
     {
         rigid.velocity = Vector2.zero;
         rigid.AddForce(new Vector2(0, jumpConst * jumpPower));
@@ -146,20 +113,6 @@ public abstract class Character : MonoBehaviour
     {
         currentDef = Def;
         currentSpd = Spd;
-    }
 
-        if (rigid.velocity.y != 0f) //공중에서 횡이동 속도 0.5배
-        {
-            currentSpd *= 0.5f;
-        }
-        else
-        {
-            if (gameObject.name == "Player" && EquipManager.Instance.equipedWeapon.gameObject.name == "Sword" && Input.GetKey(KeyCode.Space))
-                //양손검 상태 플레이어가 Space 입력 시, 대쉬
-            {
-                currentSpd *= 1.3f;
-            }
-
-        }
     }
 }

@@ -10,15 +10,7 @@ public class Map : MonoBehaviour
         get { return instance; }
     }
 
-    private Transform boundary;
-
-    [SerializeField]
-    private float mapX;
-    [SerializeField]
-    private float mapY;
-
-    public float MapX { get { return mapX; } }
-    public float MapY { get { return mapY; } }
+    public Stage CurStage { get; private set; }
 
     void Awake()
     {
@@ -28,20 +20,17 @@ public class Map : MonoBehaviour
             Debug.LogError("Singleton Error! : " + this.name);
             Destroy(gameObject);
         }
-        boundary = transform.Find("Boundary");
-        mapX = boundary.localScale.x/2f;
-        mapY = boundary.localScale.y/2f;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        CurStage = Player.Instance.transform.parent.parent.GetComponent<Stage>();
+        Debug.Log("Satge : " + CurStage.gameObject.name);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void changeStage(Stage from, Stage to)
     {
-        
+        CurStage = to;
+        Debug.Log("Satge : " + CurStage.gameObject.name);
     }
 }

@@ -18,6 +18,7 @@ public class Sword : Weapon
             attackInfos.Add(tempInfo);
         }
     }
+
     public override void Action() // 최종적으로 이걸로 공격함
     {
         if (!onAttack)

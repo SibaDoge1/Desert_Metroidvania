@@ -24,9 +24,12 @@ public class CombatSystem : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
-            instance = this;
-
+        if (instance == null) instance = this;
+        else if (instance != this)
+        {
+            Debug.LogError("Singleton Error! : " + this.name);
+            Destroy(gameObject);
+        }
         _damagingCollider = Resources.Load("Prefabs/DamagingCollider") as GameObject;
     }
 

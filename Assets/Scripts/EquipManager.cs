@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class EquipManager : MonoBehaviour
 {
-    private static EquipManager _instance;
+    private static EquipManager instance;
     private Weapon EquipedWeapon;
     public Weapon equipedWeapon { get { return EquipedWeapon; } set { EquipedWeapon = value; } }
 
     void Awake()
     {
-        if (_instance == null) _instance = this;
-        equipedWeapon = transform.Find("Equip").transform.Find("Weapon").transform.GetChild(0).GetComponent<Weapon>();     //왠지 안돼서 플레이어 컴포넌트에 붙임
+        if (instance == null) instance = this;
+        else if (instance != this)
+        {
+            Debug.LogError("Singleton Error! : " + this.name);
+            Destroy(gameObject);
+        }
+        equipedWeapon = transform.Find("Weapon").transform.GetChild(0).GetComponent<Weapon>();     //왠지 안돼서 플레이어 컴포넌트에 붙임
         Debug.Log(equipedWeapon.gameObject.name);
     }
 
@@ -19,14 +24,16 @@ public class EquipManager : MonoBehaviour
     {
         get
         {
-            return _instance;
+            return instance;
         }
     }
 
     public void changeWeapon(WeaponList weaponName)
     {
-        equipedWeapon = transform.Find("Equip").transform.Find("Weapon").transform.GetChild((int)weaponName).GetComponent<Weapon>();
-        Debug.Log((int)weaponName + " : " + equipedWeapon.gameObject.name);
+        equipedWeapon.gameObject.SetActive(false);
+        equipedWeapon = transform.Find("Weapon").transform.GetChild((int)weaponName % (int)WeaponList.end).GetComponent<Weapon>();
+        equipedWeapon.gameObject.SetActive(true);
+        Debug.Log((int)weaponName % (int)WeaponList.end + " : " + equipedWeapon.gameObject.name);
     }
 }
 
