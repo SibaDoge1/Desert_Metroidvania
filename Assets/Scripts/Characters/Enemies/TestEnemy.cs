@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TestEnemy : Enemy
 {
-    void Awake()
+    protected override void Awake()
     {
         Hp = 3;
     }
@@ -23,4 +23,12 @@ public class TestEnemy : Enemy
     {
         Destroy(gameObject);
     }
+
+    public override void ResetEnemy()
+    {
+        StopAllCoroutines();
+
+        Destroy(gameObject);
+    }
+
 }

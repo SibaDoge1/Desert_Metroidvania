@@ -29,5 +29,7 @@ public class PlayManager : MonoBehaviour
     {
 
     }
+
+    public bool isTestMode = true;
 }
 

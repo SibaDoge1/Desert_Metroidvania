@@ -12,8 +12,10 @@ public class Sword : Weapon
         tempInfos[0].hitBoxPostion = new Vector2(1f, 0f);
         tempInfos[0].damage = 1;
         tempInfos[0].duration = 0.15f;
+        tempInfos[0].preDelay = 0f;
+        tempInfos[0].postDelay = 0.1f;
 
-        foreach(var tempInfo in tempInfos)
+        foreach (var tempInfo in tempInfos)
         {
             attackInfos.Add(tempInfo);
         }
@@ -25,13 +27,15 @@ public class Sword : Weapon
             StartCoroutine(Action_Attack());
     }
     
-    IEnumerator Action_Attack() //임시로 만든 거
+    IEnumerator Action_Attack()
     {
         onAttack = true;
 
+        yield return new WaitForSeconds(attackInfos[0].preDelay);
+
         CombatSystem.Instance.InstantiateHitBox(attackInfos[0], gameObject.transform);
 
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(attackInfos[0].postDelay + attackInfos[0].duration);
 
         onAttack = false;
     }

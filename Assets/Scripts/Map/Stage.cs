@@ -14,6 +14,8 @@ public class Stage : MonoBehaviour
     public Vector2 Size { get { return size; } }
     public Vector2 Pos { get { return pos; } }
 
+    private RespawnEnemy[] respawningEnemys;
+
     void Awake()
     {
         boundary = transform.Find("Boundary");
@@ -26,6 +28,8 @@ public class Stage : MonoBehaviour
     void Start()
     {
         if (Map.Instance.CurStage != this) gameObject.SetActive(false);
+
+        respawningEnemys = transform.GetComponentsInChildren<RespawnEnemy>();
     }
 
     // Start is called before the first frame update
@@ -42,6 +46,22 @@ public class Stage : MonoBehaviour
 
     public void ResetStage()
     {
+        var inStageEnemys = transform.GetComponentsInChildren<Enemy>();
 
+        foreach(var inStageEnemy in inStageEnemys)
+        {
+            inStageEnemy.ResetEnemy();
+        }
+    }
+
+    public void RespawnEnemys()
+    {
+        foreach(var spawnLocaiton in respawningEnemys)
+        {
+            var spawnPosition = spawnLocaiton.transform.position;
+
+            var spawnedEnemy = Instantiate(spawnLocaiton.enemy, spawnPosition, Quaternion.identity);
+            spawnedEnemy.transform.parent = transform.Find("Objects");
+        }
     }
 }

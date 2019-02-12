@@ -14,4 +14,7 @@ public abstract class Enemy : Character
 
     protected abstract void Action();
     protected abstract void Think();
+
+    public abstract void ResetEnemy();
+
 }
