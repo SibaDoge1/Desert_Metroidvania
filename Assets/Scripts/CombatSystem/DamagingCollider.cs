@@ -9,9 +9,9 @@ public class DamagingCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D c)
     {
-        if (c.transform.parent == null) return;
+        //if (c.transform.parent == null) return;
 
-        if (c.tag == "Enemy" || c.tag == "Player"/* && c.transform.parent.GetComponent<Character>().IsSuper <= 0f*/)    //무적 시간? 있나?
+        if (c.tag == "Enemy" || c.tag == "Player")    //무적 시간? 있나?
             c.GetComponent<Character>().GetDamage(damage);
     }
 

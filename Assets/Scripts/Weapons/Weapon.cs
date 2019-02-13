@@ -16,5 +16,6 @@ public abstract class Weapon : MonoBehaviour
     protected bool onAttack = false;
     
     public abstract void Action();
+    public abstract void DashAttack();
     protected abstract void Awake(); //attackInfo + 에네미에도 해줘야함
 }

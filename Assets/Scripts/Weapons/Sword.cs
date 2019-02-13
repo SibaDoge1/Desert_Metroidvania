@@ -6,7 +6,7 @@ public class Sword : Weapon
 {    
     protected override void Awake() //attackInfo
     {
-        AttackInfo[] tempInfos = new AttackInfo[1];
+        AttackInfo[] tempInfos = new AttackInfo[2];
 
         tempInfos[0].attackRange = new Vector2(1f, 1f);
         tempInfos[0].hitBoxPostion = new Vector2(1f, 0f);
@@ -14,6 +14,13 @@ public class Sword : Weapon
         tempInfos[0].duration = 0.15f;
         tempInfos[0].preDelay = 0f;
         tempInfos[0].postDelay = 0.1f;
+
+        tempInfos[1].attackRange = new Vector2(5f, 1f);
+        tempInfos[1].hitBoxPostion = new Vector2(-2.5f, 0f);
+        tempInfos[1].damage = 1;
+        tempInfos[1].duration = 0.15f;
+        tempInfos[1].preDelay = 0f;
+        tempInfos[1].postDelay = 0.1f;
 
         foreach (var tempInfo in tempInfos)
         {
@@ -26,7 +33,12 @@ public class Sword : Weapon
         if (!onAttack)
             StartCoroutine(Action_Attack());
     }
-    
+
+    public override void DashAttack()
+    {
+        StartCoroutine(Action_DashAttack());
+    }    
+
     IEnumerator Action_Attack()
     {
         onAttack = true;
@@ -36,6 +48,19 @@ public class Sword : Weapon
         CombatSystem.Instance.InstantiateHitBox(attackInfos[0], gameObject.transform);
 
         yield return new WaitForSeconds(attackInfos[0].postDelay + attackInfos[0].duration);
+
+        onAttack = false;
+    }
+
+    IEnumerator Action_DashAttack()
+    {
+        onAttack = true;
+
+        yield return new WaitForSeconds(attackInfos[1].preDelay);
+
+        CombatSystem.Instance.InstantiateHitBox(attackInfos[1], gameObject.transform);
+
+        yield return new WaitForSeconds(attackInfos[1].postDelay + attackInfos[1].duration);
 
         onAttack = false;
     }

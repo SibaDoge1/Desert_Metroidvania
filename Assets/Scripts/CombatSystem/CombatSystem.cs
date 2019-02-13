@@ -36,11 +36,12 @@ public class CombatSystem : MonoBehaviour
     GameObject _damagingCollider;
 
     public void InstantiateHitBox(AttackInfo attackInfo, Transform transform_attacker)
+        //attacker의 transform을 기준으로 DamagingCollider 생성
     {
         BoxCollider2D damagingCollider_Collider2D = Instantiate(_damagingCollider, transform_attacker.position, Quaternion.identity).GetComponent<BoxCollider2D>();
         DamagingCollider damagingCollider = damagingCollider_Collider2D.gameObject.GetComponent<DamagingCollider>();
 
-        damagingCollider_Collider2D.size = attackInfo.attackRange;
+        damagingCollider_Collider2D.transform.localScale = attackInfo.attackRange;
         Vector3 tempV3 = damagingCollider_Collider2D.transform.position;
         tempV3.x += attackInfo.hitBoxPostion.x * (int)transform_attacker.GetComponentInParent<Character>().direction;
         tempV3.y += attackInfo.hitBoxPostion.y;
@@ -56,5 +57,5 @@ public class CombatSystem : MonoBehaviour
         damagingCollider.gameObject.transform.parent = transform_attacker;
         damagingCollider.DestroyCollider(attackInfo.duration);
     }
-    
+
 }

@@ -64,4 +64,12 @@ public class TestEnemy : Enemy
             yield return new WaitForSeconds(attackInfos[0].postDelay + attackInfos[0].duration);
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D c)
+    {
+        if (c.gameObject.tag == "Player")
+        {
+            c.gameObject.GetComponent<Character>().GetDamage(attackInfos[0].damage);
+        }
+    }
 }

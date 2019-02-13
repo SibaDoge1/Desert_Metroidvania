@@ -70,7 +70,7 @@ public abstract class Enemy : Character
     public virtual void CheckAI()
     {
         switch (enemyState)
-        {
+        {       //상태가 변경됐을 시, 코루틴을 시작함
             case EnemyState.ATTACK:
                 if (enemyCurState != EnemyState.ATTACK)
                 {
@@ -94,7 +94,7 @@ public abstract class Enemy : Character
         }
 
         if (enemyCurState != enemyState)
-        {
+        {       //상태가 변경됐을 시, 이전 상태의 코루틴을 종료함
             switch (enemyCurState)
             {
                 case EnemyState.ATTACK:

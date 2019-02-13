@@ -48,12 +48,12 @@ public class Player : Character
         //if (Input.GetKeyDown(KeyCode.Q)) circleWeapon(WeaponList.sword);
         //if (Input.GetKeyDown(KeyCode.W)) circleWeapon(WeaponList.shield);
         //if (Input.GetKeyDown(KeyCode.E)) circleWeapon(WeaponList.fist);
-        if (Input.GetKeyDown(KeyCode.A)) Action();
         if (isGround) jumpCount = 0;
-
+        if (isDashable > 0f) isDashable -= Time.deltaTime;
         if (IsMovable)
         {
-            if (Input.GetKeyDown(KeyCode.S)) // FixedUpdate에서 사용하면 키가 씹힘
+            if (Input.GetKeyDown(KeyCode.A)) Action();
+            if (Input.GetKeyDown(KeyCode.Space)) // FixedUpdate에서 사용하면 키가 씹힘
                 isJumping = true;
             if (Input.GetKeyUp(KeyCode.RightArrow)) sprite.GetComponent<Animator>().SetBool("isRunning", false);
             if (Input.GetKeyUp(KeyCode.LeftArrow)) sprite.GetComponent<Animator>().SetBool("isRunning", false);
@@ -66,22 +66,36 @@ public class Player : Character
         CheckGround();
         if (IsMovable)
         {
-            if (Input.GetKey(KeyCode.RightArrow))
+            if (Input.GetKey(KeyCode.LeftShift) && isDashable <= 0f)
             {
-                sprite.GetComponent<SpriteRenderer>().flipX = false;
-                sprite.GetComponent<Animator>().SetBool("isRunning", true);
-                Move(Direction.right);
+                if (Input.GetKey(KeyCode.RightArrow))
+                    StartCoroutine(PlayerDash(Direction.right));
+
+                else if (Input.GetKey(KeyCode.LeftArrow))
+                    StartCoroutine(PlayerDash(Direction.left));
+
+                else StartCoroutine(PlayerDash(direction));
             }
-            if (Input.GetKey(KeyCode.LeftArrow))
+            else if (isDashAttacking)
             {
-                sprite.GetComponent<SpriteRenderer>().flipX = true;
-                sprite.GetComponent<Animator>().SetBool("isRunning", true);
-                Move(Direction.left);
+                EquipManager.Instance.equipedWeapon.DashAttack();
+                isDashAttacking = false;
+                StartCoroutine(DashAttacking());
             }
-            if (Input.GetKey(KeyCode.Space) && EquipManager.Instance.equipedWeapon.gameObject.name == "Sword")
-            //양손검 상태 플레이어가 Space 입력 시, 대쉬
+            else
             {
-                currentSpd *= 1.3f;
+                if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    sprite.GetComponent<SpriteRenderer>().flipX = false;
+                    sprite.GetComponent<Animator>().SetBool("isRunning", true);
+                    Move(Direction.right);
+                }
+                if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    sprite.GetComponent<SpriteRenderer>().flipX = true;
+                    sprite.GetComponent<Animator>().SetBool("isRunning", true);
+                    Move(Direction.left);
+                }
             }
         }
         if (isJumping)
@@ -90,6 +104,50 @@ public class Player : Character
             isJumping = false;
         }
     }
+
+    #region Dash/DashAttack
+
+    float isDashable = 0f;
+    bool isDashAttacking = false;
+
+    IEnumerator PlayerDash(Direction dir)
+    {
+        float timer = 0f;
+
+        IsMovable = false;
+        IsSuper = 0.2f;
+
+        while(true)
+        {
+            if (timer >= 0.2f)
+                break;
+
+            if (Input.GetKey(KeyCode.A) && !isDashAttacking)
+            {
+                isDashAttacking = true;
+            }
+
+            currentSpd = Mathf.Lerp(Spd * 8f, Spd, timer * 5f);
+            Move(dir);
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        isDashable = 0.25f;
+
+        IsMovable = true;
+    }
+    IEnumerator DashAttacking()
+    {
+        IsMovable = false;
+
+        yield return new WaitForSeconds(0.15f);
+
+        IsMovable = true;
+    }
+
+    #endregion
 
     private bool isJumping;
     private int jumpCount;
@@ -161,6 +219,7 @@ protected void JumpStop()
     protected override void CheckBuffAndDebuff()
     {
         base.CheckBuffAndDebuff();
+        /*
         if (!isGround) //공중에서 횡이동 속도 0.5배
         {
             currentSpd *= 0.5f;
@@ -173,7 +232,7 @@ protected void JumpStop()
                 currentSpd *= 1.3f;
             }
 
-        }
+        }*/
     }
 
     protected virtual void OnDrawGizmos()
