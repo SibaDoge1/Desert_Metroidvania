@@ -9,8 +9,8 @@ public struct AttackInfo
     public Vector2 hitBoxPostion;
     public float damage;
     public float duration;
-    private float preDelay;
-    private float postDelay;
+    public float preDelay;
+    public float postDelay;
 }
 
 
@@ -34,7 +34,6 @@ public class CombatSystem : MonoBehaviour
     }
 
     GameObject _damagingCollider;
-    bool isTestMode = true;
 
     public void InstantiateHitBox(AttackInfo attackInfo, Transform transform_attacker)
     {
@@ -49,7 +48,7 @@ public class CombatSystem : MonoBehaviour
 
         damagingCollider.damage = attackInfo.damage;
 
-        if (isTestMode)
+        if (PlayManager.Instance.isTestMode)
         {
             damagingCollider.ChangeSprite();
         }

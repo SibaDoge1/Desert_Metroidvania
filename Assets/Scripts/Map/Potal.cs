@@ -28,6 +28,8 @@ public class Potal : InteractObject
             return;
         }
         linkedPotal.ParentStage.Active();
+        linkedPotal.ParentStage.RespawnEnemys();
+        ParentStage.ResetStage();
         Player.Instance.transform.position = new Vector3(linkedPotal.transform.position.x, linkedPotal.transform.position.y, Player.Instance.transform.position.z);
         Player.Instance.transform.parent = linkedPotal.ParentStage.transform.Find("Objects");
         Map.Instance.changeStage(ParentStage, linkedPotal.ParentStage);

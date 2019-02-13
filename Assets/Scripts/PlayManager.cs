@@ -22,12 +22,21 @@ public class PlayManager : MonoBehaviour
 
     void Start()
     {
-        PlayerPrefs.SetString("Map", "A2");
+        player = GameObject.Find("Player").GetComponent<Character>();
+        //PlayerPrefs.SetString("Map", "A2");
     }
 
     void Update()
     {
 
+    }
+
+    public bool isTestMode = true;
+
+    private Character player = null;
+    public Character Player
+    {
+        get { return player; } set { player = value; }
     }
 }
 

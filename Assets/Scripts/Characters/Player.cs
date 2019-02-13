@@ -45,9 +45,9 @@ public class Player : Character
         /*if (Input.GetKeyDown(KeyCode.UpArrow)) JumpAccept();
         //if (Input.GetKeyUp(KeyCode.UpArrow)) JumpStop();
         if (Input.GetKey(KeyCode.UpArrow)) Jump();  여기까지는 옛 점프(누른 시간 비례 점프) */
-        if (Input.GetKeyDown(KeyCode.Q)) circleWeapon(WeaponList.sword);
-        if (Input.GetKeyDown(KeyCode.W)) circleWeapon(WeaponList.shield);
-        if (Input.GetKeyDown(KeyCode.E)) circleWeapon(WeaponList.fist);
+        //if (Input.GetKeyDown(KeyCode.Q)) circleWeapon(WeaponList.sword);
+        //if (Input.GetKeyDown(KeyCode.W)) circleWeapon(WeaponList.shield);
+        //if (Input.GetKeyDown(KeyCode.E)) circleWeapon(WeaponList.fist);
         if (Input.GetKeyDown(KeyCode.A)) Action();
         if (isGround) jumpCount = 0;
 
@@ -104,12 +104,12 @@ public class Player : Character
         {
             StopCoroutine("JumpRoutine");
             StartCoroutine("JumpRoutine");
-        }
+        }/*
         else if (jumpCount < maxJumpCount+1 && EquipManager.Instance.equipedWeapon.gameObject.name == "Sword")
         {
             StopCoroutine("JumpRoutine");
             StartCoroutine("JumpRoutine");
-        }
+        }*/
         //점프 구현
     }
 
