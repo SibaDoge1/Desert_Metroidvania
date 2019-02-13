@@ -17,7 +17,7 @@ public class EquipManager : MonoBehaviour
             Destroy(gameObject);
         }
         equipedWeapon = transform.Find("Weapon").transform.GetChild(0).GetComponent<Weapon>();     //왠지 안돼서 플레이어 컴포넌트에 붙임
-        Debug.Log(equipedWeapon.gameObject.name);
+
     }
 
     public static EquipManager Instance

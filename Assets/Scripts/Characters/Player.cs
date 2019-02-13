@@ -104,12 +104,12 @@ public class Player : Character
         {
             StopCoroutine("JumpRoutine");
             StartCoroutine("JumpRoutine");
-        }
+        }/*
         else if (jumpCount < maxJumpCount+1 && EquipManager.Instance.equipedWeapon.gameObject.name == "Sword")
         {
             StopCoroutine("JumpRoutine");
             StartCoroutine("JumpRoutine");
-        }
+        }*/
         //점프 구현
     }
 

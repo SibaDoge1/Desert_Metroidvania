@@ -964,7 +964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 463d3e72e0fd6fe42b5ec765fa427e14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 1841158087, guid: a220af5da36a588459e6f0d96fff2567, type: 3}
+  enemy: {fileID: 0}
 --- !u!1 &580580386
 GameObject:
   m_ObjectHideFlags: 0
@@ -1193,11 +1193,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e5f25e313ccde64e964a17bd6d875f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 1
-  spd: 10
+  hp: 10
+  spd: 5
   def: 0
   maxHp: 10
-  jumpPower: 3
+  jumpPower: 4
   currentSpd: 1
   currentDef: 0
   direction: 1
@@ -3170,6 +3170,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1841158092, guid: a220af5da36a588459e6f0d96fff2567, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1841158088, guid: a220af5da36a588459e6f0d96fff2567, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2017965798, guid: a220af5da36a588459e6f0d96fff2567, type: 3}
+      propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

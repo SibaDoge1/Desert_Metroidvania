@@ -10,7 +10,6 @@ public enum WeaponList
 public abstract class Weapon : MonoBehaviour
 {
     [Header("AtackStatus")]
-
     [SerializeField]
     protected List<AttackInfo> attackInfos = new List<AttackInfo>();
 
