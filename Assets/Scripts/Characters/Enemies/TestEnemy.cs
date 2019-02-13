@@ -48,20 +48,24 @@ public class TestEnemy : Enemy
         }
     }
 
-    protected override IEnumerator Attack()
+    protected override IEnumerator Attack(float atk, float atkSpd)
     {
         while(true)
         {
+            AttackInfo tempInfo = attackInfos[0];
+            tempInfo.damage += atk;
+            tempInfo.duration *= atkSpd;
+            tempInfo.preDelay *= atkSpd;
+            tempInfo.postDelay *= atkSpd;
             var playerPos = PlayManager.Instance.Player.transform.position;
             var vectorToPlayer = playerPos - transform.position;
 
             direction = vectorToPlayer.x >= 0 ? Direction.right : Direction.left;
+            yield return new WaitForSeconds(tempInfo.preDelay);
 
-            yield return new WaitForSeconds(attackInfos[0].preDelay);
+            CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
 
-            CombatSystem.Instance.InstantiateHitBox(attackInfos[0], gameObject.transform);
-
-            yield return new WaitForSeconds(attackInfos[0].postDelay + attackInfos[0].duration);
+            yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
         }
     }
 }

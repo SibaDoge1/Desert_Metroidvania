@@ -12,7 +12,7 @@ public class Ladder : InteractObject
         isUsingLadder = false;
     }
 
-    void Update()
+    protected override void Update()
     {
         if (isAtObject)
         {
@@ -40,6 +40,11 @@ public class Ladder : InteractObject
             if (Input.GetKey(KeyCode.UpArrow)) UpLadder();
             if (Input.GetKey(KeyCode.DownArrow)) DownLadder();
         }
+    }
+
+    protected override void Action()
+    {
+
     }
 
     [SerializeField]
@@ -87,7 +92,6 @@ public class Ladder : InteractObject
     private void LadderOut()
     {
         if (!isUsingLadder) return;
-        Debug.Log("ladder out");
         isUsingLadder = false;
         player.IsMovable = true;
         player.SetTrigger(false);

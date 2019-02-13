@@ -7,7 +7,7 @@ public enum EnemyState
     DEFAULT ,ATTACK, TRACE, PATROL
 }
 
-public abstract class Enemy : Character
+public abstract class Enemy : Character, Respawnable
 {
     #region Status
     [Header("AttackStatus")]
@@ -35,11 +35,9 @@ public abstract class Enemy : Character
         CheckAI();
     }
 
-    public virtual void ResetEnemy()
+    public virtual void ResetEnemy() //팔레트에서 리스폰 될 때 사용하는 함수로 쓰자
     {
-        StopAllCoroutines();
 
-        Destroy(gameObject);
     }
 
     protected override void OnDieCallBack() //죽을 때 부르는 함수
@@ -74,7 +72,7 @@ public abstract class Enemy : Character
             case EnemyState.ATTACK:
                 if (enemyCurState != EnemyState.ATTACK)
                 {
-                    attack = StartCoroutine(Attack());
+                    attack = StartCoroutine(Attack(atkBuff, attackSpd));
                 }
                 break;
 
@@ -125,6 +123,6 @@ public abstract class Enemy : Character
 
     protected abstract IEnumerator Patrol();
     protected abstract IEnumerator Trace();
-    protected abstract IEnumerator Attack();
+    protected abstract IEnumerator Attack(float atk, float atkSpd);
 
 }

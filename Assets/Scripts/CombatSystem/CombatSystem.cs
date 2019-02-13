@@ -42,7 +42,7 @@ public class CombatSystem : MonoBehaviour
 
         damagingCollider_Collider2D.size = attackInfo.attackRange;
         Vector3 tempV3 = damagingCollider_Collider2D.transform.position;
-        tempV3.x += attackInfo.hitBoxPostion.x * (int)transform_attacker.GetComponentInParent<Character>().direction;
+        tempV3.x += attackInfo.hitBoxPostion.x * (int)transform_attacker.GetComponentInParent<Character>().Direction;
         tempV3.y += attackInfo.hitBoxPostion.y;
         damagingCollider_Collider2D.transform.position = tempV3;
 

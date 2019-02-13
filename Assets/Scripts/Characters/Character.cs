@@ -18,7 +18,7 @@ public abstract class Character : MonoBehaviour
     [SerializeField]
     protected float spd = 1f;
     [SerializeField]
-    protected int def = 0;
+    protected float def = 0;
     [SerializeField]
     protected float maxHp = 10;
     [SerializeField]
@@ -27,17 +27,26 @@ public abstract class Character : MonoBehaviour
     [SerializeField]
     protected float currentSpd = 1f;
     [SerializeField]
-    protected int currentDef = 0;
+    protected float currentDef = 0;
+    [SerializeField]
+    protected float attackSpd = 0; //1이 정상속도, 곱연산
+    [SerializeField]
+    protected float atkBuff = 0; //공격력 버프를 위해 쓰임
+    [SerializeField]
+    protected List<StatChanger> StatChangers;
+
     //자신의 버프, 디버프 상태에만 영향을 받으므로 프로퍼티는 만들지 않았음
 
     protected float isSuper = 0f; //무적
     public float IsSuper { get { return isSuper; } set { isSuper = value; } }
 
-    public Direction direction = Direction.right;
+    protected Direction direction = Direction.right;
+    public Direction Direction { get { return direction; } set { direction = value; } }
 
     public float Hp { get { return hp; } set { hp = value; } }
     public float Spd { get { return spd; } set { spd = value; } }
-    public int Def { get { return def; } set { Def = value; } }
+    public float Def { get { return def; } set { Def = value; } }
+    public float AttackSpd { get { return attackSpd; } set { attackSpd = value; } }
     #endregion
 
 
@@ -45,6 +54,7 @@ public abstract class Character : MonoBehaviour
     {
         rigid = transform.GetComponent<Rigidbody2D>();
         rigid.gravityScale = gravityDefault;
+        StatChangers = new List<StatChanger>();
         if (rigid == null)
         Debug.Log("Noooooo");
     }
@@ -111,8 +121,32 @@ public abstract class Character : MonoBehaviour
 
     protected virtual void CheckBuffAndDebuff() //기본값과 버프 디버프 상태를 종합하여 실제 게임에 적용되는 현재 스텟값을 정함
     {
-        currentDef = Def;
-        currentSpd = Spd;
+        currentDef = def;
+        currentSpd = spd;
+        attackSpd = 1;
+        atkBuff = 0;
+        for (int i = 0; i< StatChangers.Count; i++)
+        {
+            if(StatChangers[i].deleteTime <= 0)
+            {
+                StatChangers[i].destroy();
+                continue;
+            }
+            StatChangers[i].Action();
+            currentDef += StatChangers[i].def;
+            currentSpd += StatChangers[i].spd;
+            attackSpd += StatChangers[i].attackSpd;
+            atkBuff += StatChangers[i].atk;
+        }
 
+    }
+
+    public virtual void AddStatChanger(StatChanger stat)
+    {
+        StatChangers.Add(stat);
+    }
+    public virtual void DeleteStatChanger(StatChanger stat) 
+    {
+        StatChangers.Remove(stat);
     }
 }
