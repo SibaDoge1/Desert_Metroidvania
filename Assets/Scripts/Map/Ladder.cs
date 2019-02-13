@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ladder : MonoBehaviour
+public class Ladder : InteractObject
 {
     private bool isUsingLadder;
-    private bool isAtLadder = false;
-    private Player player;
 
     // Start is called before the first frame update
     void Start()
@@ -16,7 +14,7 @@ public class Ladder : MonoBehaviour
 
     void Update()
     {
-        if (isAtLadder)
+        if (isAtObject)
         {
             if (Input.GetKey(KeyCode.UpArrow))
             {
@@ -112,22 +110,5 @@ public class Ladder : MonoBehaviour
         player.transform.Translate(vec * (transform.localScale.x/2f + 0.1f));
         player.JumpCount = 0;
         LadderOut();
-    }
-
-    private void OnTriggerStay2D(Collider2D col)
-    {
-        if (col.transform.CompareTag("Player"))
-        {
-            isAtLadder = true;
-            player = col.GetComponent<Player>();
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D col)
-    {
-        if (col.transform.CompareTag("Player"))
-        {
-            isAtLadder = false;
-        }
     }
 }

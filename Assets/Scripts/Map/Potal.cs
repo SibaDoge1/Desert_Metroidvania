@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Potal : MonoBehaviour
+public class Potal : InteractObject
 {
     public Potal linkedPotal;
     public Stage ParentStage { get; private set; }
-    private bool isAtPortal = false;
     // Start is called before the first frame update
     void Awake()
     {
@@ -15,7 +14,7 @@ public class Potal : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow) && isAtPortal)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isAtObject)
         {
             StartCoroutine("Fade");
         }
@@ -33,22 +32,6 @@ public class Potal : MonoBehaviour
         Player.Instance.transform.parent = linkedPotal.ParentStage.transform.Find("Objects");
         Map.Instance.changeStage(ParentStage, linkedPotal.ParentStage);
         ParentStage.DeActive();
-    }
-
-    void OnTriggerStay2D(Collider2D col)
-    {
-        if (col.transform.CompareTag("Player"))
-        {
-            isAtPortal = true;
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D col)
-    {
-        if (col.transform.CompareTag("Player"))
-        {
-            isAtPortal = false;
-        }
     }
 
     IEnumerator Fade()

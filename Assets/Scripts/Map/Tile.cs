@@ -7,21 +7,21 @@ public class Tile : MonoBehaviour
     [SerializeField]
     private bool downEnabled;
     private const float clickThreshold = 1f;
-    private bool isAtTile;
+    private bool isAtObject;
     private float clickCheckTimer;
     private Player player;
 
     // Start is called before the first frame update
     void Start()
     {
-        isAtTile = false;
+        isAtObject = false;
         clickCheckTimer = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow) && isAtTile && downEnabled)
+        if (Input.GetKeyDown(KeyCode.DownArrow) && isAtObject && downEnabled)
         {
             if (clickCheckTimer <= 0) StartCoroutine("ClickCheck");
             else Down();
@@ -53,7 +53,7 @@ public class Tile : MonoBehaviour
         {
             if (col.transform.position.y - col.transform.localScale.y / 2f >= transform.position.y + transform.localScale.y / 2f)
             {
-                isAtTile = true;
+                isAtObject = true;
                 player = col.gameObject.GetComponent<Player>();
             }
         }
@@ -63,7 +63,7 @@ public class Tile : MonoBehaviour
     {
         if (col.transform.CompareTag("Player"))
         {
-            isAtTile = false;
+            isAtObject = false;
             player = null;
         }
     }
