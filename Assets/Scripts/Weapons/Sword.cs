@@ -43,7 +43,12 @@ public class Sword : Weapon
 
     public override void DashAttack(float atk, float atkSpd)
     {
-        StartCoroutine(Action_DashAttack());
+        AttackInfo tempInfo = attackInfos[1];
+        tempInfo.damage += atk;
+        tempInfo.duration *= atkSpd;
+        tempInfo.preDelay *= atkSpd;
+        tempInfo.postDelay *= atkSpd;
+        StartCoroutine(Action_DashAttack(tempInfo));
     }    
 
     IEnumerator Action_Attack(AttackInfo info)
@@ -59,15 +64,15 @@ public class Sword : Weapon
         onAttack = false;
     }
 
-    IEnumerator Action_DashAttack()
+    IEnumerator Action_DashAttack(AttackInfo info)
     {
         onAttack = true;
 
-        yield return new WaitForSeconds(attackInfos[1].preDelay);
+        yield return new WaitForSeconds(info.preDelay);
 
-        CombatSystem.Instance.InstantiateHitBox(attackInfos[1], gameObject.transform);
+        CombatSystem.Instance.InstantiateHitBox(info, gameObject.transform);
 
-        yield return new WaitForSeconds(attackInfos[1].postDelay + attackInfos[1].duration);
+        yield return new WaitForSeconds(info.postDelay + info.duration);
 
         onAttack = false;
     }

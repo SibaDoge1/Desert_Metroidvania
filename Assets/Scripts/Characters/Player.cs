@@ -101,7 +101,7 @@ public class Player : Character
             }
             else if (isDashAttacking)
             {
-                EquipManager.Instance.equipedWeapon.DashAttack();
+                EquipManager.Instance.equipedWeapon.DashAttack(atkBuff, attackSpd);
                 isDashAttacking = false;
                 StartCoroutine(DashAttacking());
             }
