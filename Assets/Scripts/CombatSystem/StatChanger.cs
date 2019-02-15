@@ -20,10 +20,14 @@ public class StatChanger : MonoBehaviour
 
     public void Action()
     {
-        if (hp != 0)
+        if (hp < 0)
         {
-            linkedChar.GetDamage(hp);
+            linkedChar.GetDamage(-hp);
             destroy();
+        }
+        else if (hp > 0)
+        {
+            linkedChar.GetHeal(hp);
         }
     }
 

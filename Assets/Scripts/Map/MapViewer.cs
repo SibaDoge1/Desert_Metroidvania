@@ -10,7 +10,7 @@ public class MapViewer : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        indicator = Player.Instance.transform.Find("MapIndicator").gameObject;
+        indicator = PlayManager.Instance.Player.transform.Find("MapIndicator").gameObject;
     }
 
     public void Toggle()

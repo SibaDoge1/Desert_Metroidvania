@@ -27,7 +27,7 @@ public class Map : MonoBehaviour
 
     void Start()
     {
-        CurStage = Player.Instance.transform.parent.parent.GetComponent<Stage>();
+        CurStage = PlayManager.Instance.Player.transform.parent.parent.GetComponent<Stage>();
         Debug.Log("Stage : " + CurStage.gameObject.name);
     }
 

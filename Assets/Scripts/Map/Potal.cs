@@ -26,8 +26,8 @@ public class Potal : InteractObject
             return;
         }
         linkedPotal.ParentStage.Active();
-        Player.Instance.transform.position = new Vector3(linkedPotal.transform.position.x, linkedPotal.transform.position.y, Player.Instance.transform.position.z);
-        Player.Instance.transform.parent = linkedPotal.ParentStage.transform.Find("Objects");
+        PlayManager.Instance.Player.transform.position = new Vector3(linkedPotal.transform.position.x, linkedPotal.transform.position.y, PlayManager.Instance.Player.transform.position.z);
+        PlayManager.Instance.Player.transform.parent = linkedPotal.ParentStage.transform.Find("Objects");
         Map.Instance.changeStage(ParentStage, linkedPotal.ParentStage);
         ParentStage.DeActive();
     }

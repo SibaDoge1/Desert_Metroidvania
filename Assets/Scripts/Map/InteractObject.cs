@@ -5,7 +5,6 @@ using UnityEngine;
 public abstract class InteractObject : MonoBehaviour
 {
     protected bool isAtObject = false;
-    protected Player player;
     protected KeyCode myKey = KeyCode.Tab;
 
     protected virtual void Update()
@@ -23,7 +22,6 @@ public abstract class InteractObject : MonoBehaviour
         if (col.transform.CompareTag("Player"))
         {
             isAtObject = true;
-            player = col.GetComponent<Player>();
         }
     }
 
@@ -32,7 +30,6 @@ public abstract class InteractObject : MonoBehaviour
         if (col.transform.CompareTag("Player"))
         {
             isAtObject = false;
-            player = null;
         }
     }
 }

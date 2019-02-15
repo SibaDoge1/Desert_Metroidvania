@@ -43,6 +43,7 @@ public static class SaveManager
         Debug.Log("save set :" + JsonUtility.ToJson(saveData));
     }
 
+    #region Set/Add
     public static void AddBossKillInfo(int boss)
     {
         if (!saveData.BossKillInfo.ContainsKey(boss))
@@ -84,11 +85,12 @@ public static class SaveManager
         else
             saveData.potalLockInfo[idx] = isUnLocked;
     }
+    #endregion
 
     public static bool SaveAll()
     {
         saveData.curStage = Map.Instance.CurStage.name;
-        saveData.hp = Player.Instance.Hp;
+        saveData.hp = PlayManager.Instance.Player.Hp;
         return JsonSave(saveData, FileName, Path);
     }
 

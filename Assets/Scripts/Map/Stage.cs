@@ -32,16 +32,7 @@ public class Stage : MonoBehaviour
         pos.x = transform.position.x;
         pos.y = transform.position.y;
         RespawnableObjects = new List<GameObject>();
-        foreach (Transform trans in transform.Find("Objects").GetComponentInChildren<Transform>())
-        {
-            if(trans.GetComponent<Respawnable>() != null)
-            {
-                GameObject objectPalete = Instantiate(trans.gameObject, trans.position, trans.rotation); //맵 상의 리스폰이 필요한 오브젝트를 찾고, 이를 RespawnableObjects에 저장해둠
-                objectPalete.SetActive(false);
-                objectPalete.transform.parent = transform.Find("RespawnPalete");
-                RespawnableObjects.Add(objectPalete);
-            }
-        }
+        MakePalete();
     }
 
     void Start()
@@ -51,20 +42,12 @@ public class Stage : MonoBehaviour
         SaveManager.AddMapInfo(myID);
         isMapInfoObtained = SaveManager.saveData.MapInfo[myID];
     }
-
-    public void GetMapInfo()
-    {
-        isMapInfoObtained = true;
-        SaveManager.SetMapInfo(myID, true);
-    }
-
-    // Start is called before the first frame update
+    
     public void DeActive()
     {
         gameObject.SetActive(false);
     }
-
-    // Update is called once per frame
+    
     public void Active()
     {
         ResetStage();
@@ -74,6 +57,21 @@ public class Stage : MonoBehaviour
     public void ResetStage()
     {
         RespawnObjects();
+    }
+
+    public void MakePalete()
+    {
+
+        foreach (Transform trans in transform.Find("Objects").GetComponentInChildren<Transform>())
+        {
+            if (trans.GetComponent<Respawnable>() != null)
+            {
+                GameObject objectPalete = Instantiate(trans.gameObject, trans.position, trans.rotation); //맵 상의 리스폰이 필요한 오브젝트를 찾고, 이를 RespawnableObjects에 저장해둠
+                objectPalete.SetActive(false);
+                objectPalete.transform.parent = transform.Find("RespawnPalete");
+                RespawnableObjects.Add(objectPalete);
+            }
+        }
     }
 
     /// <summary>
@@ -94,5 +92,11 @@ public class Stage : MonoBehaviour
             spawnedObject.transform.parent = transform.Find("Objects");
             spawnedObject.SetActive(true);
         }
+    }
+    
+    public void GetMapInfo()
+    {
+        isMapInfoObtained = true;
+        SaveManager.SetMapInfo(myID, true);
     }
 }

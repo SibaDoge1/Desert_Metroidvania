@@ -11979,6 +11979,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 474084942}
     m_Modifications:
+    - target: {fileID: 1726601636831356330, guid: 0e0879e1f46bf034689f58b8d7e9382b,
+        type: 3}
+      propertyPath: m_Name
+      value: Ladder
+      objectReference: {fileID: 0}
     - target: {fileID: 1726601636831356326, guid: 0e0879e1f46bf034689f58b8d7e9382b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12043,11 +12048,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: 0.21204479
-      objectReference: {fileID: 0}
-    - target: {fileID: 1726601636831356330, guid: 0e0879e1f46bf034689f58b8d7e9382b,
-        type: 3}
-      propertyPath: m_Name
-      value: Ladder
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1726601636831356325, guid: 0e0879e1f46bf034689f58b8d7e9382b, type: 3}
@@ -13301,6 +13301,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4259934073577201620, guid: ff1894cfc64f72c4eac1ace0564b8a30,
+        type: 3}
+      propertyPath: hp
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff1894cfc64f72c4eac1ace0564b8a30, type: 3}
 --- !u!1001 &628617827071657865
@@ -13391,6 +13396,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 580580387}
     m_Modifications:
+    - target: {fileID: 1726601636831356330, guid: 0e0879e1f46bf034689f58b8d7e9382b,
+        type: 3}
+      propertyPath: m_Name
+      value: Ladder
+      objectReference: {fileID: 0}
     - target: {fileID: 1726601636831356326, guid: 0e0879e1f46bf034689f58b8d7e9382b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -13445,11 +13455,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1726601636831356330, guid: 0e0879e1f46bf034689f58b8d7e9382b,
-        type: 3}
-      propertyPath: m_Name
-      value: Ladder
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e0879e1f46bf034689f58b8d7e9382b, type: 3}

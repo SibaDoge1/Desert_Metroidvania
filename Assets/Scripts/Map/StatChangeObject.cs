@@ -38,7 +38,7 @@ public class StatChangeObject : InteractObject
         {
             GameObject obj;
             obj = Instantiate(prefab, transform.position, transform.rotation);
-            obj.GetComponent<StatChanger>().construct(player, hp, atk, spd, def, attackSpd, buffTime);
+            obj.GetComponent<StatChanger>().construct(PlayManager.Instance.Player, hp, atk, spd, def, attackSpd, buffTime);
         }
     }
 }

@@ -122,7 +122,7 @@ public abstract class Character : MonoBehaviour
     }
 
 
-    protected virtual void Jump() //일반적인 캐릭터의 점프, 플레이어 점프는 플레이어에 있음
+    public virtual void Jump() //일반적인 캐릭터의 점프, 플레이어 점프는 플레이어에 있음
     {
         rigid.velocity = Vector2.zero;
         rigid.AddForce(new Vector2(0, jumpConst * jumpPower));
@@ -147,6 +147,14 @@ public abstract class Character : MonoBehaviour
             //방어력 등등 데미지 연산 후 최종데미지, 0이하로 줄어들면 사망
         }
 
+    }
+
+    public virtual void GetHeal(float heal)
+    {
+        Hp += heal;
+        Debug.Log("Healed : " + gameObject.name);
+        if (Hp > maxHp)
+            Hp = maxHp;
     }
 
     protected virtual void OnDieCallBack() //죽을 때 부르는 함수
