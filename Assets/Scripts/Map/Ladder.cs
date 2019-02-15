@@ -6,6 +6,9 @@ public class Ladder : InteractObject
 {
     private bool isUsingLadder;
 
+    [SerializeField]
+    private const float climbSpeed = 0.125f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,9 +49,6 @@ public class Ladder : InteractObject
     {
 
     }
-
-    [SerializeField]
-    private const float climbSpeed = 0.125f;
     private void UpLadder()
     {
         if (!isUsingLadder) return;

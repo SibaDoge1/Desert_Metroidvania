@@ -35,7 +35,7 @@ public class Player : Character
         isMovable = true;
         myCollider = gameObject.GetComponent<BoxCollider2D>();
         sprite = transform.Find("Sprite").gameObject;
-        isJumping = false;
+        isJumpKeyDown = false;
         jumpCount = 0;
     }
 
@@ -55,30 +55,9 @@ public class Player : Character
         {
             if (Input.GetKeyDown(KeyCode.A)) Action();
             if (Input.GetKeyDown(KeyCode.Space)) // FixedUpdate에서 사용하면 키가 씹힘
-                isJumping = true;
+                isJumpKeyDown = true;
             if (Input.GetKeyUp(KeyCode.RightArrow)) sprite.GetComponent<Animator>().SetBool("isRunning", false);
             if (Input.GetKeyUp(KeyCode.LeftArrow)) sprite.GetComponent<Animator>().SetBool("isRunning", false);
-        }
-        if (rigid.velocity.y != 0 && !isJumpAniPlaying)
-        {
-            if (rigid.velocity.y < 0.5f && rigid.velocity.y > 0f)
-            {
-                isJumpAniPlaying = true;
-                sprite.GetComponent<Animator>().Play("jump_Fall");
-            }
-            else if (rigid.velocity.y > -0.5f && rigid.velocity.y < 0f)
-            {
-                //isJumpAniPlaying = true;
-                //sprite.GetComponent<Animator>().Play("jump_Fall");
-                //sprite.GetComponent<Animator>().playbackTime = 0.6f;
-            }
-
-        }
-        else if (rigid.velocity.y == 0 && isJumpAniPlaying)
-        {
-            //sprite.GetComponent<Animator>().Play("jump_End");
-            sprite.GetComponent<Animator>().Play("idle");
-            isJumpAniPlaying = false;
         }
 
     }
@@ -93,11 +72,10 @@ public class Player : Character
             {
                 if (Input.GetKey(KeyCode.RightArrow))
                     StartCoroutine(PlayerDash(Direction.right));
-
                 else if (Input.GetKey(KeyCode.LeftArrow))
                     StartCoroutine(PlayerDash(Direction.left));
-
-                else StartCoroutine(PlayerDash(direction));
+                else
+                    StartCoroutine(PlayerDash(direction));
             }
             else if (isDashAttacking)
             {
@@ -121,10 +99,18 @@ public class Player : Character
                 }
             }
         }
-        if (isJumping)
+        if (isJumpKeyDown)
         {
             Jump();
+            isJumpKeyDown = false;
+        }
+        if (isGround && isJumping)
+        {
+            //sprite.GetComponent<Animator>().Play("jump_End");
+            //sprite.GetComponent<Animator>().Play("idle");
+            Debug.Log("gg");
             isJumping = false;
+            sprite.GetComponent<Animator>().SetBool("isJumping", false);
         }
     }
 
@@ -173,6 +159,7 @@ public class Player : Character
     #endregion
 
     private bool isJumping;
+    private bool isJumpKeyDown;
     private int jumpCount;
     public int JumpCount { set { jumpCount = value; } }
     private int maxJumpCount = 1;
@@ -183,8 +170,10 @@ public class Player : Character
     {
         if (jumpCount < maxJumpCount)
         {
+            isJumping = true;
             StopCoroutine("JumpRoutine");
             StartCoroutine("JumpRoutine");
+            sprite.GetComponent<Animator>().SetBool("isJumping", true);
             sprite.GetComponent<Animator>().Play("jump_Start");
         }/*
         else if (jumpCount < maxJumpCount+1 && EquipManager.Instance.equipedWeapon.gameObject.name == "Sword")
@@ -287,7 +276,9 @@ protected void JumpStop()
         Vector2 scale = new Vector2(transform.localScale.x, 0.005f);
         RaycastHit2D hit = Physics2D.BoxCast(pos, scale, 0, Vector2.down, 0.05f);
         if (hit.transform != null && !hit.collider.isTrigger)
+        {
             isGround = true;
+        }
     }
 
     #region setter

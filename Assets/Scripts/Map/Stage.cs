@@ -7,9 +7,13 @@ public class Stage : MonoBehaviour
     private Transform boundary;
 
     [SerializeField]
+    public int myID { get; private set; }
+    [SerializeField]
     private Vector2 size;
     [SerializeField]
     private Vector2 pos;
+    [SerializeField]
+    private bool isMapInfoObtained;
 
     public Vector2 Size { get { return size; } }
     public Vector2 Pos { get { return pos; } }
@@ -43,6 +47,15 @@ public class Stage : MonoBehaviour
     void Start()
     {
         if (Map.Instance.CurStage != this) gameObject.SetActive(false);
+        myID = Map.Instance.stages.IndexOf(this);
+        SaveManager.AddMapInfo(myID);
+        isMapInfoObtained = SaveManager.saveData.MapInfo[myID];
+    }
+
+    public void GetMapInfo()
+    {
+        isMapInfoObtained = true;
+        SaveManager.SetMapInfo(myID, true);
     }
 
     // Start is called before the first frame update

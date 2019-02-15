@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4305939392073106812}
   - component: {fileID: 4305939392073106813}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,7 +69,7 @@ GameObject:
   - component: {fileID: 4305939392522340983}
   - component: {fileID: 4305939392522340981}
   - component: {fileID: 4305939392522340978}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EnemyBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -192,7 +192,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4954636393840409141}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: StatChangers
   m_TagString: Untagged
   m_Icon: {fileID: 0}

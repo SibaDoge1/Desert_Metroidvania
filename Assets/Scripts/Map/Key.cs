@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ViewPoint : InteractObject
+public class Key : InteractObject
 {
-    [SerializeField]
-    private Stage linkedStage;
-
     protected override void Action()
     {
-        linkedStage.GetMapInfo();
+        EquipManager.Instance.AddItem(gameObject);
     }
 }

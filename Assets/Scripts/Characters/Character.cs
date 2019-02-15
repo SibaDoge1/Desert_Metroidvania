@@ -59,6 +59,10 @@ public abstract class Character : MonoBehaviour
         Debug.Log("Noooooo");
     }
 
+    protected virtual void Start()
+    {
+    }
+
     protected virtual void Update()
     {
         if (IsSuper > 0f)
