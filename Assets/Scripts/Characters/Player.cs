@@ -16,6 +16,7 @@ public class Player : Character
     private GameObject sprite;
     private bool isGround;
     public bool IsGround { get { return isGround; } }
+    private bool isJumpAniPlaying;
 
     protected override void Awake()
     {
@@ -58,6 +59,28 @@ public class Player : Character
             if (Input.GetKeyUp(KeyCode.RightArrow)) sprite.GetComponent<Animator>().SetBool("isRunning", false);
             if (Input.GetKeyUp(KeyCode.LeftArrow)) sprite.GetComponent<Animator>().SetBool("isRunning", false);
         }
+        if (rigid.velocity.y != 0 && !isJumpAniPlaying)
+        {
+            if (rigid.velocity.y < 0.5f && rigid.velocity.y > 0f)
+            {
+                isJumpAniPlaying = true;
+                sprite.GetComponent<Animator>().Play("jump_Fall");
+            }
+            else if (rigid.velocity.y > -0.5f && rigid.velocity.y < 0f)
+            {
+                //isJumpAniPlaying = true;
+                //sprite.GetComponent<Animator>().Play("jump_Fall");
+                //sprite.GetComponent<Animator>().playbackTime = 0.6f;
+            }
+
+        }
+        else if (rigid.velocity.y == 0 && isJumpAniPlaying)
+        {
+            //sprite.GetComponent<Animator>().Play("jump_End");
+            sprite.GetComponent<Animator>().Play("idle");
+            isJumpAniPlaying = false;
+        }
+
     }
 
     protected override void FixedUpdate() //물리연산용
@@ -162,6 +185,7 @@ public class Player : Character
         {
             StopCoroutine("JumpRoutine");
             StartCoroutine("JumpRoutine");
+            sprite.GetComponent<Animator>().Play("jump_Start");
         }/*
         else if (jumpCount < maxJumpCount+1 && EquipManager.Instance.equipedWeapon.gameObject.name == "Sword")
         {
