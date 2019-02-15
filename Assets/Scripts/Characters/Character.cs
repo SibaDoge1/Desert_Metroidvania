@@ -100,7 +100,22 @@ public abstract class Character : MonoBehaviour
         }
     }
 
+    protected void Move(Vector2 vec)
+    {
+        transform.Translate(vec * currentSpd * speedConst * Time.deltaTime);
 
+        if (transform.position.x <= Map.Instance.CurStage.Pos.x - Map.Instance.CurStage.Size.x
+        || transform.position.y <= Map.Instance.CurStage.Pos.y - Map.Instance.CurStage.Size.y
+        || transform.position.x >= Map.Instance.CurStage.Pos.x + Map.Instance.CurStage.Size.x
+        || transform.position.y >= Map.Instance.CurStage.Pos.y + Map.Instance.CurStage.Size.y)
+        //벽 뚫는 거 방지
+        {
+            vec.x = -vec.x;
+            vec.y = -vec.y;
+
+            transform.Translate(vec * currentSpd * speedConst * Time.deltaTime);
+        }
+    }
 
 
     protected virtual void Jump() //일반적인 캐릭터의 점프, 플레이어 점프는 플레이어에 있음
