@@ -41,7 +41,7 @@ public class Sword : Weapon
         }
     }
 
-    public override void DashAttack()
+    public override void DashAttack(float atk, float atkSpd)
     {
         StartCoroutine(Action_DashAttack());
     }    

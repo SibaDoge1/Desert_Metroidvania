@@ -2531,7 +2531,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3030,7 +3030,7 @@ MonoBehaviour:
   spd: 5
   def: 0
   maxHp: 10
-  jumpPower: 4
+  jumpPower: 6
   currentSpd: 1
   currentDef: 0
   attackSpd: 0
