@@ -18,11 +18,12 @@ public class PlayManager : MonoBehaviour
             Debug.LogError("Singleton Error! : " + this.name);
             Destroy(this);
         }
+        SaveManager.LoadAll();
     }
 
     void Start()
     {
-        player = GameObject.Find("Player").GetComponent<Character>();
+        player = GameObject.Find("Player").GetComponent<Player>();
         //PlayerPrefs.SetString("Map", "A2");
     }
 
@@ -33,8 +34,8 @@ public class PlayManager : MonoBehaviour
 
     public bool isTestMode = true;
 
-    private Character player = null;
-    public Character Player
+    private Player player = null;
+    public Player Player
     {
         get { return player; } set { player = value; }
     }

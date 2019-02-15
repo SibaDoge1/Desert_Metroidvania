@@ -28,10 +28,17 @@ public class Sword : Weapon
         }
     }
 
-    public override void Action() // 최종적으로 이걸로 공격함
+    public override void Action(float atk, float atkSpd) // 최종적으로 이걸로 공격함
     {
         if (!onAttack)
-            StartCoroutine(Action_Attack());
+        {
+            AttackInfo tempInfo = attackInfos[0];
+            tempInfo.damage += atk;
+            tempInfo.duration *= atkSpd;
+            tempInfo.preDelay *= atkSpd;
+            tempInfo.postDelay *= atkSpd;
+            StartCoroutine(Action_Attack(tempInfo));
+        }
     }
 
     public override void DashAttack()
@@ -39,15 +46,15 @@ public class Sword : Weapon
         StartCoroutine(Action_DashAttack());
     }    
 
-    IEnumerator Action_Attack()
+    IEnumerator Action_Attack(AttackInfo info)
     {
         onAttack = true;
 
-        yield return new WaitForSeconds(attackInfos[0].preDelay);
+        yield return new WaitForSeconds(info.preDelay);
 
-        CombatSystem.Instance.InstantiateHitBox(attackInfos[0], gameObject.transform);
+        CombatSystem.Instance.InstantiateHitBox(info, gameObject.transform);
 
-        yield return new WaitForSeconds(attackInfos[0].postDelay + attackInfos[0].duration);
+        yield return new WaitForSeconds(info.postDelay + info.duration);
 
         onAttack = false;
     }

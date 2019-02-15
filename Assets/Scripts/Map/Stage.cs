@@ -14,7 +14,11 @@ public class Stage : MonoBehaviour
     public Vector2 Size { get { return size; } }
     public Vector2 Pos { get { return pos; } }
 
-    private RespawnEnemy[] respawningEnemys;
+    /// <summary>
+    /// 리스폰을 위한 일종의 캐시저장소임
+    /// </summary>
+    [SerializeField]
+    private List<GameObject> RespawnableObjects;
 
     void Awake()
     {
@@ -23,13 +27,22 @@ public class Stage : MonoBehaviour
         size.y = boundary.localScale.y / 2f;
         pos.x = transform.position.x;
         pos.y = transform.position.y;
+        RespawnableObjects = new List<GameObject>();
+        foreach (Transform trans in transform.Find("Objects").GetComponentInChildren<Transform>())
+        {
+            if(trans.GetComponent<Respawnable>() != null)
+            {
+                GameObject objectPalete = Instantiate(trans.gameObject, trans.position, trans.rotation); //맵 상의 리스폰이 필요한 오브젝트를 찾고, 이를 RespawnableObjects에 저장해둠
+                objectPalete.SetActive(false);
+                objectPalete.transform.parent = transform.Find("RespawnPalete");
+                RespawnableObjects.Add(objectPalete);
+            }
+        }
     }
 
     void Start()
     {
         if (Map.Instance.CurStage != this) gameObject.SetActive(false);
-
-        respawningEnemys = transform.GetComponentsInChildren<RespawnEnemy>();
     }
 
     // Start is called before the first frame update
@@ -41,27 +54,32 @@ public class Stage : MonoBehaviour
     // Update is called once per frame
     public void Active()
     {
+        ResetStage();
         gameObject.SetActive(true);
     }
 
     public void ResetStage()
     {
-        var inStageEnemys = transform.GetComponentsInChildren<Enemy>();
-
-        foreach(var inStageEnemy in inStageEnemys)
-        {
-            inStageEnemy.ResetEnemy();
-        }
+        RespawnObjects();
     }
 
-    public void RespawnEnemys()
+    /// <summary>
+    /// RespawnableObjects에서 오브젝트들을 꺼내와서 생성함
+    /// </summary>
+    public void RespawnObjects()
     {
-        foreach(var spawnLocaiton in respawningEnemys)
+        foreach (Transform trans in transform.Find("Objects").GetComponentInChildren<Transform>()) //원래 있던 오브젝트는 삭제
         {
-            var spawnPosition = spawnLocaiton.transform.position;
-
-            var spawnedEnemy = Instantiate(spawnLocaiton.enemy, spawnPosition, Quaternion.identity);
-            spawnedEnemy.transform.parent = transform.Find("Objects");
+            if (trans.GetComponent<Respawnable>() != null)
+            {
+                Destroy(trans.gameObject);
+            }
+        }
+        for (int i = 0; i < RespawnableObjects.Count; i++)
+        {
+            GameObject spawnedObject = Instantiate(RespawnableObjects[i], RespawnableObjects[i].transform.position, RespawnableObjects[i].transform.rotation);
+            spawnedObject.transform.parent = transform.Find("Objects");
+            spawnedObject.SetActive(true);
         }
     }
 }

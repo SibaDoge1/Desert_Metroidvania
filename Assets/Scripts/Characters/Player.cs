@@ -232,7 +232,7 @@ protected void JumpStop()
 
     private void Action() //장착된 무기의 action을 실행
     {
-        EquipManager.Instance.equipedWeapon.Action();
+        EquipManager.Instance.equipedWeapon.Action(atkBuff, attackSpd);
     }
 
     protected override void OnDieCallBack() //죽을 때 부르는 함수
@@ -258,7 +258,7 @@ protected void JumpStop()
 
         }*/
     }
-
+    /*
     protected virtual void OnDrawGizmos()
     {
         Vector3 pos = new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2f - 0.01f, transform.position.z);
@@ -273,6 +273,7 @@ protected void JumpStop()
         else
             Gizmos.DrawRay(pos, Vector3.down * 5f);
     }
+    */
 
     private bool stopGroundCheck =false;
     /// <summary>
