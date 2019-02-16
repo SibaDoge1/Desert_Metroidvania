@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using Newtonsoft.Json;
 
 [Serializable]
 public class SaveData
@@ -19,7 +20,7 @@ public class SaveData
 
     public string curStage;
     public Dictionary<int, bool> MapInfo;
-    public Dictionary<int, bool> BossKillInfo;
+    public IDictionary<int, bool> BossKillInfo;
     public Dictionary<int, bool> potalLockInfo;
     public float hp;
     public bool isSetted;
@@ -40,7 +41,7 @@ public static class SaveManager
             return;
         }
         saveData = new SaveData();
-        Debug.Log("save set :" + JsonUtility.ToJson(saveData));
+        Debug.Log("savedata created :" + JsonUtility.ToJson(saveData));
     }
 
     #region Set/Add
@@ -102,7 +103,7 @@ public static class SaveManager
 
     public static bool JsonSave(SaveData data, string filename, string path)
     {
-        string json = JsonUtility.ToJson(data);
+        string json = JsonConvert.SerializeObject(data);
         FileStream file = new FileStream(path + "/" + filename + Ext, FileMode.Create);
         if(file == null)
         {
@@ -113,7 +114,7 @@ public static class SaveManager
         writer.Write(json);
 
         writer.Close();
-        Debug.Log("SaveComplete");
+        Debug.Log("SaveComplete" + json);
         return true;
     }
 
@@ -122,13 +123,13 @@ public static class SaveManager
         FileStream file = new FileStream(path + "/" + filename + Ext, FileMode.OpenOrCreate);
         StreamReader reader = new StreamReader(file);
         string json = reader.ReadToEnd();
-        Debug.Log("load length " + json);
+        Debug.Log("load data " + json);
         if (file.Length == 0)
         {
-            Debug.Log("make new save");
+            Debug.Log("make new savefile");
             return false;
         }
-        saveData = JsonUtility.FromJson<SaveData>(json);
+        saveData = JsonConvert.DeserializeObject<SaveData>(json);
         file.Close();
         Debug.Log("LoadComplete");
         return true;
