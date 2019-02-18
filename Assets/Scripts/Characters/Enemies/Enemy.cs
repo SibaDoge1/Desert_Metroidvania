@@ -9,6 +9,12 @@ public enum EnemyState
 
 public abstract class Enemy : Character, Respawnable
 {
+    protected enum EnemyType
+    {
+        GROUND, FLY
+    }
+
+
     #region Status
     [Header("AttackStatus")]
     protected List<AttackInfo> attackInfos = new List<AttackInfo>();
@@ -18,8 +24,11 @@ public abstract class Enemy : Character, Respawnable
     protected Coroutine trace;
     protected Coroutine attack;
 
+    protected EnemyType enemyType;
     protected EnemyState enemyState;        //적 상태 변경 시, 이걸 바꾸면 됨
     protected EnemyState enemyCurState;     //상태가 변경됐는지 확인하기 위한 Enum형 필드
+
+    protected Vector2 dir_Flying;
 
     protected override void Awake()
     {
@@ -117,7 +126,18 @@ public abstract class Enemy : Character, Respawnable
         }
 
         if (enemyCurState != EnemyState.ATTACK)
-            Move(direction);
+        {
+            switch (enemyType)
+            {
+                case EnemyType.GROUND:
+                    Move(direction);
+                    break;
+                case EnemyType.FLY:
+                    Move(dir_Flying);
+                    break;
+            }
+
+        }
 
     }
 

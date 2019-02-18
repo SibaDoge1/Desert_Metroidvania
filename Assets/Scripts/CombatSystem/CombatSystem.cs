@@ -50,7 +50,7 @@ public class CombatSystem : MonoBehaviour
         BoxCollider2D damagingCollider_Collider2D = Instantiate(_damagingCollider, transform_attacker.position, Quaternion.identity).GetComponent<BoxCollider2D>();
         DamagingCollider damagingCollider = damagingCollider_Collider2D.gameObject.GetComponent<DamagingCollider>();
 
-        damagingCollider_Collider2D.transform.localScale = attackInfo.attackRange;
+        damagingCollider_Collider2D.size = attackInfo.attackRange;
         Vector3 tempV3 = damagingCollider_Collider2D.transform.position;
         tempV3.x += attackInfo.hitBoxPostion.x * (int)transform_attacker.GetComponentInParent<Character>().Direction;
         tempV3.y += attackInfo.hitBoxPostion.y;
@@ -60,7 +60,7 @@ public class CombatSystem : MonoBehaviour
 
         if (PlayManager.Instance.isTestMode)
         {
-            damagingCollider.ChangeSprite();
+            damagingCollider.ChangeSprite(attackInfo.attackRange);
         }
 
         damagingCollider.gameObject.transform.parent = transform_attacker;
@@ -72,6 +72,7 @@ public class CombatSystem : MonoBehaviour
         BoxCollider2D damagingCollider_Collider2D = Instantiate(_projectile, transform_attacker.position, Quaternion.identity).GetComponent<BoxCollider2D>();
         Projectile damagingCollider = damagingCollider_Collider2D.gameObject.GetComponent<Projectile>();
 
+        damagingCollider_Collider2D.size = attackInfo.attackRange;
         Vector3 tempV3 = damagingCollider_Collider2D.transform.position;
         tempV3.x += attackInfo.hitBoxPostion.x * (int)transform_attacker.GetComponentInParent<Character>().Direction;
         tempV3.y += attackInfo.hitBoxPostion.y;
@@ -94,7 +95,7 @@ public class CombatSystem : MonoBehaviour
 
         if (PlayManager.Instance.isTestMode)
         {
-            damagingCollider.ChangeSprite();
+            damagingCollider.ChangeSprite(attackInfo.attackRange);
         }
 
         if (attackInfo.projectileInfo.attackSprite != null)
