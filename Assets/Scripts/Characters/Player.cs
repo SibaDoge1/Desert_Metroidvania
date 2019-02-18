@@ -97,24 +97,21 @@ public class Player : Character
 
             StartCoroutine(PlayerDash(Direction.right));
             sprite.GetComponent<SpriteRenderer>().flipX = false;
-            sprite.GetComponent<Animator>().SetBool("isDash", true);
-            sprite.GetComponent<Animator>().Play("dash");
+           
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
             StartCoroutine(PlayerDash(Direction.left));
             sprite.GetComponent<SpriteRenderer>().flipX = true;
-            sprite.GetComponent<Animator>().SetBool("isDash", true);
-            sprite.GetComponent<Animator>().Play("dash");
 
         }
         else
         {
             StartCoroutine(PlayerDash(direction));
-            sprite.GetComponent<Animator>().SetBool("isDash", true);
-            sprite.GetComponent<Animator>().Play("dash");
-
         }
+        sprite.GetComponent<Animator>().SetBool("isRunning", false);
+        sprite.GetComponent<Animator>().SetBool("isDash", true);
+        sprite.GetComponent<Animator>().Play("dash");
     }
 
     private const float dashInvincibleTime = 0.2f;
@@ -135,6 +132,8 @@ public class Player : Character
             yield return new WaitForFixedUpdate(); //물리적인 이동같은건 fixedUpdate로
         }
 
+        if (Input.GetKey(KeyCode.RightArrow)) sprite.GetComponent<Animator>().SetBool("isRunning", true);
+        if (Input.GetKey(KeyCode.LeftArrow)) sprite.GetComponent<Animator>().SetBool("isRunning", true);
         sprite.GetComponent<Animator>().SetBool("isDash", false);
 
 
