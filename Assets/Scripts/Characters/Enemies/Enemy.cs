@@ -41,7 +41,8 @@ public abstract class Enemy : Character, Respawnable
     {
         base.Update();
 
-        CheckAI();
+        if (patternChangable)
+            CheckAI();
     }
 
     public virtual void ResetEnemy() //팔레트에서 리스폰 될 때 사용하는 함수로 쓰자
@@ -144,5 +145,7 @@ public abstract class Enemy : Character, Respawnable
     protected abstract IEnumerator Patrol();
     protected abstract IEnumerator Trace();
     protected abstract IEnumerator Attack(float atk, float atkSpd);
+
+    protected bool patternChangable = true;
 
 }

@@ -55,6 +55,8 @@ public class TestEnemy : Enemy
     {
         while(true)
         {
+            patternChangable = false;
+
             AttackInfo tempInfo = attackInfos[0];
             tempInfo.damage += atk;
             tempInfo.duration *= atkSpd;
@@ -69,6 +71,10 @@ public class TestEnemy : Enemy
             CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
 
             yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
+
+            patternChangable = true;
+
+            yield return null;
         }
     }
 
