@@ -15,9 +15,10 @@ public class DamagingCollider : MonoBehaviour
             c.GetComponent<Character>().GetDamage(damage);
     }
 
-    public void ChangeSprite()
+    public void ChangeSprite(Vector3 size)
     {
-        GetComponent<SpriteRenderer>().sprite = colliderSprite;
+        transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = colliderSprite;
+        transform.GetChild(1).localScale = size;
     }
 
     public void DestroyCollider(float duration)

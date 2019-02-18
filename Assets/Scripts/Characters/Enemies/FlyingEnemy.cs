@@ -8,29 +8,19 @@ public class FlyingEnemy : Enemy
     {
         base.Awake();
 
-        AttackInfo[] tempInfos = new AttackInfo[1];
-
-        tempInfos[0].attackRange = new Vector2(1f, 1f);
-        tempInfos[0].hitBoxPostion = new Vector2(1f, 0f);
-        tempInfos[0].damage = 1;
-        tempInfos[0].duration = 0.15f;
-        tempInfos[0].preDelay = 0.1f;
-        tempInfos[0].postDelay = 0.1f;
-
-        foreach (var tempInfo in tempInfos)
-        {
-            attackInfos.Add(tempInfo);
-        }
+        rigid.gravityScale = 0f;
+        enemyType = EnemyType.FLY;
     }
 
     protected override IEnumerator Patrol()
     {
         while (true)
         {
-            direction = Direction.zero;
+            dir_Flying = Vector2.zero;
             yield return new WaitForSeconds(1f);
 
-            direction = direction == Direction.left ? Direction.right : Direction.left;
+            dir_Flying = new Vector2(Random.value, Random.value);
+            dir_Flying.Normalize();
             yield return new WaitForSeconds(5f);
         }
     }
@@ -41,8 +31,9 @@ public class FlyingEnemy : Enemy
         {
             var playerPos = PlayManager.Instance.Player.transform.position;
             var vectorToPlayer = playerPos - transform.position;
+            vectorToPlayer.Normalize();
 
-            direction = vectorToPlayer.x >= 0 ? Direction.right : Direction.left;
+            dir_Flying = vectorToPlayer;
 
             yield return new WaitForSeconds(0.5f);
         }
@@ -52,20 +43,13 @@ public class FlyingEnemy : Enemy
     {
         while (true)
         {
-            AttackInfo tempInfo = attackInfos[0];
-            tempInfo.damage += atk;
-            tempInfo.duration *= atkSpd;
-            tempInfo.preDelay *= atkSpd;
-            tempInfo.postDelay *= atkSpd;
             var playerPos = PlayManager.Instance.Player.transform.position;
             var vectorToPlayer = playerPos - transform.position;
+            vectorToPlayer.Normalize();
 
-            direction = vectorToPlayer.x >= 0 ? Direction.right : Direction.left;
-            yield return new WaitForSeconds(tempInfo.preDelay);
+            dir_Flying = vectorToPlayer;
 
-            CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
-
-            yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
