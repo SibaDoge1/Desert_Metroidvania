@@ -5,9 +5,12 @@ using UnityEngine;
 public class Ladder : InteractObject
 {
     private bool isUsingLadder;
+    
 
     [SerializeField]
     private const float climbSpeed = 0.125f;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -73,6 +76,9 @@ public class Ladder : InteractObject
             if (isUp) PlayManager.Instance.Player.transform.Translate(new Vector2(transform.position.x - PlayManager.Instance.Player.transform.position.x, 0.1f));
             else PlayManager.Instance.Player.transform.Translate(new Vector2(transform.position.x - PlayManager.Instance.Player.transform.position.x, -0.2f));
             isUsingLadder = true;
+
+            PlayManager.Instance.Player.IsLadder = true;
+
         }
     }
 
@@ -97,6 +103,11 @@ public class Ladder : InteractObject
         PlayManager.Instance.Player.IsMovable = true;
         PlayManager.Instance.Player.SetTrigger(false);
         PlayManager.Instance.Player.SetGravity(0, true);
+
+        PlayManager.Instance.Player.IsLadder = false;
+
+
+
     }
 
     protected void Move(Direction dir)

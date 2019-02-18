@@ -12,6 +12,10 @@ public class Player : Character
     private bool isGround;
     public bool IsGround { get { return isGround; } }
     private bool isJumpAniPlaying;
+    private bool isLadder;
+    public bool IsLadder { get { return isLadder; } set { isLadder = value; } }
+
+
 
     protected override void Awake()
     {
@@ -52,6 +56,14 @@ public class Player : Character
         {
             isJumping = false;
             sprite.GetComponent<Animator>().SetBool("isJumping", false);
+        }
+        if (isLadder)
+        {
+            sprite.GetComponent<Animator>().SetBool("isLadder", true);
+        }
+        else
+        {
+            sprite.GetComponent<Animator>().SetBool("isLadder", false);
         }
     }
 
@@ -131,6 +143,11 @@ public class Player : Character
     public int JumpCount { set { jumpCount = value; } }
     private int maxJumpCount = 1;
     public int MaxJumpCount { set { maxJumpCount = value; } }
+   
+  public void ladderActionAnim()
+    {
+  
+    }
 
     #region Jump
     public override void Jump()
@@ -141,7 +158,7 @@ public class Player : Character
             StopCoroutine("JumpRoutine");
             StartCoroutine("JumpRoutine");
             sprite.GetComponent<Animator>().SetBool("isJumping", true);
-            sprite.GetComponent<Animator>().Play("jump_Start");
+            //sprite.GetComponent<Animator>().Play("jump_Start");
         }/*
         else if (jumpCount < maxJumpCount+1 && EquipManager.Instance.equipedWeapon.gameObject.name == "Sword")
         {
