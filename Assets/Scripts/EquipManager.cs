@@ -35,5 +35,10 @@ public class EquipManager : MonoBehaviour
         equipedWeapon.gameObject.SetActive(true);
         Debug.Log((int)weaponName % (int)WeaponList.end + " : " + equipedWeapon.gameObject.name);
     }
+
+    public void AddItem(GameObject item)
+    {
+        item.transform.parent = transform;
+    }
 }
 

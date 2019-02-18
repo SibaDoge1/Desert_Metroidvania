@@ -7,7 +7,7 @@ public class DamagingCollider : MonoBehaviour
     public float damage;
     public Sprite colliderSprite;
 
-    private void OnTriggerEnter2D(Collider2D c)
+    protected virtual void OnTriggerEnter2D(Collider2D c)
     {
         //if (c.transform.parent == null) return;
 
@@ -29,6 +29,12 @@ public class DamagingCollider : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
 
+        OnDestroyCallBack();
+    }
+
+    protected void OnDestroyCallBack()
+    {
+        StopAllCoroutines();
         Destroy(gameObject);
     }
 }

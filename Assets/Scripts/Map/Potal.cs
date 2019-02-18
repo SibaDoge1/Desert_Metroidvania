@@ -2,23 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Potal : MonoBehaviour
+public class Potal : InteractObject
 {
     public Potal linkedPotal;
     public Stage ParentStage { get; private set; }
-    private bool isAtPortal = false;
     // Start is called before the first frame update
     void Awake()
     {
         ParentStage = transform.parent.parent.GetComponent<Stage>();
+        myKey = KeyCode.UpArrow;
     }
 
-    void Update()
+    protected override void Action()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow) && isAtPortal)
-        {
-            StartCoroutine("Fade");
-        }
+        StartCoroutine("Fade");
     }
 
     public void ChangeStage()
@@ -29,28 +26,10 @@ public class Potal : MonoBehaviour
             return;
         }
         linkedPotal.ParentStage.Active();
-        linkedPotal.ParentStage.RespawnEnemys();
-        ParentStage.ResetStage();
-        Player.Instance.transform.position = new Vector3(linkedPotal.transform.position.x, linkedPotal.transform.position.y, Player.Instance.transform.position.z);
-        Player.Instance.transform.parent = linkedPotal.ParentStage.transform.Find("Objects");
+        PlayManager.Instance.Player.transform.position = new Vector3(linkedPotal.transform.position.x, linkedPotal.transform.position.y, PlayManager.Instance.Player.transform.position.z);
+        PlayManager.Instance.Player.transform.parent = linkedPotal.ParentStage.transform.Find("Objects");
         Map.Instance.changeStage(ParentStage, linkedPotal.ParentStage);
         ParentStage.DeActive();
-    }
-
-    void OnTriggerStay2D(Collider2D col)
-    {
-        if (col.transform.CompareTag("Player"))
-        {
-            isAtPortal = true;
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D col)
-    {
-        if (col.transform.CompareTag("Player"))
-        {
-            isAtPortal = false;
-        }
     }
 
     IEnumerator Fade()

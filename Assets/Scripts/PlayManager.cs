@@ -9,6 +9,7 @@ public class PlayManager : MonoBehaviour
     {
         get { return instance; }
     }
+    private MapViewer viewer;
 
     void Awake()
     {
@@ -18,23 +19,27 @@ public class PlayManager : MonoBehaviour
             Debug.LogError("Singleton Error! : " + this.name);
             Destroy(this);
         }
+        SaveManager.LoadAll();
+        viewer = GameObject.Find("Canvas").transform.Find("MapViewer").GetComponent<MapViewer>();
     }
 
     void Start()
     {
-        player = GameObject.Find("Player").GetComponent<Character>();
-        //PlayerPrefs.SetString("Map", "A2");
+        player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            viewer.Toggle();
+        }
     }
 
     public bool isTestMode = true;
 
-    private Character player = null;
-    public Character Player
+    private Player player = null;
+    public Player Player
     {
         get { return player; } set { player = value; }
     }

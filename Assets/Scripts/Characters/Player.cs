@@ -5,11 +5,6 @@ using UnityEngine;
 
 public class Player : Character
 {
-    private static Player instance = null;
-    public static Player Instance
-    {
-        get { return instance; }
-    }
     private bool isMovable;
     public bool IsMovable { get { return isMovable; } set { isMovable = value; } }
     private BoxCollider2D myCollider;
@@ -21,21 +16,15 @@ public class Player : Character
     protected override void Awake()
     {
         base.Awake();
-        if (instance == null) instance = this;
-        else if (instance != this)
-        {
-            Debug.LogError("Singleton Error! : " + this.name);
-            Destroy(gameObject);
-        }
     }
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         isGround = true;
         isMovable = true;
         myCollider = gameObject.GetComponent<BoxCollider2D>();
         sprite = transform.Find("Sprite").gameObject;
-        isJumping = false;
         jumpCount = 0;
     }
 
@@ -51,36 +40,19 @@ public class Player : Character
         //if (Input.GetKeyDown(KeyCode.E)) circleWeapon(WeaponList.fist);
         if (isGround) jumpCount = 0;
         if (isDashable > 0f) isDashable -= Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.A)) Action();
         if (IsMovable)
         {
-            if (Input.GetKeyDown(KeyCode.A)) Action();
-            if (Input.GetKeyDown(KeyCode.Space)) // FixedUpdate에서 사용하면 키가 씹힘
-                isJumping = true;
+            if (Input.GetKeyDown(KeyCode.LeftShift) && isDashable <= 0f) Dash();
+            if (Input.GetKeyDown(KeyCode.Space)) Jump();
             if (Input.GetKeyUp(KeyCode.RightArrow)) sprite.GetComponent<Animator>().SetBool("isRunning", false);
             if (Input.GetKeyUp(KeyCode.LeftArrow)) sprite.GetComponent<Animator>().SetBool("isRunning", false);
         }
-        if (rigid.velocity.y != 0 && !isJumpAniPlaying)
+        if (isGround && isJumping)
         {
-            if (rigid.velocity.y < 0.5f && rigid.velocity.y > 0f)
-            {
-                isJumpAniPlaying = true;
-                sprite.GetComponent<Animator>().Play("jump_Fall");
-            }
-            else if (rigid.velocity.y > -0.5f && rigid.velocity.y < 0f)
-            {
-                //isJumpAniPlaying = true;
-                //sprite.GetComponent<Animator>().Play("jump_Fall");
-                //sprite.GetComponent<Animator>().playbackTime = 0.6f;
-            }
-
+            isJumping = false;
+            sprite.GetComponent<Animator>().SetBool("isJumping", false);
         }
-        else if (rigid.velocity.y == 0 && isJumpAniPlaying)
-        {
-            //sprite.GetComponent<Animator>().Play("jump_End");
-            sprite.GetComponent<Animator>().Play("idle");
-            isJumpAniPlaying = false;
-        }
-
     }
 
     protected override void FixedUpdate() //물리연산용
@@ -89,78 +61,60 @@ public class Player : Character
         CheckGround();
         if (IsMovable)
         {
-            if (Input.GetKey(KeyCode.LeftShift) && isDashable <= 0f)
+            if (Input.GetKey(KeyCode.RightArrow))
             {
-                if (Input.GetKey(KeyCode.RightArrow))
-                    StartCoroutine(PlayerDash(Direction.right));
-
-                else if (Input.GetKey(KeyCode.LeftArrow))
-                    StartCoroutine(PlayerDash(Direction.left));
-
-                else StartCoroutine(PlayerDash(direction));
+                sprite.GetComponent<SpriteRenderer>().flipX = false;
+                sprite.GetComponent<Animator>().SetBool("isRunning", true);
+                Move(Direction.right);
             }
-            else if (isDashAttacking)
+            if (Input.GetKey(KeyCode.LeftArrow))
             {
-                EquipManager.Instance.equipedWeapon.DashAttack();
-                isDashAttacking = false;
-                StartCoroutine(DashAttacking());
+                sprite.GetComponent<SpriteRenderer>().flipX = true;
+                sprite.GetComponent<Animator>().SetBool("isRunning", true);
+                Move(Direction.left);
             }
-            else
-            {
-                if (Input.GetKey(KeyCode.RightArrow))
-                {
-                    sprite.GetComponent<SpriteRenderer>().flipX = false;
-                    sprite.GetComponent<Animator>().SetBool("isRunning", true);
-                    Move(Direction.right);
-                }
-                if (Input.GetKey(KeyCode.LeftArrow))
-                {
-                    sprite.GetComponent<SpriteRenderer>().flipX = true;
-                    sprite.GetComponent<Animator>().SetBool("isRunning", true);
-                    Move(Direction.left);
-                }
-            }
-        }
-        if (isJumping)
-        {
-            Jump();
-            isJumping = false;
         }
     }
 
     #region Dash/DashAttack
 
     float isDashable = 0f;
-    bool isDashAttacking = false;
+    bool isDashing = false;
 
+    public void Dash()
+    {
+        isDashing = true;
+        if (Input.GetKey(KeyCode.RightArrow))
+            StartCoroutine(PlayerDash(Direction.right));
+        else if (Input.GetKey(KeyCode.LeftArrow))
+            StartCoroutine(PlayerDash(Direction.left));
+        else
+            StartCoroutine(PlayerDash(direction));
+    }
+
+    private const float dashInvincibleTime = 0.2f;
+    private const float dashTime = 0.25f;
+    private const float dashCoolTime = 0.25f;
     IEnumerator PlayerDash(Direction dir)
     {
-        float timer = 0f;
-
         IsMovable = false;
-        IsSuper = 0.2f;
+        float timer = 0;
+        IsSuper = dashInvincibleTime;
 
-        while(true)
+        while(timer < dashTime)
         {
-            if (timer >= 0.2f)
-                break;
-
-            if (Input.GetKey(KeyCode.A) && !isDashAttacking)
-            {
-                isDashAttacking = true;
-            }
-
-            currentSpd = Mathf.Lerp(Spd * 8f, Spd, timer * 5f);
+            currentSpd = Mathf.Lerp(Spd * 8f, Spd, timer / dashTime);
             Move(dir);
 
-            timer += Time.deltaTime;
-            yield return null;
+            timer += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate(); //물리적인 이동같은건 fixedUpdate로
         }
 
-        isDashable = 0.25f;
-
+        isDashing = false;
+        isDashable = dashCoolTime;
         IsMovable = true;
     }
+
     IEnumerator DashAttacking()
     {
         IsMovable = false;
@@ -179,12 +133,14 @@ public class Player : Character
     public int MaxJumpCount { set { maxJumpCount = value; } }
 
     #region Jump
-    protected override void Jump()
+    public override void Jump()
     {
         if (jumpCount < maxJumpCount)
         {
+            isJumping = true;
             StopCoroutine("JumpRoutine");
             StartCoroutine("JumpRoutine");
+            sprite.GetComponent<Animator>().SetBool("isJumping", true);
             sprite.GetComponent<Animator>().Play("jump_Start");
         }/*
         else if (jumpCount < maxJumpCount+1 && EquipManager.Instance.equipedWeapon.gameObject.name == "Sword")
@@ -232,7 +188,13 @@ protected void JumpStop()
 
     private void Action() //장착된 무기의 action을 실행
     {
-        EquipManager.Instance.equipedWeapon.Action();
+        if (isDashing)
+        {
+            EquipManager.Instance.equipedWeapon.DashAttack(atkBuff, attackSpd);
+            StartCoroutine(DashAttacking());
+            return;
+        }
+        EquipManager.Instance.equipedWeapon.Action(atkBuff, attackSpd);
     }
 
     protected override void OnDieCallBack() //죽을 때 부르는 함수
@@ -258,7 +220,7 @@ protected void JumpStop()
 
         }*/
     }
-
+    /*
     protected virtual void OnDrawGizmos()
     {
         Vector3 pos = new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2f - 0.01f, transform.position.z);
@@ -273,6 +235,7 @@ protected void JumpStop()
         else
             Gizmos.DrawRay(pos, Vector3.down * 5f);
     }
+    */
 
     private bool stopGroundCheck =false;
     /// <summary>
@@ -286,7 +249,9 @@ protected void JumpStop()
         Vector2 scale = new Vector2(transform.localScale.x, 0.005f);
         RaycastHit2D hit = Physics2D.BoxCast(pos, scale, 0, Vector2.down, 0.05f);
         if (hit.transform != null && !hit.collider.isTrigger)
+        {
             isGround = true;
+        }
     }
 
     #region setter
