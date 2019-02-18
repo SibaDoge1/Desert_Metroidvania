@@ -45,6 +45,10 @@ public class Ladder : InteractObject
             if (Input.GetKey(KeyCode.LeftArrow)) Move(Direction.left);
             if (Input.GetKey(KeyCode.UpArrow)) UpLadder();
             if (Input.GetKey(KeyCode.DownArrow)) DownLadder();
+            
+            if(Input.GetKeyUp(KeyCode.UpArrow)) PlayManager.Instance.Player.IsLadderAction = false;
+            if(Input.GetKeyUp(KeyCode.DownArrow)) PlayManager.Instance.Player.IsLadderAction = false;
+
         }
     }
 
@@ -58,6 +62,8 @@ public class Ladder : InteractObject
         if (PlayManager.Instance.Player.transform.position.y <= transform.position.y + transform.localScale.y / 2f + 0.1f)
         {
             PlayManager.Instance.Player.transform.Translate(Vector2.up * climbSpeed);
+            PlayManager.Instance.Player.IsLadderAction = true;
+
         }
         else
         {
@@ -93,6 +99,7 @@ public class Ladder : InteractObject
         else
         {
             PlayManager.Instance.Player.transform.Translate(Vector2.down * climbSpeed);
+            PlayManager.Instance.Player.IsLadderAction = true;
         }
     }
 
@@ -105,6 +112,7 @@ public class Ladder : InteractObject
         PlayManager.Instance.Player.SetGravity(0, true);
 
         PlayManager.Instance.Player.IsLadder = false;
+        PlayManager.Instance.Player.IsLadderAction = false;
 
 
 

@@ -14,6 +14,8 @@ public class Player : Character
     private bool isJumpAniPlaying;
     private bool isLadder;
     public bool IsLadder { get { return isLadder; } set { isLadder = value; } }
+    private bool isLadderAction;
+    public bool IsLadderAction { get { return isLadderAction; } set { isLadderAction = value; } }
 
 
 
@@ -57,14 +59,8 @@ public class Player : Character
             isJumping = false;
             sprite.GetComponent<Animator>().SetBool("isJumping", false);
         }
-        if (isLadder)
-        {
-            sprite.GetComponent<Animator>().SetBool("isLadder", true);
-        }
-        else
-        {
-            sprite.GetComponent<Animator>().SetBool("isLadder", false);
-        }
+
+        ladderActionAnim();
     }
 
     protected override void FixedUpdate() //물리연산용
@@ -97,11 +93,28 @@ public class Player : Character
     {
         isDashing = true;
         if (Input.GetKey(KeyCode.RightArrow))
+        {
+
             StartCoroutine(PlayerDash(Direction.right));
+            sprite.GetComponent<SpriteRenderer>().flipX = false;
+            sprite.GetComponent<Animator>().SetBool("isDash", true);
+            sprite.GetComponent<Animator>().Play("dash");
+        }
         else if (Input.GetKey(KeyCode.LeftArrow))
+        {
             StartCoroutine(PlayerDash(Direction.left));
+            sprite.GetComponent<SpriteRenderer>().flipX = true;
+            sprite.GetComponent<Animator>().SetBool("isDash", true);
+            sprite.GetComponent<Animator>().Play("dash");
+
+        }
         else
+        {
             StartCoroutine(PlayerDash(direction));
+            sprite.GetComponent<Animator>().SetBool("isDash", true);
+            sprite.GetComponent<Animator>().Play("dash");
+
+        }
     }
 
     private const float dashInvincibleTime = 0.2f;
@@ -122,6 +135,9 @@ public class Player : Character
             yield return new WaitForFixedUpdate(); //물리적인 이동같은건 fixedUpdate로
         }
 
+        sprite.GetComponent<Animator>().SetBool("isDash", false);
+
+
         isDashing = false;
         isDashable = dashCoolTime;
         IsMovable = true;
@@ -129,11 +145,17 @@ public class Player : Character
 
     IEnumerator DashAttacking()
     {
-        IsMovable = false;
 
-        yield return new WaitForSeconds(0.15f);
+        IsMovable = false;
+        sprite.GetComponent<Animator>().SetBool("isDashAttack", true);
+
+        yield return new WaitForSeconds(0.3f);
 
         IsMovable = true;
+        sprite.GetComponent<Animator>().SetBool("isDashAttack", false);
+        sprite.GetComponent<Animator>().SetBool("isRunning", false);
+
+
     }
 
     #endregion
@@ -146,19 +168,42 @@ public class Player : Character
    
   public void ladderActionAnim()
     {
-  
+        if (isLadder)
+        {
+            sprite.GetComponent<Animator>().SetBool("isRunning", false);
+            sprite.GetComponent<Animator>().SetBool("isJumping", false);
+            sprite.GetComponent<Animator>().SetBool("isLadder", true);
+            if (isLadderAction)
+            {
+                sprite.GetComponent<Animator>().SetBool("isLadderAction", true);
+            }
+            else
+            {
+                sprite.GetComponent<Animator>().SetBool("isLadderAction", false);
+            }
+
+        }
+        else
+        {
+            sprite.GetComponent<Animator>().SetBool("isLadderAction", false);
+     
+            sprite.GetComponent<Animator>().SetBool("isLadder", false);
+        }
     }
 
     #region Jump
     public override void Jump()
     {
         if (jumpCount < maxJumpCount)
+
+
+       
         {
             isJumping = true;
             StopCoroutine("JumpRoutine");
             StartCoroutine("JumpRoutine");
             sprite.GetComponent<Animator>().SetBool("isJumping", true);
-            //sprite.GetComponent<Animator>().Play("jump_Start");
+            sprite.GetComponent<Animator>().Play("jump_Start");
         }/*
         else if (jumpCount < maxJumpCount+1 && EquipManager.Instance.equipedWeapon.gameObject.name == "Sword")
         {
@@ -205,10 +250,13 @@ protected void JumpStop()
 
     private void Action() //장착된 무기의 action을 실행
     {
+        
         if (isDashing)
         {
             EquipManager.Instance.equipedWeapon.DashAttack(atkBuff, attackSpd);
             StartCoroutine(DashAttacking());
+
+
             return;
         }
         EquipManager.Instance.equipedWeapon.Action(atkBuff, attackSpd);
