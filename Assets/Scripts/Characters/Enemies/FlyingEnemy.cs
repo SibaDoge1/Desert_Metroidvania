@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class FlyingEnemy : Enemy
 {
+    float damage;
+
     protected override void Awake()
     {
         base.Awake();
+
+        damage = 1f;
 
         rigid.gravityScale = 0f;
         enemyType = EnemyType.FLY;
@@ -19,7 +23,7 @@ public class FlyingEnemy : Enemy
             dir_Flying = Vector2.zero;
             yield return new WaitForSeconds(1f);
 
-            dir_Flying = new Vector2(Random.value, Random.value);
+            dir_Flying = new Vector2(Random.Range(0f, 10f), Random.Range(0f, 10f));
             dir_Flying.Normalize();
             yield return new WaitForSeconds(5f);
         }
@@ -39,17 +43,52 @@ public class FlyingEnemy : Enemy
         }
     }
 
-    protected override IEnumerator Attack(float atk, float atkSpd)
+    bool isAttacking = false;
+
+    public override void OnTriggerEnterAttack()
+    {
+        base.OnTriggerEnterAttack();
+    }
+
+    public override void OnTriggerExitAttack()
+    {
+        base.OnTriggerExitAttack();
+    }
+
+    protected override IEnumerator Attack(float atk, float atkSpd, AttackInfo attackInfo)
     {
         while (true)
         {
+            isAttacking = true;
+            patternChangable = false;
+
+            yield return new WaitForSeconds(0.5f);
+
+            float timer = 0f;
+
             var playerPos = PlayManager.Instance.Player.transform.position;
             var vectorToPlayer = playerPos - transform.position;
             vectorToPlayer.Normalize();
 
             dir_Flying = vectorToPlayer;
 
-            yield return new WaitForSeconds(0.5f);
+            while (true)
+            {
+                if (timer > 2f)
+                {
+                    break;
+                }
+
+                Move(dir_Flying);
+
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            patternChangable = true;
+            isAttacking = false;
+
+            yield return null;
         }
     }
 
@@ -57,7 +96,16 @@ public class FlyingEnemy : Enemy
     {
         if (c.gameObject.tag == "Player")
         {
-            c.gameObject.GetComponent<Character>().GetDamage(attackInfos[0].damage);
+            c.gameObject.GetComponent<Character>().GetDamage(damage);
         }
+    }
+
+
+    protected override void CheckBuffAndDebuff()
+    {
+        base.CheckBuffAndDebuff();
+
+        if (isAttacking)
+            currentSpd *= 3f;
     }
 }

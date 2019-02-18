@@ -30,6 +30,8 @@ public abstract class Enemy : Character, Respawnable
 
     protected Vector2 dir_Flying;
 
+    public AttackRanageCollider[] attackRangeColliders;
+
     protected override void Awake()
     {
         base.Awake();
@@ -41,7 +43,8 @@ public abstract class Enemy : Character, Respawnable
     {
         base.Update();
 
-        CheckAI();
+        if (patternChangable)
+            CheckAI();
     }
 
     public virtual void ResetEnemy() //팔레트에서 리스폰 될 때 사용하는 함수로 쓰자
@@ -74,15 +77,43 @@ public abstract class Enemy : Character, Respawnable
         enemyState = EnemyState.TRACE;
     }
 
+    public virtual void PatternCheck()
+    {
+        int colIndex = 0;
+        int attackValueSum = 0;
+
+        List<AttackInfo> validAttacks = new List<AttackInfo>();
+
+        foreach (var c in attackRangeColliders)
+        {
+            AttackInfo tempInfo = attackInfos[colIndex];
+
+            if (c.attackable)
+            {
+                attackValueSum += tempInfo.monsterattackInfo.attackValue;
+
+                for (int i = 0; i < tempInfo.monsterattackInfo.attackValue; i++)
+                {
+                    validAttacks.Add(tempInfo);
+                }
+            }
+
+            colIndex++;
+        }
+
+        int attackIndex = (int)Random.Range(0f, attackValueSum);
+
+        attack = StartCoroutine(Attack(atkBuff, attackSpd, validAttacks[attackIndex]));
+
+    }
+
     public virtual void CheckAI()
     {
+
         switch (enemyState)
         {       //상태가 변경됐을 시, 코루틴을 시작함
             case EnemyState.ATTACK:
-                if (enemyCurState != EnemyState.ATTACK)
-                {
-                    attack = StartCoroutine(Attack(atkBuff, attackSpd));
-                }
+                PatternCheck();
                 break;
 
             case EnemyState.TRACE:
@@ -143,6 +174,8 @@ public abstract class Enemy : Character, Respawnable
 
     protected abstract IEnumerator Patrol();
     protected abstract IEnumerator Trace();
-    protected abstract IEnumerator Attack(float atk, float atkSpd);
+    protected abstract IEnumerator Attack(float atk, float atkSpd, AttackInfo attackInfo);
+
+    protected bool patternChangable = true;
 
 }

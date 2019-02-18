@@ -80,9 +80,9 @@ GameObject:
   m_Component:
   - component: {fileID: 950493558563242955}
   - component: {fileID: 1125407939842044834}
-  - component: {fileID: 769527585883113478}
   - component: {fileID: 6668404555784760268}
   - component: {fileID: 4262558892006962336}
+  - component: {fileID: 7940826492648827104}
   m_Layer: 8
   m_Name: ShootingEnemy
   m_TagString: Enemy
@@ -156,28 +156,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &769527585883113478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1721483408824230492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84d1a6ee89ff64348b12939779c83e7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp: 3
-  spd: 1
-  def: 0
-  maxHp: 10
-  jumpPower: 2
-  currentSpd: 1
-  currentDef: 0
-  attackSpd: 0
-  atkBuff: 0
-  StatChangers: []
 --- !u!50 &6668404555784760268
 Rigidbody2D:
   serializedVersion: 4
@@ -225,6 +203,29 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &7940826492648827104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721483408824230492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80c562903f02d41438d766e91e828bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 1
+  spd: 1
+  def: 0
+  maxHp: 10
+  jumpPower: 6
+  currentSpd: 1
+  currentDef: 0
+  attackSpd: 0
+  atkBuff: 0
+  StatChangers: []
+  bullet: {fileID: 21300000, guid: e9edd0e37958b3b4287893a49ea48560, type: 3}
 --- !u!1 &3999516271297858135
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,7 +294,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 1}
+  m_Size: {x: 3, y: 3}
   m_EdgeRadius: 0
 --- !u!1 &8178924189675764274
 GameObject:

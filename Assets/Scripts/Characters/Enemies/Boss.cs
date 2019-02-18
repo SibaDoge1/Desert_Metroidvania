@@ -17,7 +17,7 @@ public class Boss : Enemy //이거 상속으로 보스 만들어주셈
         isKilled = SaveManager.saveData.BossKillInfo[myID];
     }
 
-    protected override IEnumerator Attack(float atk, float atkSpd)
+    protected override IEnumerator Attack(float atk, float atkSpd, AttackInfo attackInfo)
     {
         throw new System.NotImplementedException();
     }

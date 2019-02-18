@@ -10,6 +10,12 @@ public struct ProjectileInfo
     public ProjectileType proType;
 }
 
+public struct MonsterAttackInfo
+{
+    public int attackValue;       //가중치
+    public int attackIndex;
+}
+
 public struct AttackInfo
 {
     public Vector2 attackRange;     //공격 범위
@@ -19,6 +25,7 @@ public struct AttackInfo
     public float preDelay;          //선딜레이
     public float postDelay;         //후딜레이
     public ProjectileInfo projectileInfo;
+    public MonsterAttackInfo monsterattackInfo;
 }
 
 public class CombatSystem : MonoBehaviour

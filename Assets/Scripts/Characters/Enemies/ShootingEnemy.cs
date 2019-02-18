@@ -50,10 +50,12 @@ public class ShootingEnemy : Enemy
         }
     }
 
-    protected override IEnumerator Attack(float atk, float atkSpd)
+    protected override IEnumerator Attack(float atk, float atkSpd, AttackInfo attackInfo)
     {
         while (true)
         {
+            patternChangable = false;
+
             AttackInfo tempInfo = attackInfos[0];
             tempInfo.damage += atk;
             tempInfo.duration *= atkSpd;
@@ -68,6 +70,11 @@ public class ShootingEnemy : Enemy
             CombatSystem.Instance.InstantiateProjectile(tempInfo, gameObject.transform);
 
             yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
+
+            patternChangable = true;
+
+            yield return null;
+
         }
     }
 
