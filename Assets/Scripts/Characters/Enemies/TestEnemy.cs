@@ -27,11 +27,14 @@ public class TestEnemy : Enemy
     {
         while(true)
         {
+            yield return new WaitForSeconds(5f);
             direction = Direction.zero;
             yield return new WaitForSeconds(1f);
-
-            direction = direction == Direction.left ? Direction.right : Direction.left;
+            direction = Direction.left;
             yield return new WaitForSeconds(5f);
+            direction = Direction.zero;
+            yield return new WaitForSeconds(1f);
+            direction = Direction.right;
         }
     }
 
@@ -39,10 +42,10 @@ public class TestEnemy : Enemy
     {
         while(true)
         {
-            var playerPos = PlayManager.Instance.Player.transform.position;
-            var vectorToPlayer = playerPos - transform.position;
+            Vector2 playerPos = PlayManager.Instance.Player.transform.position; //var는 웬만하면 안쓰는게 좋음
+            float vectorToPlayer = playerPos.x - transform.position.x;
 
-            direction = vectorToPlayer.x >= 0 ? Direction.right : Direction.left;
+            direction = vectorToPlayer > 0 ? Direction.right : Direction.left;
 
             yield return new WaitForSeconds(0.5f);
         }
@@ -57,10 +60,10 @@ public class TestEnemy : Enemy
             tempInfo.duration *= atkSpd;
             tempInfo.preDelay *= atkSpd;
             tempInfo.postDelay *= atkSpd;
-            var playerPos = PlayManager.Instance.Player.transform.position;
-            var vectorToPlayer = playerPos - transform.position;
+            Vector2 playerPos = PlayManager.Instance.Player.transform.position; 
+            float vectorToPlayer = playerPos.x - transform.position.x;
 
-            direction = vectorToPlayer.x >= 0 ? Direction.right : Direction.left;
+            direction = vectorToPlayer > 0 ? Direction.right : Direction.left;
             yield return new WaitForSeconds(tempInfo.preDelay);
 
             CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);

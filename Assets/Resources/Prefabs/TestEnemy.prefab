@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1841158090}
   - component: {fileID: 1841158089}
   - component: {fileID: 1841158088}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TestEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -165,7 +165,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2017965797}
   - component: {fileID: 2017965798}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 3855608501041094858}
   - component: {fileID: 5973481877598188888}
   - component: {fileID: 2127899839224428302}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: AttackRangeCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -291,7 +291,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2601482067073396957}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: StatChangers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,7 +323,7 @@ GameObject:
   - component: {fileID: 6201854114582151827}
   - component: {fileID: 3036734792877435360}
   - component: {fileID: 4390132377062046346}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SearchingCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

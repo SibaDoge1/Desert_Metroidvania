@@ -10,7 +10,10 @@ public class Map : MonoBehaviour
         get { return instance; }
     }
 
-    public Stage CurStage { get; private set; }
+    public Stage CurStage { get; set; }
+    public List<Boss> bosses;
+    public List<Stage> stages;
+    public List<PotalWithLock> PotalWithLocks;
 
     void Awake()
     {
@@ -24,8 +27,13 @@ public class Map : MonoBehaviour
 
     void Start()
     {
-        CurStage = Player.Instance.transform.parent.parent.GetComponent<Stage>();
-        Debug.Log("Satge : " + CurStage.gameObject.name);
+        CurStage = PlayManager.Instance.Player.transform.parent.parent.GetComponent<Stage>();
+        Debug.Log("Stage : " + CurStage.gameObject.name);
+    }
+
+    public void SetCurStage(string name)
+    {
+        CurStage = GameObject.Find(name).GetComponent<Stage>();
     }
 
     public void changeStage(Stage from, Stage to)

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2704647023507561404}
   - component: {fileID: 5379159942034694702}
   - component: {fileID: 9018394605777998783}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SearchingCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,10 +80,10 @@ GameObject:
   m_Component:
   - component: {fileID: 950493558563242955}
   - component: {fileID: 1125407939842044834}
+  - component: {fileID: 769527585883113478}
   - component: {fileID: 6668404555784760268}
   - component: {fileID: 4262558892006962336}
-  - component: {fileID: 47299265873544184}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ShootingEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -156,6 +156,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &769527585883113478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721483408824230492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84d1a6ee89ff64348b12939779c83e7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 3
+  spd: 1
+  def: 0
+  maxHp: 10
+  jumpPower: 2
+  currentSpd: 1
+  currentDef: 0
+  attackSpd: 0
+  atkBuff: 0
+  StatChangers: []
 --- !u!50 &6668404555784760268
 Rigidbody2D:
   serializedVersion: 4
@@ -203,29 +225,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &47299265873544184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1721483408824230492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80c562903f02d41438d766e91e828bf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp: 1
-  spd: 1
-  def: 0
-  maxHp: 10
-  jumpPower: 6
-  currentSpd: 1
-  currentDef: 0
-  attackSpd: 0
-  atkBuff: 0
-  StatChangers: []
-  bullet: {fileID: 21300000, guid: e9edd0e37958b3b4287893a49ea48560, type: 3}
 --- !u!1 &3999516271297858135
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,7 +236,7 @@ GameObject:
   - component: {fileID: 238307526766638867}
   - component: {fileID: 7355294314233018258}
   - component: {fileID: 354868917835366983}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: AttackRangeCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -294,7 +293,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5, y: 3}
+  m_Size: {x: 2, y: 1}
   m_EdgeRadius: 0
 --- !u!1 &8178924189675764274
 GameObject:
@@ -305,7 +304,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1985996812570030360}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: StatChangers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1020276975642853649}
   - component: {fileID: 3066354067811245616}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

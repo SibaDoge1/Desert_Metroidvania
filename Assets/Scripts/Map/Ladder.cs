@@ -6,6 +6,9 @@ public class Ladder : InteractObject
 {
     private bool isUsingLadder;
 
+    [SerializeField]
+    private const float climbSpeed = 0.125f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +25,7 @@ public class Ladder : InteractObject
             }
             if (Input.GetKey(KeyCode.DownArrow))
             {
-                if (player.transform.position.y - player.transform.localScale.y / 2f >= transform.position.y + transform.localScale.y / 2f)
+                if (PlayManager.Instance.Player.transform.position.y >= transform.position.y + transform.localScale.y / 2f)
                 {
                     LadderIn(false);
                 }
@@ -46,15 +49,12 @@ public class Ladder : InteractObject
     {
 
     }
-
-    [SerializeField]
-    private const float climbSpeed = 0.125f;
     private void UpLadder()
     {
         if (!isUsingLadder) return;
-        if (player.transform.position.y <= transform.position.y + transform.localScale.y / 2f + 0.1f)
+        if (PlayManager.Instance.Player.transform.position.y <= transform.position.y + transform.localScale.y / 2f + 0.1f)
         {
-            player.transform.Translate(Vector2.up * climbSpeed);
+            PlayManager.Instance.Player.transform.Translate(Vector2.up * climbSpeed);
         }
         else
         {
@@ -66,11 +66,12 @@ public class Ladder : InteractObject
     {
         if (!isUsingLadder)
         {
-            player.SetTrigger(true);
-            player.SetVelocity(Vector2.zero);
-            player.SetGravity(0, false);
-            if (isUp) player.transform.Translate(new Vector2(transform.position.x - player.transform.position.x, 0.1f));
-            else player.transform.Translate(new Vector2(transform.position.x - player.transform.position.x, -0.2f));
+            PlayManager.Instance.Player.SetTrigger(true);
+            PlayManager.Instance.Player.SetVelocity(Vector2.zero);
+            PlayManager.Instance.Player.SetGravity(0, false);
+            PlayManager.Instance.Player.IsMovable = false;
+            if (isUp) PlayManager.Instance.Player.transform.Translate(new Vector2(transform.position.x - PlayManager.Instance.Player.transform.position.x, 0.1f));
+            else PlayManager.Instance.Player.transform.Translate(new Vector2(transform.position.x - PlayManager.Instance.Player.transform.position.x, -0.2f));
             isUsingLadder = true;
         }
     }
@@ -79,13 +80,13 @@ public class Ladder : InteractObject
     {
         if (!isUsingLadder) return;
 
-        if (player.transform.position.y < transform.position.y - transform.localScale.y / 2f)
+        if (PlayManager.Instance.Player.transform.position.y < transform.position.y - transform.localScale.y / 2f)
         {
             LadderOut();
         }
         else
         {
-            player.transform.Translate(Vector2.down * climbSpeed);
+            PlayManager.Instance.Player.transform.Translate(Vector2.down * climbSpeed);
         }
     }
 
@@ -93,9 +94,9 @@ public class Ladder : InteractObject
     {
         if (!isUsingLadder) return;
         isUsingLadder = false;
-        player.IsMovable = true;
-        player.SetTrigger(false);
-        player.SetGravity(0, true);
+        PlayManager.Instance.Player.IsMovable = true;
+        PlayManager.Instance.Player.SetTrigger(false);
+        PlayManager.Instance.Player.SetGravity(0, true);
     }
 
     protected void Move(Direction dir)
@@ -111,8 +112,8 @@ public class Ladder : InteractObject
                 vec = Vector2.zero; break;
         }
         
-        player.transform.Translate(vec * (transform.localScale.x/2f + 0.1f));
-        player.JumpCount = 0;
+        PlayManager.Instance.Player.transform.Translate(vec * (transform.localScale.x/2f + 0.1f));
+        PlayManager.Instance.Player.JumpCount = 0;
         LadderOut();
     }
 }

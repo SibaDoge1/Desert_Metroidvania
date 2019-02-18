@@ -9,6 +9,7 @@ public class PlayManager : MonoBehaviour
     {
         get { return instance; }
     }
+    private MapViewer viewer;
 
     void Awake()
     {
@@ -19,17 +20,20 @@ public class PlayManager : MonoBehaviour
             Destroy(this);
         }
         SaveManager.LoadAll();
+        viewer = GameObject.Find("Canvas").transform.Find("MapViewer").GetComponent<MapViewer>();
     }
 
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
-        //PlayerPrefs.SetString("Map", "A2");
     }
 
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            viewer.Toggle();
+        }
     }
 
     public bool isTestMode = true;
