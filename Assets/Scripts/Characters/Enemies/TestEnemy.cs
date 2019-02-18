@@ -17,6 +17,9 @@ public class TestEnemy : Enemy
         tempInfos[0].preDelay = 0.1f;
         tempInfos[0].postDelay = 0.1f;
 
+        tempInfos[0].monsterattackInfo.attackValue = 1;
+        tempInfos[0].monsterattackInfo.attackIndex = 0;
+
         foreach (var tempInfo in tempInfos)
         {
             attackInfos.Add(tempInfo);
@@ -51,26 +54,31 @@ public class TestEnemy : Enemy
         }
     }
 
-    protected override IEnumerator Attack(float atk, float atkSpd)
+    protected override IEnumerator Attack(float atk, float atkSpd, AttackInfo attackInfo)
     {
         while(true)
         {
             patternChangable = false;
 
-            AttackInfo tempInfo = attackInfos[0];
-            tempInfo.damage += atk;
-            tempInfo.duration *= atkSpd;
-            tempInfo.preDelay *= atkSpd;
-            tempInfo.postDelay *= atkSpd;
-            Vector2 playerPos = PlayManager.Instance.Player.transform.position; 
-            float vectorToPlayer = playerPos.x - transform.position.x;
+            switch (attackInfo.monsterattackInfo.attackIndex)
+            {
+                case 0:
+                    AttackInfo tempInfo = attackInfos[0];
+                    tempInfo.damage += atk;
+                    tempInfo.duration *= atkSpd;
+                    tempInfo.preDelay *= atkSpd;
+                    tempInfo.postDelay *= atkSpd;
+                    Vector2 playerPos = PlayManager.Instance.Player.transform.position;
+                    float vectorToPlayer = playerPos.x - transform.position.x;
 
-            direction = vectorToPlayer > 0 ? Direction.right : Direction.left;
-            yield return new WaitForSeconds(tempInfo.preDelay);
+                    direction = vectorToPlayer > 0 ? Direction.right : Direction.left;
+                    yield return new WaitForSeconds(tempInfo.preDelay);
 
-            CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
+                    CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
 
-            yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
+                    yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
+                    break;
+            }
 
             patternChangable = true;
 

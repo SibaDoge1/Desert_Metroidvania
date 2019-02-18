@@ -6,6 +6,9 @@ public class AttackRanageCollider : MonoBehaviour
 {
     Enemy parentEnemy;
 
+    public bool attackable;
+    public bool isMaxAttackRanage;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,13 +23,17 @@ public class AttackRanageCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D c)
     {
-        if (c.tag == "Player")
-            parentEnemy.OnTriggerEnterAttack();
+        attackable = true;
+
+        if (isMaxAttackRanage && c.tag == "Player")
+            transform.parent.GetComponent<Enemy>().OnTriggerEnterAttack();
     }
 
     private void OnTriggerExit2D(Collider2D c)
     {
-        if (c.tag == "Player")
-            parentEnemy.OnTriggerExitAttack();
+        attackable = false;
+
+        if (isMaxAttackRanage && c.tag == "Player")
+            transform.parent.GetComponent<Enemy>().OnTriggerExitAttack();
     }
 }

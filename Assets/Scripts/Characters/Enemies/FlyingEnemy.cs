@@ -55,7 +55,7 @@ public class FlyingEnemy : Enemy
         base.OnTriggerExitAttack();
     }
 
-    protected override IEnumerator Attack(float atk, float atkSpd)
+    protected override IEnumerator Attack(float atk, float atkSpd, AttackInfo attackInfo)
     {
         while (true)
         {

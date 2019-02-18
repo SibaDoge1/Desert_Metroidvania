@@ -108,6 +108,8 @@ MonoBehaviour:
   attackSpd: 0
   atkBuff: 0
   StatChangers: []
+  attackRangeColliders:
+  - {fileID: 5973481877598188888}
 --- !u!50 &1841158089
 Rigidbody2D:
   serializedVersion: 4
@@ -256,6 +258,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50e4818c355450d4c8144e462d806f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackable: 0
+  isMaxAttackRanage: 1
 --- !u!61 &2127899839224428302
 BoxCollider2D:
   m_ObjectHideFlags: 0
