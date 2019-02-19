@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Potal : InteractObject
 {
@@ -15,7 +16,7 @@ public class Potal : InteractObject
 
     protected override void Action()
     {
-        StartCoroutine("Fade");
+        ChangeStage();
     }
 
     public void ChangeStage()
@@ -25,16 +26,6 @@ public class Potal : InteractObject
             Debug.Log("There is no linked portal, " + gameObject.name);
             return;
         }
-        linkedPotal.ParentStage.Active();
-        PlayManager.Instance.Player.transform.position = new Vector3(linkedPotal.transform.position.x, linkedPotal.transform.position.y, PlayManager.Instance.Player.transform.position.z);
-        PlayManager.Instance.Player.transform.parent = linkedPotal.ParentStage.transform.Find("Objects");
-        Map.Instance.changeStage(ParentStage, linkedPotal.ParentStage);
-        ParentStage.DeActive();
-    }
-
-    IEnumerator Fade()
-    {
-        yield return new WaitForSeconds(0.1f);
-        ChangeStage();
+        Map.Instance.ChangeStageRoutine(ParentStage, linkedPotal.ParentStage, linkedPotal);
     }
 }

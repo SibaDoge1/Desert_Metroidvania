@@ -5,7 +5,7 @@ using UnityEngine;
 public class StatChangeObject : InteractObject
 {
     [SerializeField]
-    private float hp = 0; // 기본값
+    private int hp = 0; // 기본값
     [SerializeField]
     private float atk = 0;
     [SerializeField]
@@ -16,8 +16,9 @@ public class StatChangeObject : InteractObject
     private float attackSpd = 0;
     [SerializeField]
     private float buffTime = 0;
-    private bool isUsed;
     private GameObject prefab;
+    public int remainCount = 1; //음수면
+    public bool isInfinite;
 
     // Start is called before the first frame update
     void Awake()
@@ -34,11 +35,12 @@ public class StatChangeObject : InteractObject
     protected override void Action()
     {
         Debug.Log("act");
-        if (!isUsed)
+        if (remainCount > 0 || isInfinite)
         {
             GameObject obj;
             obj = Instantiate(prefab, transform.position, transform.rotation);
             obj.GetComponent<StatChanger>().construct(PlayManager.Instance.Player, hp, atk, spd, def, attackSpd, buffTime);
+            remainCount--;
         }
     }
 }

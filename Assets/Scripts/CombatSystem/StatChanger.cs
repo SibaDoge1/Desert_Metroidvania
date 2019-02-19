@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StatChanger : MonoBehaviour
 {
-    public float hp { get; private set; } = 0;// 기본값
+    public int hp { get; private set; } = 0;// 기본값
     public float atk { get; private set; } = 0;
     public float spd { get; private set; } = 0;
     public float def { get; private set; } = 0;
@@ -31,7 +31,7 @@ public class StatChanger : MonoBehaviour
         }
     }
 
-    public void construct(Character cha, float Hp, float Atk, float Spd, float Def, float AttackSpd, float Time)
+    public void construct(Character cha, int Hp, float Atk, float Spd, float Def, float AttackSpd, float Time)
     {
         hp = Hp;
         atk = Atk;

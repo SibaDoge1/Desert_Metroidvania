@@ -99,4 +99,12 @@ public class Stage : MonoBehaviour
         isMapInfoObtained = true;
         SaveManager.SetMapInfo(myID, true);
     }
+
+    public bool checkOutSide(Vector2 pos)
+    {
+        return pos.x <= Map.Instance.CurStage.Pos.x - Map.Instance.CurStage.Size.x
+            || pos.y <= Map.Instance.CurStage.Pos.y - Map.Instance.CurStage.Size.y
+            || pos.x >= Map.Instance.CurStage.Pos.x + Map.Instance.CurStage.Size.x
+            || pos.y >= Map.Instance.CurStage.Pos.y + Map.Instance.CurStage.Size.y;
+    }
 }

@@ -36,6 +36,11 @@ public class PlayManager : MonoBehaviour
         }
     }
 
+    public void Defeat()
+    {
+
+    }
+
     public bool isTestMode = true;
 
     private Player player = null;
@@ -43,5 +48,6 @@ public class PlayManager : MonoBehaviour
     {
         get { return player; } set { player = value; }
     }
+
 }
 

@@ -9,18 +9,19 @@ public abstract class Character : MonoBehaviour
     protected const float speedConst = 1;
     protected const float jumpConst = 100f;
     protected const float gravityDefault = 4f;
+    protected const float InvincibleTIme = 0.5f;
     protected Rigidbody2D rigid;
 
     #region Status //이거 더블클릭 하셈
     [Header("Status")]
     [SerializeField]
-    protected float hp = 1; // 기본값
+    protected int hp = 1; // 기본값
     [SerializeField]
     protected float spd = 1f;
     [SerializeField]
     protected float def = 0;
     [SerializeField]
-    protected float maxHp = 10;
+    protected int maxHp = 10;
     [SerializeField]
     protected float jumpPower = 6f;
 
@@ -43,7 +44,7 @@ public abstract class Character : MonoBehaviour
     protected Direction direction = Direction.right;
     public Direction Direction { get { return direction; } set { direction = value; } }
 
-    public float Hp { get { return hp; } set { hp = value; } }
+    public int Hp { get { return hp; } set { hp = value; } }
     public float Spd { get { return spd; } set { spd = value; } }
     public float Def { get { return def; } set { Def = value; } }
     public float AttackSpd { get { return attackSpd; } set { attackSpd = value; } }
@@ -91,10 +92,7 @@ public abstract class Character : MonoBehaviour
 
         transform.Translate(vec * currentSpd * speedConst * Time.deltaTime);
 
-        if (transform.position.x <= Map.Instance.CurStage.Pos.x - Map.Instance.CurStage.Size.x
-        || transform.position.y <= Map.Instance.CurStage.Pos.y - Map.Instance.CurStage.Size.y
-        || transform.position.x >= Map.Instance.CurStage.Pos.x + Map.Instance.CurStage.Size.x
-        || transform.position.y >= Map.Instance.CurStage.Pos.y + Map.Instance.CurStage.Size.y)
+        if (Map.Instance.CurStage.checkOutSide(transform.position))
             //벽 뚫는 거 방지
         {
             vec.x = -vec.x;
@@ -108,10 +106,7 @@ public abstract class Character : MonoBehaviour
     {
         transform.Translate(vec * currentSpd * speedConst * Time.deltaTime);
 
-        if (transform.position.x <= Map.Instance.CurStage.Pos.x - Map.Instance.CurStage.Size.x
-        || transform.position.y <= Map.Instance.CurStage.Pos.y - Map.Instance.CurStage.Size.y
-        || transform.position.x >= Map.Instance.CurStage.Pos.x + Map.Instance.CurStage.Size.x
-        || transform.position.y >= Map.Instance.CurStage.Pos.y + Map.Instance.CurStage.Size.y)
+        if (Map.Instance.CurStage.checkOutSide(transform.position))
         //벽 뚫는 거 방지
         {
             vec.x = -vec.x;
@@ -135,8 +130,8 @@ public abstract class Character : MonoBehaviour
         if (isSuper <= 0f)
         {
             //임시
-            Hp -= damage;
-            IsSuper = 0.5f;
+            Hp -= (int)damage;
+            IsSuper = InvincibleTIme;
 
             Debug.Log("Damaged : " + gameObject.name);
 
@@ -149,7 +144,7 @@ public abstract class Character : MonoBehaviour
 
     }
 
-    public virtual void GetHeal(float heal)
+    public virtual void GetHeal(int heal)
     {
         Hp += heal;
         Debug.Log("Healed : " + gameObject.name);

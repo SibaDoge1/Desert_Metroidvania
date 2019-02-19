@@ -22,7 +22,7 @@ public class SaveData
     public Dictionary<int, bool> MapInfo;
     public IDictionary<int, bool> BossKillInfo;
     public Dictionary<int, bool> potalLockInfo;
-    public float hp;
+    public int hp;
     public bool isSetted;
 }
 

@@ -1,7 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class Player : Character
 {
@@ -16,7 +17,7 @@ public class Player : Character
     public bool IsLadder { get { return isLadder; } set { isLadder = value; } }
     private bool isLadderAction;
     public bool IsLadderAction { get { return isLadderAction; } set { isLadderAction = value; } }
-
+    private GameObject groundObject;
 
 
     protected override void Awake()
@@ -27,10 +28,11 @@ public class Player : Character
     protected override void Start()
     {
         base.Start();
-        isGround = true;
         isMovable = true;
         myCollider = gameObject.GetComponent<BoxCollider2D>();
         sprite = transform.Find("Sprite").gameObject;
+        hpUI = GameObject.Find("Canvas").transform.Find("StatInfo").Find("HP").Find("Text").GetComponent<Text>();
+        dashCoolUI = GameObject.Find("Canvas").transform.Find("StatInfo").Find("DashCool").Find("Text").GetComponent<Text>();
         jumpCount = 0;
     }
 
@@ -45,7 +47,8 @@ public class Player : Character
         //if (Input.GetKeyDown(KeyCode.W)) circleWeapon(WeaponList.shield);
         //if (Input.GetKeyDown(KeyCode.E)) circleWeapon(WeaponList.fist);
         if (isGround) jumpCount = 0;
-        if (isDashable > 0f) isDashable -= Time.deltaTime;
+        if (isDashable > 0f) isDashable = Mathf.Clamp(isDashable - Time.deltaTime, 0, dashCoolTime);
+        if (Map.Instance.CurStage.checkOutSide(transform.position)) OnDieCallBack();
         if (Input.GetKeyDown(KeyCode.A)) Action();
         if (IsMovable)
         {
@@ -59,7 +62,7 @@ public class Player : Character
             isJumping = false;
             sprite.GetComponent<Animator>().SetBool("isJumping", false);
         }
-
+        DisplayInfo();
         ladderActionAnim();
     }
 
@@ -194,9 +197,6 @@ public class Player : Character
     public override void Jump()
     {
         if (jumpCount < maxJumpCount)
-
-
-       
         {
             isJumping = true;
             StopCoroutine("JumpRoutine");
@@ -218,6 +218,7 @@ public class Player : Character
         rigid.AddForce(new Vector2(0, jumpConst * jumpPower));
         jumpCount++;
         isGround = false;
+        groundObject = null;
         stopGroundCheck = true;
         yield return new WaitForSeconds(0.1f);
         stopGroundCheck = false;
@@ -263,6 +264,7 @@ protected void JumpStop()
 
     protected override void OnDieCallBack() //죽을 때 부르는 함수
     {
+        PlayManager.Instance.Defeat();
         Destroy(gameObject);
     }
 
@@ -284,29 +286,24 @@ protected void JumpStop()
 
         }*/
     }
-    /*
-    protected virtual void OnDrawGizmos()
-    {
-        Vector3 pos = new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2f - 0.01f, transform.position.z);
-        Vector2 scale = new Vector2(transform.localScale.x, 0.005f);
-        RaycastHit2D hit = Physics2D.BoxCast(pos, scale, 0, Vector2.down, 0.05f);
-        Gizmos.color = Color.red;
-        if (hit.transform != null)
-        {
-            Gizmos.DrawRay(pos, Vector2.down * hit.distance);
-            Gizmos.DrawWireCube(pos + Vector3.down * hit.distance, scale);
-        }
-        else
-            Gizmos.DrawRay(pos, Vector3.down * 5f);
-    }
-    */
 
-    private bool stopGroundCheck =false;
+    private Text hpUI;
+    private Text dashCoolUI;
+    private void DisplayInfo()
+    {
+        hpUI.text = hp.ToString();
+        dashCoolUI.text = Math.Round(isDashable, 2).ToString();
+    }
+
+    #region GroundCheck
+    private bool stopGroundCheck = false;
+
     /// <summary>
     ///  땅에 있는지 체크
     /// </summary>
     protected virtual void CheckGround()
     {
+        /*
         if (isGround || stopGroundCheck) return;
 
         Vector3 pos = new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2f - 0.02f, transform.position.z);
@@ -315,8 +312,29 @@ protected void JumpStop()
         if (hit.transform != null && !hit.collider.isTrigger)
         {
             isGround = true;
+        }*/
+
+    }
+
+    protected virtual void OnCollisionStay2D(Collision2D col)
+    {
+        if (myCollider.bounds.min.y >= col.collider.bounds.max.y && !stopGroundCheck)
+        {
+            isGround = true;
+            groundObject = col.gameObject;
         }
     }
+
+    protected virtual void OnCollisionExit2D(Collision2D col)
+    {
+        if (myCollider.bounds.min.y >= col.collider.bounds.max.y)
+        {
+            Debug.Log("air");
+            isGround = false;
+            groundObject = null;
+        }
+    }
+    #endregion
 
     #region setter
     public void SetTrigger(bool value)

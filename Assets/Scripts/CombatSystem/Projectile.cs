@@ -35,10 +35,7 @@ public class Projectile : DamagingCollider
         {
             transform.Translate(dir * spd * Time.deltaTime);
 
-            if (transform.position.x <= Map.Instance.CurStage.Pos.x - Map.Instance.CurStage.Size.x
-            || transform.position.y <= Map.Instance.CurStage.Pos.y - Map.Instance.CurStage.Size.y
-            || transform.position.x >= Map.Instance.CurStage.Pos.x + Map.Instance.CurStage.Size.x
-            || transform.position.y >= Map.Instance.CurStage.Pos.y + Map.Instance.CurStage.Size.y)
+            if (Map.Instance.CurStage.checkOutSide(transform.position))
             //벽 뚫는 거 방지
             {
                 OnDestroyCallBack();
