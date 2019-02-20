@@ -5,7 +5,7 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     [SerializeField]
-    private bool downEnabled;
+    public bool downEnabled;
     private const float clickThreshold = 1f;
     private bool isAtObject;
     private float clickCheckTimer;
@@ -16,6 +16,7 @@ public class Tile : MonoBehaviour
     {
         isAtObject = false;
         clickCheckTimer = 0;
+        downEnabled = false;
     }
 
     // Update is called once per frame

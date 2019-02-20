@@ -9,7 +9,7 @@ public class PotalWithLock : Potal
     [SerializeField]
     private bool isUnlocked;
     [SerializeField]
-    private Key linkedKey;
+    public Key linkedKey;
 
     void Start()
     {
@@ -21,7 +21,7 @@ public class PotalWithLock : Potal
     {
         if (isUnlocked)
         {
-            StartCoroutine("Fade");
+            ChangeStage();
             return;
         }
         if (linkedKey.transform.parent == EquipManager.Instance.transform)

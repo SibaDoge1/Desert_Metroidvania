@@ -1,1 +1,0 @@
-{"curStage":"Stage_A2","MapInfo":{"3":false,"2":false,"0":false,"1":false},"BossKillInfo":{},"potalLockInfo":{"-1":false},"hp":10.0,"isSetted":false}

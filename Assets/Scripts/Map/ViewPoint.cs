@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class ViewPoint : InteractObject
 {
-    [SerializeField]
-    private Stage linkedStage;
+    public Stage linkedStage;
 
     protected override void Action()
     {
