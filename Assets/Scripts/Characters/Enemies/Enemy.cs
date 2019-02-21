@@ -78,6 +78,7 @@ public abstract class Enemy : Character, Respawnable
     }
 
     public virtual void PatternCheck()
+        //여러 패턴 중 공격 가능한(범위에 있음 or 특정 조건을 채움) 패턴 중 가중치에 따라 실행
     {
         int colIndex = 0;
         int attackValueSum = 0;
@@ -109,7 +110,6 @@ public abstract class Enemy : Character, Respawnable
 
     public virtual void CheckAI()
     {
-
         switch (enemyState)
         {       //상태가 변경됐을 시, 코루틴을 시작함
             case EnemyState.ATTACK:

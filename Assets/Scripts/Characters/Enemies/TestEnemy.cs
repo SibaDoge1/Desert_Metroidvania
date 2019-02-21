@@ -56,34 +56,33 @@ public class TestEnemy : Enemy
 
     protected override IEnumerator Attack(float atk, float atkSpd, AttackInfo attackInfo)
     {
-        while(true)
+        Debug.Log("Start");
+
+        patternChangable = false;
+
+        switch (attackInfo.monsterattackInfo.attackIndex)
         {
-            patternChangable = false;
+            case 0:
+                AttackInfo tempInfo = attackInfos[0];
+                tempInfo.damage += atk;
+                tempInfo.duration *= atkSpd;
+                tempInfo.preDelay *= atkSpd;
+                tempInfo.postDelay *= atkSpd;
+                Vector2 playerPos = PlayManager.Instance.Player.transform.position;
+                float vectorToPlayer = playerPos.x - transform.position.x;
 
-            switch (attackInfo.monsterattackInfo.attackIndex)
-            {
-                case 0:
-                    AttackInfo tempInfo = attackInfos[0];
-                    tempInfo.damage += atk;
-                    tempInfo.duration *= atkSpd;
-                    tempInfo.preDelay *= atkSpd;
-                    tempInfo.postDelay *= atkSpd;
-                    Vector2 playerPos = PlayManager.Instance.Player.transform.position;
-                    float vectorToPlayer = playerPos.x - transform.position.x;
+                direction = vectorToPlayer > 0 ? Direction.right : Direction.left;
+                yield return new WaitForSeconds(tempInfo.preDelay);
 
-                    direction = vectorToPlayer > 0 ? Direction.right : Direction.left;
-                    yield return new WaitForSeconds(tempInfo.preDelay);
+                CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
 
-                    CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
-
-                    yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
-                    break;
-            }
-
-            patternChangable = true;
-
-            yield return null;
+                yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
+                break;
         }
+
+        patternChangable = true;
+
+        yield return null;
     }
 
     private void OnCollisionEnter2D(Collision2D c)

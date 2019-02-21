@@ -7,7 +7,7 @@ public class AttackRanageCollider : MonoBehaviour
     Enemy parentEnemy;
 
     public bool attackable;
-    public bool isMaxAttackRanage;
+    public bool isMaxAttackRanage;      //이게 가장 넓은 공격 범위인지 체크
 
     // Start is called before the first frame update
     void Start()
