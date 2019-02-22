@@ -70,7 +70,7 @@ public class CombatSystem : MonoBehaviour
             damagingCollider.ChangeSprite(attackInfo.attackRange);
         }
 
-        damagingCollider.gameObject.transform.parent = transform_attacker;
+        damagingCollider.gameObject.transform.SetParent(transform_attacker);
         damagingCollider.DestroyCollider(attackInfo.duration);
     }
 

@@ -6,6 +6,6 @@ public class SavePoint : InteractObject
 {
     protected override void Action()
     {
-        SaveManager.SaveAll();
+        SaveManager.SaveToFile();
     }
 }

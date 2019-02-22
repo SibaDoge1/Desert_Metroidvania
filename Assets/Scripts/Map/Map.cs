@@ -15,7 +15,6 @@ public class Map : MonoBehaviour
     public List<Boss> bosses;
     public List<Stage> stages;
     public List<PotalWithLock> PotalWithLocks;
-    private Image fade;
 
     void Awake()
     {
@@ -30,7 +29,6 @@ public class Map : MonoBehaviour
     void Start()
     {
         CurStage = PlayManager.Instance.Player.transform.parent.parent.GetComponent<Stage>();
-        fade = GameObject.Find("Canvas").transform.Find("Fade").GetComponent<Image>();
         Debug.Log("Stage : " + CurStage.gameObject.name);
     }
 
@@ -39,42 +37,37 @@ public class Map : MonoBehaviour
         CurStage = GameObject.Find(name).GetComponent<Stage>();
     }
 
-    public void ChangeStageRoutine(Stage from, Stage to, Potal toPotal)
+    private Stage from;
+    private Stage to;
+    private Potal toPotal;
+    public void ChangeStageRoutine(Stage _from, Stage _to, Potal _toPotal)
     {
-        StartCoroutine(Fade(from, to, toPotal));
+        from = _from;
+        to = _to;
+        toPotal = _toPotal;
+        FadeTool.Instance.FadeInOut(0.5f, ChangeStage);
     }
 
-    private void ChangeStage(Stage from, Stage to, Potal toPotal)
+    public void ChangeStage()
     {
-        Debug.Log("Satge : " + CurStage.gameObject.name);
         to.Active();
         PlayManager.Instance.Player.transform.position = new Vector3(toPotal.transform.position.x, toPotal.transform.position.y, PlayManager.Instance.Player.transform.position.z);
-        PlayManager.Instance.Player.transform.parent = to.transform.Find("Objects");
+        PlayManager.Instance.Player.transform.SetParent(to.transform.Find("Objects"));
         CurStage = to;
-        from.DeActive();
+        if (from != null && from != to)
+            from.DeActive();
+        Debug.Log("Stage : " + CurStage.gameObject.name);
     }
 
-    IEnumerator Fade(Stage from, Stage to, Potal toPotal)
+    public void ChangeStage(Stage _from, string toStr, Vector2 pos)
     {
-        Color col = fade.color;
-        float time = 0f;
-
-        while (col.a < 1f)
-        {
-            time += Time.deltaTime / 0.5f;
-            col.a = Mathf.Lerp(0, 1, time);
-            fade.color = col;
-            yield return null;
-        }
-        ChangeStage(from, to, toPotal);
-        time = 1f;
-        while (col.a > 0f)
-        {
-            Debug.Log("d");
-            time -= Time.deltaTime / 0.5f;
-            col.a = Mathf.Lerp(0, 1, time);
-            fade.color = col;
-            yield return null;
-        }
+        Stage _to = GameObject.Find("Map").transform.Find(toStr).GetComponent<Stage>();
+        _to.Active();
+        PlayManager.Instance.Player.transform.position = new Vector3(pos.x, pos.y, PlayManager.Instance.Player.transform.position.z);
+        PlayManager.Instance.Player.transform.SetParent(_to.transform.Find("Objects"));
+        CurStage = _to;
+        if(_from != null && _from != _to)
+            _from.DeActive();
+        Debug.Log("Stage : " + CurStage.gameObject.name);
     }
 }

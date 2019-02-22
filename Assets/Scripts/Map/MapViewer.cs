@@ -33,6 +33,15 @@ public class MapViewer : MonoBehaviour
         isViewing = true;
         indicator.SetActive(true);
         Time.timeScale = 0f;
+        for(int i =0; i<Map.Instance.stages.Count; i++)
+        {
+            if(SaveManager.GetMapInfo(Map.Instance.stages[i].myID) == true || Map.Instance.CurStage == Map.Instance.stages[i])
+            {
+                Map.Instance.stages[i].gameObject.SetActive(true);
+            }
+            else
+                Map.Instance.stages[i].gameObject.SetActive(false);
+        }
         routine = StartCoroutine(MapViewerRoutine());
     }
 
@@ -40,6 +49,15 @@ public class MapViewer : MonoBehaviour
     {
         isViewing = false;
         StopCoroutine(routine);
+        for (int i = 0; i < Map.Instance.stages.Count; i++)
+        {
+            if (Map.Instance.CurStage == Map.Instance.stages[i])
+            {
+                Map.Instance.stages[i].gameObject.SetActive(true);
+            }
+            else
+                Map.Instance.stages[i].gameObject.SetActive(false);
+        }
         Time.timeScale = 1f;
         indicator.SetActive(false);
         gameObject.SetActive(false);

@@ -9,12 +9,20 @@ public class Boss : Enemy //이거 상속으로 보스 만들어주셈
     [SerializeField]
     private bool isKilled;
 
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
     protected override void Start()
     {
         base.Start();
         myID = Map.Instance.bosses.IndexOf(this);
-        SaveManager.AddBossKillInfo(myID);
-        isKilled = SaveManager.saveData.BossKillInfo[myID];
+        isKilled = SaveManager.GetBossKillInfo(myID);
+        if (isKilled)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     protected override IEnumerator Attack(float atk, float atkSpd, AttackInfo attackInfo)
@@ -35,5 +43,9 @@ public class Boss : Enemy //이거 상속으로 보스 만들어주셈
     public void Killed() //죽을 때 불러주셈
     {
         SaveManager.SetBossKillInfo(myID, true);
+    }
+    public void DestroyBoss()
+    {
+        Destroy(gameObject);
     }
 }

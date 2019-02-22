@@ -14,8 +14,7 @@ public class PotalWithLock : Potal
     void Start()
     {
         myID = Map.Instance.PotalWithLocks.IndexOf(this);
-        SaveManager.AddPotalLockInfo(myID);
-        isUnlocked = SaveManager.saveData.potalLockInfo[myID];
+        isUnlocked = SaveManager.GetPotalLockInfo(myID);
     }
     protected override void Action()
     {

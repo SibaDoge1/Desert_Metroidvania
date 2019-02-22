@@ -106,6 +106,6 @@ public class FlyingEnemy : Enemy
         base.CheckBuffAndDebuff();
 
         if (isAttacking)
-            currentSpd *= 3f;
+            spd *= 3f;
     }
 }
