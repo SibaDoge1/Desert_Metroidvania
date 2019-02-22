@@ -215,6 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c562903f02d41438d766e91e828bf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isRespawnable: 1
   hp: 1
   spd: 1
   def: 0
@@ -225,6 +226,7 @@ MonoBehaviour:
   attackSpd: 0
   atkBuff: 0
   StatChangers: []
+  attackRangeColliders: []
   bullet: {fileID: 21300000, guid: e9edd0e37958b3b4287893a49ea48560, type: 3}
 --- !u!1 &3999516271297858135
 GameObject:
@@ -270,6 +272,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50e4818c355450d4c8144e462d806f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackable: 0
+  isMaxAttackRanage: 0
 --- !u!61 &354868917835366983
 BoxCollider2D:
   m_ObjectHideFlags: 0

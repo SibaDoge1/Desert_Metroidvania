@@ -10,6 +10,7 @@ public class PlayManager : MonoBehaviour
         get { return instance; }
     }
     private MapViewer viewer;
+    private bool isFirstSaved = false;
 
     void Awake()
     {
@@ -19,13 +20,14 @@ public class PlayManager : MonoBehaviour
             Debug.LogError("Singleton Error! : " + this.name);
             Destroy(this);
         }
-        SaveManager.LoadAll();
+        SaveManager.FirstLoad();
         viewer = GameObject.Find("Canvas").transform.Find("MapViewer").GetComponent<MapViewer>();
+        player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     void Start()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
+        SaveManager.ApplySave();
     }
 
     void Update()
@@ -34,11 +36,23 @@ public class PlayManager : MonoBehaviour
         {
             viewer.Toggle();
         }
+        if (!isFirstSaved)
+        {
+            SaveManager.SaveToFile();
+            isFirstSaved = true;
+        }
     }
 
     public void Defeat()
     {
+        player.gameObject.SetActive(false);
+        FadeTool.Instance.FadeInOut(1f, ReturnToCheckPoint);
+    }
 
+    public void ReturnToCheckPoint()
+    {
+        player.gameObject.SetActive(true);
+        SaveManager.ApplySave();
     }
 
     public bool isTestMode = true;

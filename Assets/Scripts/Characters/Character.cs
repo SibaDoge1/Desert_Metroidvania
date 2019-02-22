@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum Direction { left = -1, right = 1, zero = 0 }
 
-public abstract class Character : MonoBehaviour
+public abstract class Character : InGameObj
 {
     protected const float speedConst = 1;
     protected const float jumpConst = 100f;
@@ -15,20 +15,22 @@ public abstract class Character : MonoBehaviour
     #region Status //이거 더블클릭 하셈
     [Header("Status")]
     [SerializeField]
+    protected float defaultSpd = 1f;
+    [SerializeField]
+    protected float defaultDef = 0;
+    [SerializeField]
+    protected float jumpPower = 6f;
+    [SerializeField]
+    protected int defaultMaxHp = 10;
+
+    [SerializeField]
     protected int hp = 1; // 기본값
+    [SerializeField]
+    protected int maxHp = 10;
     [SerializeField]
     protected float spd = 1f;
     [SerializeField]
     protected float def = 0;
-    [SerializeField]
-    protected int maxHp = 10;
-    [SerializeField]
-    protected float jumpPower = 6f;
-
-    [SerializeField]
-    protected float currentSpd = 1f;
-    [SerializeField]
-    protected float currentDef = 0;
     [SerializeField]
     protected float attackSpd = 0; //1이 정상속도, 곱연산
     [SerializeField]
@@ -45,8 +47,8 @@ public abstract class Character : MonoBehaviour
     public Direction Direction { get { return direction; } set { direction = value; } }
 
     public int Hp { get { return hp; } set { hp = value; } }
-    public float Spd { get { return spd; } set { spd = value; } }
-    public float Def { get { return def; } set { Def = value; } }
+    public float Spd { get { return defaultSpd; } set { defaultSpd = value; } }
+    public float Def { get { return defaultDef; } set { Def = value; } }
     public float AttackSpd { get { return attackSpd; } set { attackSpd = value; } }
     #endregion
 
@@ -90,7 +92,7 @@ public abstract class Character : MonoBehaviour
                 vec = Vector2.zero; break;
         }
 
-        transform.Translate(vec * currentSpd * speedConst * Time.deltaTime);
+        transform.Translate(vec * spd * speedConst * Time.deltaTime);
 
         if (Map.Instance.CurStage.checkOutSide(transform.position))
             //벽 뚫는 거 방지
@@ -98,13 +100,13 @@ public abstract class Character : MonoBehaviour
             vec.x = -vec.x;
             vec.y = -vec.y;
 
-            transform.Translate(vec * currentSpd * speedConst * Time.deltaTime);
+            transform.Translate(vec * spd * speedConst * Time.deltaTime);
         }
     }
 
     protected void Move(Vector2 vec)
     {
-        transform.Translate(vec * currentSpd * speedConst * Time.deltaTime);
+        transform.Translate(vec * spd * speedConst * Time.deltaTime);
 
         if (Map.Instance.CurStage.checkOutSide(transform.position))
         //벽 뚫는 거 방지
@@ -112,7 +114,7 @@ public abstract class Character : MonoBehaviour
             vec.x = -vec.x;
             vec.y = -vec.y;
 
-            transform.Translate(vec * currentSpd * speedConst * Time.deltaTime);
+            transform.Translate(vec * spd * speedConst * Time.deltaTime);
         }
     }
 
@@ -158,24 +160,34 @@ public abstract class Character : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void SetStat(StatType type, float value)
+    {
+        switch (type)
+        {
+            case StatType.DEF: def += value; break;
+            case StatType.SPD: spd += value; break;
+            case StatType.AttackSPD: attackSpd += value; break;
+            case StatType.Damage: atkBuff += value; break;
+            case StatType.MaxHP: maxHp += (int)value;  break;
+            case StatType.HP: break;
+        }
+    }
+
     protected virtual void CheckBuffAndDebuff() //기본값과 버프 디버프 상태를 종합하여 실제 게임에 적용되는 현재 스텟값을 정함
     {
-        currentDef = def;
-        currentSpd = spd;
+        def = defaultDef;
+        spd = defaultSpd;
+        maxHp = defaultMaxHp;
         attackSpd = 1;
         atkBuff = 0;
         for (int i = 0; i< StatChangers.Count; i++)
         {
-            if(StatChangers[i].deleteTime <= 0)
+            if(!StatChangers[i].isInfinite && StatChangers[i].remainTime <= 0)
             {
-                StatChangers[i].destroy();
+                StatChangers[i].DestroyMe();
                 continue;
             }
             StatChangers[i].Action();
-            currentDef += StatChangers[i].def;
-            currentSpd += StatChangers[i].spd;
-            attackSpd += StatChangers[i].attackSpd;
-            atkBuff += StatChangers[i].atk;
         }
 
     }

@@ -136,7 +136,7 @@ public class Player : Character
 
         while(timer < dashTime)
         {
-            currentSpd = Mathf.Lerp(Spd * 8f, Spd, timer / dashTime);
+            spd = Mathf.Lerp(Spd * 8f, Spd, timer / dashTime);
             Move(dir);
 
             timer += Time.fixedDeltaTime;
@@ -272,8 +272,8 @@ protected void JumpStop()
 
     protected override void OnDieCallBack() //죽을 때 부르는 함수
     {
+        //애니메이션재생
         PlayManager.Instance.Defeat();
-        Destroy(gameObject);
     }
 
     protected override void CheckBuffAndDebuff()

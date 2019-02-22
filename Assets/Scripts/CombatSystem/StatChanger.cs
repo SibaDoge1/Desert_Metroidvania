@@ -4,47 +4,61 @@ using UnityEngine;
 
 public class StatChanger : MonoBehaviour
 {
-    public int hp { get; private set; } = 0;// 기본값
-    public float atk { get; private set; } = 0;
-    public float spd { get; private set; } = 0;
-    public float def { get; private set; } = 0;
-    public float attackSpd { get; private set; } = 0;
-    [SerializeField]
-    public float deleteTime;
+    public StatType statType;
+    public float value; // 기본값
+    public bool isInfinite = false;
+    public float remainTime;
     public Character linkedChar;
 
     void Update()
     {
-        deleteTime -= Time.deltaTime;
+        remainTime -= Time.deltaTime;
     }
 
     public void Action()
     {
-        if (hp < 0)
+        if (statType == StatType.HP)
         {
-            linkedChar.GetDamage(-hp);
-            destroy();
+            if (value < 0)
+            {
+                linkedChar.GetDamage(-(int)value);
+                DestroyMe();
+            }
+            else if (value > 0)
+            {
+                linkedChar.GetHeal((int)value);
+                DestroyMe();
+            }
         }
-        else if (hp > 0)
+        else
         {
-            linkedChar.GetHeal(hp);
+            linkedChar.SetStat(statType, value);
         }
+        
     }
 
-    public void construct(Character cha, int Hp, float Atk, float Spd, float Def, float AttackSpd, float Time)
+    /// <summary>
+    /// Time변수가 0보다 작으면 계속 유지댐
+    /// </summary>
+    /// <param name="cha"></param>
+    /// <param name="type"></param>
+    /// <param name="_value"></param>
+    /// <param name="Time"></param>
+    public void Construct(Character cha, StatType type,float _value, float Time)
     {
-        hp = Hp;
-        atk = Atk;
-        spd = Spd;
-        def = Def;
-        attackSpd = AttackSpd;
-        deleteTime = Time;
+        statType = type;
+        remainTime = Time;
+        value = _value;
         linkedChar = cha;
-        transform.parent = linkedChar.transform.Find("StatChangers");
+        if(Time < 0)
+        {
+            isInfinite = true;
+        }
+        transform.SetParent(linkedChar.transform.Find("StatChangers"));
         linkedChar.AddStatChanger(this);
     }
 
-    public void destroy()
+    public void DestroyMe()
     {
         linkedChar.DeleteStatChanger(this);
         Destroy(gameObject);

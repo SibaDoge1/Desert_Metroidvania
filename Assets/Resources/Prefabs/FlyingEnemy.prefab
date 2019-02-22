@@ -175,6 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9121dfe0f20cb89408b9334e8e23fe76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isRespawnable: 1
   hp: 1
   spd: 1
   def: 0
@@ -185,6 +186,7 @@ MonoBehaviour:
   attackSpd: 0
   atkBuff: 0
   StatChangers: []
+  attackRangeColliders: []
 --- !u!1 &7547693558628424180
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,6 +301,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50e4818c355450d4c8144e462d806f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackable: 0
+  isMaxAttackRanage: 0
 --- !u!61 &2162319271684192853
 BoxCollider2D:
   m_ObjectHideFlags: 0

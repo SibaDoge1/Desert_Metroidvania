@@ -38,7 +38,7 @@ public class EquipManager : MonoBehaviour
 
     public void AddItem(GameObject item)
     {
-        item.transform.parent = transform;
+        item.transform.SetParent(transform);
     }
 }
 

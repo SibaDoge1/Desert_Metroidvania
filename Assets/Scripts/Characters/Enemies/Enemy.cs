@@ -35,7 +35,6 @@ public abstract class Enemy : Character, Respawnable
     protected override void Awake()
     {
         base.Awake();
-
         enemyState = EnemyState.PATROL;
     }
 
