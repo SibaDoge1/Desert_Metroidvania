@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CameraManager : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class CameraManager : MonoBehaviour
     private GameObject player;
     private Vector2 camWorldScale;
     private Stage curStage;
+    private bool isMovable;
     // Start is called before the first frame update
     void Awake()
     {
@@ -24,6 +26,7 @@ public class CameraManager : MonoBehaviour
             Debug.LogError("Singleton Error! : " + this.name);
             Destroy(gameObject);
         }
+        isMovable = true;
     }
 
     private void Start()
@@ -36,15 +39,42 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        curStage = Map.Instance.CurStage;
-        Vector2 pos = player.transform.position;
-        pos.x = Mathf.Clamp(pos.x, curStage.Pos.x - curStage.Size.x + camWorldScale.x, curStage.Pos.x + curStage.Size.x - camWorldScale.x);
-        pos.y = Mathf.Clamp(pos.y, curStage.Pos.y - curStage.Size.y + camWorldScale.y, curStage.Pos.y + curStage.Size.y - camWorldScale.y);
-
-        transform.position = new Vector3(pos.x, pos.y, transform.position.z);
+        if (isMovable)
+        {
+            Vector2 pos = player.transform.position;
+            MoveCam(player.transform.position);
+        }
         //transform.position = Vector3.Lerp(transform.position, new Vector3(pos.x, pos.y, transform.position.z), Time.deltaTime*5f);
     }
 
+    public void MoveCam(Vector2 to)
+    {
+        curStage = Map.Instance.CurStage;
+        Vector2 pos;
+        pos.x = Mathf.Clamp(to.x, curStage.Pos.x - curStage.Size.x + camWorldScale.x, curStage.Pos.x + curStage.Size.x - camWorldScale.x);
+        pos.y = Mathf.Clamp(to.y, curStage.Pos.y - curStage.Size.y + camWorldScale.y, curStage.Pos.y + curStage.Size.y - camWorldScale.y);
+        transform.position = new Vector3(pos.x, pos.y, transform.position.z);
+    }
+
+    public void ShakeCam(float _amount, float _duration)
+    {
+        StartCoroutine(Shake(_amount, _duration));
+    }
+
+    IEnumerator Shake(float _amount, float _duration)
+    {
+        isMovable = false;
+        Vector3 originPos = transform.position;
+        float timer = 0;
+
+        while (timer <= _duration)
+        {
+            MoveCam(Random.insideUnitCircle * _amount + (Vector2)originPos);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        isMovable = true;
+    }
     /*
     public void ResetMapInfo()
     {

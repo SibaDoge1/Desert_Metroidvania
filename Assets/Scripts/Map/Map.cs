@@ -45,7 +45,7 @@ public class Map : MonoBehaviour
         from = _from;
         to = _to;
         toPotal = _toPotal;
-        FadeTool.Instance.FadeInOut(0.5f, ChangeStage);
+        FadeTool.Instance.FadeInOut(1f, ChangeStage);
     }
 
     public void ChangeStage()

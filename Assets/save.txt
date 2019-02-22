@@ -1,6 +1,0 @@
-{"curStage":"Stage_A2","posX":-92.9691,"posY":-3.15696049,"MapInfo":{"6":false,"5":false,"4":false,"3":false,"2":false,"0":false,"1":false},"BossKillInfo":{},"potalLockInfo":{"0":false},"hp":1,"isSetted":true}
-
-
-기획 : 사운드, 이펙트 및 각종연출, 구체적인 맵(오브젝트 포함), 구체적인 스탯 , 게임 승리시 연출(?)
-그래픽 : 몬스터, 행동, 사망 모션(?), 메인메뉴, pause메뉴, 지도볼때 배경, 각종 오브젝트
-플밍 : 몬스터, 사운드, 이펙트, 연출 구현, 메인메뉴, pause메뉴, 보스 구현
