@@ -19,6 +19,8 @@ public class Player : Character
     public bool IsLadderAction { get { return isLadderAction; } set { isLadderAction = value; } }
     private GameObject groundObject;
 
+    private Vector3 currentPos;
+
 
     protected override void Awake()
     {
@@ -34,11 +36,14 @@ public class Player : Character
         hpUI = GameObject.Find("Canvas").transform.Find("StatInfo").Find("HP").Find("Text").GetComponent<Text>();
         dashCoolUI = GameObject.Find("Canvas").transform.Find("StatInfo").Find("DashCool").Find("Text").GetComponent<Text>();
         jumpCount = 0;
+        currentPos = transform.position;
+
     }
 
     protected override void Update()
     {
         base.Update();
+
 
         /*if (Input.GetKeyDown(KeyCode.UpArrow)) JumpAccept();
         //if (Input.GetKeyUp(KeyCode.UpArrow)) JumpStop();
@@ -64,6 +69,9 @@ public class Player : Character
         }
         DisplayInfo();
         ladderActionAnim();
+
+        CheckFalling();
+        currentPos = transform.position;
     }
 
     protected override void FixedUpdate() //물리연산용
@@ -196,7 +204,7 @@ public class Player : Character
     #region Jump
     public override void Jump()
     {
-        if (jumpCount < maxJumpCount)
+        if (jumpCount < maxJumpCount && isGround)
         {
             isJumping = true;
             StopCoroutine("JumpRoutine");
@@ -322,6 +330,8 @@ protected void JumpStop()
         {
             isGround = true;
             groundObject = col.gameObject;
+            sprite.GetComponent<Animator>().SetBool("isFalling", false);
+
         }
     }
 
@@ -331,10 +341,21 @@ protected void JumpStop()
         {
             Debug.Log("air");
             isGround = false;
+
             groundObject = null;
         }
     }
     #endregion
+
+
+    public void CheckFalling()
+    {
+        if(currentPos.y > transform.position.y)
+        {
+            sprite.GetComponent<Animator>().SetBool("isFalling", true);
+            isGround = false;
+        }
+    }
 
     #region setter
     public void SetTrigger(bool value)

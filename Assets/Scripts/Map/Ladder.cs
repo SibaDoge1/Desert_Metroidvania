@@ -24,7 +24,10 @@ public class Ladder : InteractObject
         {
             if (Input.GetKey(KeyCode.UpArrow))
             {
-                LadderIn(true);
+                if (PlayManager.Instance.Player.transform.position.y <= transform.position.y + transform.localScale.y / 2f + 0.1f)
+                {
+                    LadderIn(true);
+                }
             }
             if (Input.GetKey(KeyCode.DownArrow))
             {
@@ -92,7 +95,7 @@ public class Ladder : InteractObject
     {
         if (!isUsingLadder) return;
 
-        if (PlayManager.Instance.Player.transform.position.y < transform.position.y - transform.localScale.y / 2f)
+        if (PlayManager.Instance.Player.transform.position.y < transform.position.y - transform.localScale.y / 2f - 0.1f)
         {
             LadderOut();
         }
