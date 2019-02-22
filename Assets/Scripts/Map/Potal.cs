@@ -11,7 +11,7 @@ public class Potal : InteractObject
     void Awake()
     {
         ParentStage = transform.parent.parent.GetComponent<Stage>();
-        myKey = KeyCode.UpArrow;
+        myKey = MyKeyCode.Up;
     }
 
     protected override void Action()

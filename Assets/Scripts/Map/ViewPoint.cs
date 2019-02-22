@@ -8,6 +8,7 @@ public class ViewPoint : InteractObject
 
     protected override void Action()
     {
-        linkedStage.GetMapInfo();
+        //linkedStage.GetMapInfo();
+        transform.parent.parent.GetComponent<Stage>().GetMapInfo();
     }
 }

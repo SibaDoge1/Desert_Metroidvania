@@ -6,6 +6,7 @@ public class MapViewer : MonoBehaviour
 {
     private bool isViewing;
     private GameObject indicator;
+    private Coroutine routine;
 
     // Start is called before the first frame update
     void Awake()
@@ -28,15 +29,34 @@ public class MapViewer : MonoBehaviour
 
     public void On()
     {
-        isViewing = true;
         gameObject.SetActive(true);
+        isViewing = true;
         indicator.SetActive(true);
+        Time.timeScale = 0f;
+        routine = StartCoroutine(MapViewerRoutine());
     }
 
     public void Off()
     {
         isViewing = false;
-        gameObject.SetActive(false);
+        StopCoroutine(routine);
+        Time.timeScale = 1f;
         indicator.SetActive(false);
+        gameObject.SetActive(false);
+    }
+
+    IEnumerator MapViewerRoutine()
+    {
+        yield return null;
+        while (Time.timeScale == 0f)
+        {
+            if (Input.GetKeyDown((KeyCode)MyKeyCode.Map))
+            {
+                Off();
+            }
+            yield return null;
+        }
+
+        // 씬이동코드
     }
 }

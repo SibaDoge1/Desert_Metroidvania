@@ -22,7 +22,7 @@ public class Tile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow) && isAtObject && downEnabled)
+        if (MyInput.GetKeyDown(MyKeyCode.Down) && isAtObject && downEnabled)
         {
             if (clickCheckTimer <= 0) StartCoroutine("ClickCheck");
             else Down();

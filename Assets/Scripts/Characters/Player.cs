@@ -40,22 +40,22 @@ public class Player : Character
     {
         base.Update();
 
-        /*if (Input.GetKeyDown(KeyCode.UpArrow)) JumpAccept();
-        //if (Input.GetKeyUp(KeyCode.UpArrow)) JumpStop();
-        if (Input.GetKey(KeyCode.UpArrow)) Jump();  여기까지는 옛 점프(누른 시간 비례 점프) */
-        //if (Input.GetKeyDown(KeyCode.Q)) circleWeapon(WeaponList.sword);
-        //if (Input.GetKeyDown(KeyCode.W)) circleWeapon(WeaponList.shield);
-        //if (Input.GetKeyDown(KeyCode.E)) circleWeapon(WeaponList.fist);
+        /*if (MyInput.GetKeyDown(KeyCode.UpArrow)) JumpAccept();
+        //if (MyInput.GetKeyUp(KeyCode.UpArrow)) JumpStop();
+        if (MyInput.GetKey(KeyCode.UpArrow)) Jump();  여기까지는 옛 점프(누른 시간 비례 점프) */
+        //if (MyInput.GetKeyDown(KeyCode.Q)) circleWeapon(WeaponList.sword);
+        //if (MyInput.GetKeyDown(KeyCode.W)) circleWeapon(WeaponList.shield);
+        //if (MyInput.GetKeyDown(KeyCode.E)) circleWeapon(WeaponList.fist);
         if (isGround) jumpCount = 0;
         if (isDashable > 0f) isDashable = Mathf.Clamp(isDashable - Time.deltaTime, 0, dashCoolTime);
         if (Map.Instance.CurStage.checkOutSide(transform.position)) OnDieCallBack();
-        if (Input.GetKeyDown(KeyCode.A)) Action();
+        if (MyInput.GetKeyDown(MyKeyCode.Attack)) Action();
         if (IsMovable)
         {
-            if (Input.GetKeyDown(KeyCode.LeftShift) && isDashable <= 0f) Dash();
-            if (Input.GetKeyDown(KeyCode.Space)) Jump();
-            if (Input.GetKeyUp(KeyCode.RightArrow)) sprite.GetComponent<Animator>().SetBool("isRunning", false);
-            if (Input.GetKeyUp(KeyCode.LeftArrow)) sprite.GetComponent<Animator>().SetBool("isRunning", false);
+            if (MyInput.GetKeyDown(MyKeyCode.Dash) && isDashable <= 0f) Dash();
+            if (MyInput.GetKeyDown(MyKeyCode.Jump)) Jump();
+            if (MyInput.GetKeyUp(MyKeyCode.Right)) sprite.GetComponent<Animator>().SetBool("isRunning", false);
+            if (MyInput.GetKeyUp(MyKeyCode.Left)) sprite.GetComponent<Animator>().SetBool("isRunning", false);
         }
         if (isGround && isJumping)
         {
@@ -72,13 +72,13 @@ public class Player : Character
         CheckGround();
         if (IsMovable)
         {
-            if (Input.GetKey(KeyCode.RightArrow))
+            if (MyInput.GetKey(MyKeyCode.Right))
             {
                 sprite.GetComponent<SpriteRenderer>().flipX = false;
                 sprite.GetComponent<Animator>().SetBool("isRunning", true);
                 Move(Direction.right);
             }
-            if (Input.GetKey(KeyCode.LeftArrow))
+            if (MyInput.GetKey(MyKeyCode.Left))
             {
                 sprite.GetComponent<SpriteRenderer>().flipX = true;
                 sprite.GetComponent<Animator>().SetBool("isRunning", true);
@@ -95,14 +95,14 @@ public class Player : Character
     public void Dash()
     {
         isDashing = true;
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (MyInput.GetKey(MyKeyCode.Right))
         {
 
             StartCoroutine(PlayerDash(Direction.right));
             sprite.GetComponent<SpriteRenderer>().flipX = false;
            
         }
-        else if (Input.GetKey(KeyCode.LeftArrow))
+        else if (MyInput.GetKey(MyKeyCode.Left))
         {
             StartCoroutine(PlayerDash(Direction.left));
             sprite.GetComponent<SpriteRenderer>().flipX = true;
@@ -135,8 +135,8 @@ public class Player : Character
             yield return new WaitForFixedUpdate(); //물리적인 이동같은건 fixedUpdate로
         }
 
-        if (Input.GetKey(KeyCode.RightArrow)) sprite.GetComponent<Animator>().SetBool("isRunning", true);
-        if (Input.GetKey(KeyCode.LeftArrow)) sprite.GetComponent<Animator>().SetBool("isRunning", true);
+        if (MyInput.GetKey(MyKeyCode.Right)) sprite.GetComponent<Animator>().SetBool("isRunning", true);
+        if (MyInput.GetKey(MyKeyCode.Left)) sprite.GetComponent<Animator>().SetBool("isRunning", true);
         sprite.GetComponent<Animator>().SetBool("isDash", false);
 
 
@@ -278,7 +278,7 @@ protected void JumpStop()
         }
         else
         {
-            if (EquipManager.Instance.equipedWeapon.gameObject.name == "Sword" && Input.GetKey(KeyCode.Space))
+            if (EquipManager.Instance.equipedWeapon.gameObject.name == "Sword" && MyInput.GetKey(MyInput.jump))
             //양손검 상태 플레이어가 Space 입력 시, 대쉬
             {
                 currentSpd *= 1.3f;
