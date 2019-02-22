@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Ladder : InteractObject
 {
-    private bool isUsingLadder;
+    public bool isUsingLadder { get; private set; }
     
 
     [SerializeField]
@@ -22,14 +22,14 @@ public class Ladder : InteractObject
     {
         if (isAtObject)
         {
-            if (Input.GetKey(KeyCode.UpArrow))
+            if (MyInput.GetKey(MyKeyCode.Up))
             {
                 if (PlayManager.Instance.Player.transform.position.y <= transform.position.y + transform.localScale.y / 2f + 0.1f)
                 {
                     LadderIn(true);
                 }
             }
-            if (Input.GetKey(KeyCode.DownArrow))
+            if (MyInput.GetKey(MyKeyCode.Down))
             {
                 if (PlayManager.Instance.Player.transform.position.y >= transform.position.y + transform.localScale.y / 2f)
                 {
@@ -44,13 +44,13 @@ public class Ladder : InteractObject
     {
         if (isUsingLadder)
         {
-            if (Input.GetKey(KeyCode.RightArrow)) Move(Direction.right);
-            if (Input.GetKey(KeyCode.LeftArrow)) Move(Direction.left);
-            if (Input.GetKey(KeyCode.UpArrow)) UpLadder();
-            if (Input.GetKey(KeyCode.DownArrow)) DownLadder();
+            if (MyInput.GetKey(MyKeyCode.Right)) Move(Direction.right);
+            if (MyInput.GetKey(MyKeyCode.Left)) Move(Direction.left);
+            if (MyInput.GetKey(MyKeyCode.Up)) UpLadder();
+            if (MyInput.GetKey(MyKeyCode.Down)) DownLadder();
             
-            if(Input.GetKeyUp(KeyCode.UpArrow)) PlayManager.Instance.Player.IsLadderAction = false;
-            if(Input.GetKeyUp(KeyCode.DownArrow)) PlayManager.Instance.Player.IsLadderAction = false;
+            if(MyInput.GetKeyUp(MyKeyCode.Up)) PlayManager.Instance.Player.IsLadderAction = false;
+            if(MyInput.GetKeyUp(MyKeyCode.Down)) PlayManager.Instance.Player.IsLadderAction = false;
 
         }
     }

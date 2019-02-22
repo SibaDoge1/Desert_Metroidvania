@@ -30,7 +30,7 @@ public class PlayManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
+        if (MyInput.GetKeyDown(MyKeyCode.Map))
         {
             viewer.Toggle();
         }
