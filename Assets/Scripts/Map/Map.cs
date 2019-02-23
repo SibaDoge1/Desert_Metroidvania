@@ -45,13 +45,13 @@ public class Map : MonoBehaviour
         from = _from;
         to = _to;
         toPotal = _toPotal;
-        FadeTool.Instance.FadeInOut(1f, ChangeStage);
+        FadeTool.Instance.FadeInOut(0.5f, ChangeStage);
     }
 
     public void ChangeStage()
     {
         to.Active();
-        PlayManager.Instance.Player.transform.position = new Vector3(toPotal.spawnPoint.x, toPotal.spawnPoint.y, PlayManager.Instance.Player.transform.position.z);
+        PlayManager.Instance.Player.transform.position = new Vector3(toPotal.transform.position.x, toPotal.transform.position.y, PlayManager.Instance.Player.transform.position.z);
         PlayManager.Instance.Player.transform.SetParent(to.transform.Find("Objects"));
         CurStage = to;
         if (from != null && from != to)
@@ -69,10 +69,5 @@ public class Map : MonoBehaviour
         if(_from != null && _from != _to)
             _from.DeActive();
         Debug.Log("Stage : " + CurStage.gameObject.name);
-    }
-
-    public bool CheckOutSide(Vector2 pos)
-    {
-        return CurStage.CheckOutSide(pos);
     }
 }

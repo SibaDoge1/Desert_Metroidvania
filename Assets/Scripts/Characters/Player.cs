@@ -49,7 +49,7 @@ public class Player : Character
 
         if (isGround) jumpCount = 0;
         if (isDashable > 0f) isDashable = Mathf.Clamp(isDashable - Time.deltaTime, 0, dashCoolTime);
-        if (Map.Instance.CheckOutSide(transform.position)) OnDieCallBack();
+        if (Map.Instance.CurStage.checkOutSide(transform.position)) OnDieCallBack();
         if (MyInput.GetKeyDown(MyKeyCode.Attack)) Action();
         if (IsMovable)
         {
