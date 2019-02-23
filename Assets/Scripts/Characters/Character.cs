@@ -60,6 +60,7 @@ public abstract class Character : InGameObj
         rigid = transform.GetComponent<Rigidbody2D>();
         rigid.gravityScale = gravityDefault;
         StatChangers = new List<StatChanger>();
+
         if (transform.Find("Sprite") != null)
         {
             sprite = transform.Find("Sprite").gameObject;

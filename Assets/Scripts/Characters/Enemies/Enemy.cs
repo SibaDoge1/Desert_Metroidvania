@@ -160,6 +160,7 @@ public abstract class Enemy : Character, Respawnable
             switch (enemyType)
             {
                 case EnemyType.GROUND:
+                    if(anim != null) anim.SetBool("isWalking", true);
                     Move(direction);
                     break;
                 case EnemyType.FLY:

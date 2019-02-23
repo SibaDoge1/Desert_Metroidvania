@@ -127,6 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   colliderSprite: {fileID: 21300000, guid: 7dd9bed92e6a7e94c880805ccfe14a21, type: 3}
+  hitEffect: {fileID: 100000, guid: d92b3391f10a45c438296dbf699972e2, type: 3}
 --- !u!61 &8273841496159829536
 BoxCollider2D:
   m_ObjectHideFlags: 0
