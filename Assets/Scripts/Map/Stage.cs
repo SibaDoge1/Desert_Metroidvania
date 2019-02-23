@@ -4,21 +4,24 @@ using UnityEngine;
 
 public class Stage : MonoBehaviour
 {
-    private Transform boundary;
+    private Transform camBoundary;
     private Transform dieBoundary;
 
     [SerializeField]
     public int myID { get; private set; }
     [SerializeField]
-    private Vector2 size;
+    private Vector2 camSize;
     [SerializeField]
-    private Vector2 pos;
+    private Vector2 camPos;
+    [SerializeField]
+    private Vector2 availableSize;
+    [SerializeField]
+    private Vector2 availablePos;
     [SerializeField]
     private bool isMapInfoObtained;
-    private Vector2 MaxSize;
 
-    public Vector2 Size { get { return size; } }
-    public Vector2 Pos { get { return pos; } }
+    public Vector2 CamSize { get { return camSize; } }
+    public Vector2 CamPos { get { return camPos; } }
 
     /// <summary>
     /// 리스폰을 위한 일종의 캐시저장소임
@@ -28,14 +31,16 @@ public class Stage : MonoBehaviour
 
     void Awake()
     {
-        boundary = transform.Find("Boundary");
+        camBoundary = transform.Find("Boundary");
         dieBoundary = transform.Find("DieBoundary");
-        size.x = boundary.localScale.x / 2f;
-        size.y = boundary.localScale.y / 2f;
-        MaxSize.x = dieBoundary.localScale.x / 2f;
-        MaxSize.y = dieBoundary.localScale.y / 2f;
-        pos.x = transform.position.x;
-        pos.y = transform.position.y;
+        camSize.x = camBoundary.localScale.x / 2f;
+        camSize.y = camBoundary.localScale.y / 2f;
+        availableSize.x = dieBoundary.localScale.x / 2f;
+        availableSize.y = dieBoundary.localScale.y / 2f;
+        camPos.x = camBoundary.position.x;
+        camPos.y = camBoundary.position.y;
+        availablePos.x = dieBoundary.position.x;
+        availablePos.y = dieBoundary.position.y;
         RespawnableObjects = new List<GameObject>();
         MakePalete();
     }
@@ -104,11 +109,11 @@ public class Stage : MonoBehaviour
         SaveManager.SetMapInfo(myID, true);
     }
 
-    public bool checkOutSide(Vector2 pos)
+    public bool CheckOutSide(Vector2 position)
     {
-        return pos.x <= Map.Instance.CurStage.Pos.x - Map.Instance.CurStage.MaxSize.x
-            || pos.y <= Map.Instance.CurStage.Pos.y - Map.Instance.CurStage.MaxSize.y
-            || pos.x >= Map.Instance.CurStage.Pos.x + Map.Instance.CurStage.MaxSize.x
-            || pos.y >= Map.Instance.CurStage.Pos.y + Map.Instance.CurStage.MaxSize.y;
+        return position.x <= availablePos.x - availableSize.x
+            || position.y <= availablePos.y - availableSize.y
+            || position.x >= availablePos.x + availableSize.x
+            || position.y >= availablePos.y + availableSize.y;
     }
 }

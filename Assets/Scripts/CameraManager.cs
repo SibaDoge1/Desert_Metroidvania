@@ -51,8 +51,8 @@ public class CameraManager : MonoBehaviour
     {
         curStage = Map.Instance.CurStage;
         Vector2 pos;
-        pos.x = Mathf.Clamp(to.x, curStage.Pos.x - curStage.Size.x + camWorldScale.x, curStage.Pos.x + curStage.Size.x - camWorldScale.x);
-        pos.y = Mathf.Clamp(to.y, curStage.Pos.y - curStage.Size.y + camWorldScale.y, curStage.Pos.y + curStage.Size.y - camWorldScale.y);
+        pos.x = Mathf.Clamp(to.x, curStage.CamPos.x - curStage.CamSize.x + camWorldScale.x, curStage.CamPos.x + curStage.CamSize.x - camWorldScale.x);
+        pos.y = Mathf.Clamp(to.y, curStage.CamPos.y - curStage.CamSize.y + camWorldScale.y, curStage.CamPos.y + curStage.CamSize.y - camWorldScale.y);
         transform.position = new Vector3(pos.x, pos.y, transform.position.z);
     }
 

@@ -94,7 +94,7 @@ public abstract class Character : InGameObj
 
         transform.Translate(vec * spd * speedConst * Time.deltaTime);
 
-        if (Map.Instance.CurStage.checkOutSide(transform.position))
+        if (Map.Instance.CheckOutSide(transform.position))
             //벽 뚫는 거 방지
         {
             vec.x = -vec.x;
@@ -108,7 +108,7 @@ public abstract class Character : InGameObj
     {
         transform.Translate(vec * spd * speedConst * Time.deltaTime);
 
-        if (Map.Instance.CurStage.checkOutSide(transform.position))
+        if (Map.Instance.CheckOutSide(transform.position))
         //벽 뚫는 거 방지
         {
             vec.x = -vec.x;
