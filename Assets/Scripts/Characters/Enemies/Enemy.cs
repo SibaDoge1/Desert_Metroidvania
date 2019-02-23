@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum EnemyState
 {
-    DEFAULT ,ATTACK, TRACE, PATROL
+    DEFAULT ,ATTACK, TRACE, PATROL, DEAD
 }
 
 public abstract class Enemy : Character, Respawnable
@@ -155,7 +155,7 @@ public abstract class Enemy : Character, Respawnable
             enemyCurState = enemyState;
         }
 
-        if (enemyCurState != EnemyState.ATTACK)
+        if (enemyCurState != EnemyState.ATTACK && enemyCurState != EnemyState.DEAD)
         {
             switch (enemyType)
             {

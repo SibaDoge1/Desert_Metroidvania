@@ -94,12 +94,33 @@ public class FlyingEnemy : Enemy
 
     private void OnCollisionEnter2D(Collision2D c)
     {
-        if (c.gameObject.tag == "Player")
+        if(enemyState != EnemyState.DEAD)
         {
-            c.gameObject.GetComponent<Character>().GetDamage(damage);
+            if (c.gameObject.tag == "Player")
+            {
+                c.gameObject.GetComponent<Character>().GetDamage(damage);
+            }
         }
     }
 
+    protected override void OnDieCallBack()
+    {
+        StopAllCoroutines();
+        StartCoroutine("flyingEnemyDead");
+    }
+
+    IEnumerator flyingEnemyDead()
+    {
+        anim.Play("Fly_dead");
+        enemyState = EnemyState.DEAD;
+        rigid.velocity = Vector2.zero;
+        rigid.gravityScale = 1;
+
+        yield return new WaitForSeconds(1f);
+
+        Destroy(gameObject);
+
+    }
 
     protected override void CheckBuffAndDebuff()
     {

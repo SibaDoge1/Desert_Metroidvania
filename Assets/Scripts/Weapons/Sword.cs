@@ -94,9 +94,9 @@ public class Sword : Weapon
     IEnumerator Action_Attack(AttackInfo info)
     {
         onAttack = true;
+        PlayManager.Instance.Player.IsMovable = false;
 
         PlayManager.Instance.Player.anim.Play(info.attackID);
-
 
         yield return new WaitForSeconds(info.preDelay);
 
@@ -105,6 +105,8 @@ public class Sword : Weapon
         yield return new WaitForSeconds(info.postDelay + info.duration);
 
         onAttack = false;
+        PlayManager.Instance.Player.IsMovable = true;
+
     }
 
     IEnumerator Action_DashAttack(AttackInfo info)
