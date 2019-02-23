@@ -168,17 +168,17 @@ public static class SaveManager
         Map.Instance.ChangeStage(Map.Instance.CurStage, saveData.curStage, new Vector2(saveData.posX, saveData.posY));
         for (int i = 0; i<Map.Instance.stages.Count; i++)
         {
-            if(saveData.MapInfo[Map.Instance.stages[i].myID] == true )
+            if(saveData.MapInfo[i] == true )
                 Map.Instance.stages[i].GetMapInfo();
         }
         for (int i = 0; i < Map.Instance.bosses.Count; i++)
         {
-            if (saveData.BossKillInfo[Map.Instance.bosses[i].myID] == true)
+            if (saveData.BossKillInfo[i] == true)
                 Map.Instance.bosses[i].DestroyBoss();
         }
         for (int i = 0; i < Map.Instance.PotalWithLocks.Count; i++)
         {
-            if (saveData.potalLockInfo[Map.Instance.PotalWithLocks[i].myID] == true)
+            if (saveData.potalLockInfo[i] == true)
                 Map.Instance.PotalWithLocks[i].Unlock();
         }
     }
