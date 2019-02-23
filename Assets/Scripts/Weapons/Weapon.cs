@@ -13,7 +13,7 @@ public abstract class Weapon : MonoBehaviour
     [SerializeField]
     protected List<AttackInfo> attackInfos = new List<AttackInfo>();
 
-    protected bool onAttack = false;
+    public bool onAttack = false;
     
     public abstract void DashAttack(float atk, float atkSpd);
     public abstract void Action(float atk, float atkSpd);

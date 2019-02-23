@@ -19,7 +19,6 @@ public class Player : Character
     public bool IsLadderAction { get { return isLadderAction; } set { isLadderAction = value; } }
     private GameObject groundObject;
 
-
     protected override void Awake()
     {
         base.Awake();
@@ -62,6 +61,7 @@ public class Player : Character
             isJumping = false;
             sprite.GetComponent<Animator>().SetBool("isJumping", false);
         }
+
         DisplayInfo();
         ladderActionAnim();
     }
@@ -122,7 +122,6 @@ public class Player : Character
     private const float dashCoolTime = 0.25f;
     IEnumerator PlayerDash(Direction dir)
     {
-        IsMovable = false;
         float timer = 0;
         IsSuper = dashInvincibleTime;
 
@@ -142,7 +141,6 @@ public class Player : Character
 
         isDashing = false;
         isDashable = dashCoolTime;
-        IsMovable = true;
     }
 
     IEnumerator DashAttacking()
@@ -250,16 +248,22 @@ protected void JumpStop()
 
     private void Action() //장착된 무기의 action을 실행
     {
-        
-        if (isDashing)
+        if (!EquipManager.Instance.equipedWeapon.onAttack)
         {
-            EquipManager.Instance.equipedWeapon.DashAttack(atkBuff, attackSpd);
-            StartCoroutine(DashAttacking());
+            if (isDashing)
+            {
+                EquipManager.Instance.equipedWeapon.DashAttack(atkBuff, attackSpd);
+                StartCoroutine(DashAttacking());
 
-
-            return;
+                return;
+            }
+            else
+            {
+                EquipManager.Instance.equipedWeapon.Action(atkBuff, attackSpd);
+            }
         }
-        EquipManager.Instance.equipedWeapon.Action(atkBuff, attackSpd);
+
+
     }
 
     protected override void OnDieCallBack() //죽을 때 부르는 함수
