@@ -129,6 +129,7 @@ public class Player : Character
     private const float dashCoolTime = 0.25f;
     IEnumerator PlayerDash(Direction dir)
     {
+
         float timer = 0;
         IsSuper = dashInvincibleTime;
 
@@ -152,13 +153,10 @@ public class Player : Character
 
     IEnumerator DashAttacking()
     {
-
-        IsMovable = false;
         anim.SetBool("isDashAttack", true);
 
         yield return new WaitForSeconds(0.3f);
 
-        IsMovable = true;
         anim.SetBool("isDashAttack", false);
         anim.SetBool("isRunning", false);
 
@@ -229,6 +227,11 @@ public class Player : Character
         stopGroundCheck = false;
     }
     
+    public void JumpAttackMove(Vector2 vec)
+    {
+        Move(vec);
+    }
+
     /*
     //float jumpCount = 0f;
 
@@ -261,6 +264,12 @@ protected void JumpStop()
             {
                 EquipManager.Instance.equipedWeapon.DashAttack(atkBuff, attackSpd);
                 StartCoroutine(DashAttacking());
+
+                return;
+            }
+            else if (MyInput.GetKey(MyKeyCode.Down) && !IsGround)
+            {
+                EquipManager.Instance.equipedWeapon.JumpSkillAction(atkBuff, attackSpd);
 
                 return;
             }

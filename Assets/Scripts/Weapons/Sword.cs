@@ -6,7 +6,7 @@ public class Sword : Weapon
 {    
     protected override void Awake() //attackInfo
     {
-        AttackInfo[] tempInfos = new AttackInfo[4];
+        AttackInfo[] tempInfos = new AttackInfo[5];
 
         //평타1
         tempInfos[0].attackRange = new Vector2(1f, 1f);
@@ -16,6 +16,7 @@ public class Sword : Weapon
         tempInfos[0].preDelay = 0f;
         tempInfos[0].postDelay = 0.1f;
         tempInfos[0].attackID = "attack1";
+
 
         //평타2
         tempInfos[1].attackRange = new Vector2(1f, 1f);
@@ -47,6 +48,14 @@ public class Sword : Weapon
         tempInfos[3].attackID = "dashAttack";
 
 
+        //점프 스킬
+        tempInfos[4].attackRange = new Vector2(1f, 0.5f);
+        tempInfos[4].hitBoxPostion = new Vector2(0.5f, -0.5f);
+        tempInfos[4].damage = 1;
+        tempInfos[4].duration = 10f;
+        tempInfos[4].preDelay = 0f;
+        tempInfos[4].postDelay = 0.1f;
+
         foreach (var tempInfo in tempInfos)
         {
             attackInfos.Add(tempInfo);
@@ -73,10 +82,10 @@ public class Sword : Weapon
 
         StartCoroutine(Action_Attack(tempInfo));
 
-        Debug.Log("Count : " + atkCount);
-
         atkCount++;
         if (atkCount > 2)
+            atkCount = 0;
+        else if (atkCount >= 2 && !PlayManager.Instance.Player.IsGround)
             atkCount = 0;
         isAtkCounting = 0.5f;
     }
@@ -90,6 +99,16 @@ public class Sword : Weapon
         tempInfo.postDelay *= atkSpd;
         StartCoroutine(Action_DashAttack(tempInfo));
     }    
+
+    public override void JumpSkillAction(float atk, float atkSpd)
+    {
+        AttackInfo tempInfo = attackInfos[4];
+        tempInfo.damage += atk;
+        tempInfo.duration *= atkSpd;
+        tempInfo.preDelay *= atkSpd;
+        tempInfo.postDelay *= atkSpd;
+        StartCoroutine(Action_JumpSkill(tempInfo));
+    }
 
     IEnumerator Action_Attack(AttackInfo info)
     {
@@ -112,6 +131,7 @@ public class Sword : Weapon
     IEnumerator Action_DashAttack(AttackInfo info)
     {
         onAttack = true;
+        PlayManager.Instance.Player.IsMovable = false;
 
         yield return new WaitForSeconds(info.preDelay);
 
@@ -120,7 +140,38 @@ public class Sword : Weapon
         yield return new WaitForSeconds(info.postDelay + info.duration);
 
         onAttack = false;
+        PlayManager.Instance.Player.IsMovable = true;
     }
+
+    IEnumerator Action_JumpSkill(AttackInfo info)
+    {
+        onAttack = true;
+        PlayManager.Instance.Player.IsMovable = false;
+
+        string path = "Prefabs/Colliders/JumpSkillCollider";
+
+        GameObject col = CombatSystem.Instance.InstantiateHitBox(info, gameObject.transform, path);
+
+        Vector2 vec = PlayManager.Instance.Player.Direction == Direction.left
+            ? new Vector2(-1f, -2f) : new Vector2(1f, -2f);
+        vec.Normalize();
+
+        while (true)
+        {
+            if (col.GetComponent<JumpSkillCollider>().isTriggered)
+                break;
+
+            PlayManager.Instance.Player.JumpAttackMove(vec);
+
+            yield return null;
+        }
+
+        col.GetComponent<DamagingCollider>().OnDestroyCallBack();
+
+        onAttack = false;
+        PlayManager.Instance.Player.IsMovable = true;
+    }
+
     /*
     void OnTriggerStay2D(Collider2D col)   //임시로 만든 거
     {

@@ -17,5 +17,7 @@ public abstract class Weapon : MonoBehaviour
     
     public abstract void DashAttack(float atk, float atkSpd);
     public abstract void Action(float atk, float atkSpd);
+    public abstract void JumpSkillAction(float atk, float atkSpd);
+
     protected abstract void Awake(); //attackInfo + 에네미에도 해줘야함
 }

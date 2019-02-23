@@ -7915,6 +7915,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isRespawnable: 0
+  anim: {fileID: 0}
   defaultSpd: 5
   defaultDef: 0
   jumpPower: 6
@@ -17127,7 +17128,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000020775791, y: 0}
+  m_AnchoredPosition: {x: 0.00008246292, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1478030584
@@ -17998,7 +17999,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000032043085, y: -0.000040952324}
+  m_AnchoredPosition: {x: -0.000032043085, y: -0.000035594494}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1563876551
@@ -18904,11 +18905,6 @@ PrefabInstance:
       propertyPath: isTouch
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5830002690305285049, guid: 963d894e04aeee9418202a7853c91506,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7079429572879261434, guid: 963d894e04aeee9418202a7853c91506,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -18928,6 +18924,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 2.901
+      objectReference: {fileID: 0}
+    - target: {fileID: 5830002690305285049, guid: 963d894e04aeee9418202a7853c91506,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 963d894e04aeee9418202a7853c91506, type: 3}
