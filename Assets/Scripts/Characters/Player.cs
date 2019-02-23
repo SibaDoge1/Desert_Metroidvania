@@ -9,7 +9,6 @@ public class Player : Character
     private bool isMovable;
     public bool IsMovable { get { return isMovable; } set { isMovable = value; } }
     private BoxCollider2D myCollider;
-    private GameObject sprite;
     private bool isGround;
     public bool IsGround { get { return isGround; } }
     private bool isJumpAniPlaying;
@@ -18,9 +17,7 @@ public class Player : Character
     private bool isLadderAction;
     public bool IsLadderAction { get { return isLadderAction; } set { isLadderAction = value; } }
     private GameObject groundObject;
-
     private Vector3 currentPos;
-
 
     protected override void Awake()
     {
@@ -32,7 +29,6 @@ public class Player : Character
         base.Start();
         isMovable = true;
         myCollider = gameObject.GetComponent<BoxCollider2D>();
-        sprite = transform.Find("Sprite").gameObject;
         hpUI = GameObject.Find("Canvas").transform.Find("StatInfo").Find("HP").Find("Text").GetComponent<Text>();
         dashCoolUI = GameObject.Find("Canvas").transform.Find("StatInfo").Find("DashCool").Find("Text").GetComponent<Text>();
         jumpCount = 0;
@@ -67,6 +63,7 @@ public class Player : Character
             isJumping = false;
             sprite.GetComponent<Animator>().SetBool("isJumping", false);
         }
+
         DisplayInfo();
         ladderActionAnim();
 
@@ -82,7 +79,6 @@ public class Player : Character
         {
             if (MyInput.GetKey(MyKeyCode.Right))
             {
-                sprite.GetComponent<SpriteRenderer>().flipX = false;
                 sprite.GetComponent<Animator>().SetBool("isRunning", true);
                 Move(Direction.right);
             }
@@ -130,7 +126,6 @@ public class Player : Character
     private const float dashCoolTime = 0.25f;
     IEnumerator PlayerDash(Direction dir)
     {
-        IsMovable = false;
         float timer = 0;
         IsSuper = dashInvincibleTime;
 
@@ -150,7 +145,6 @@ public class Player : Character
 
         isDashing = false;
         isDashable = dashCoolTime;
-        IsMovable = true;
     }
 
     IEnumerator DashAttacking()
@@ -258,16 +252,22 @@ protected void JumpStop()
 
     private void Action() //장착된 무기의 action을 실행
     {
-        
-        if (isDashing)
+        if (!EquipManager.Instance.equipedWeapon.onAttack)
         {
-            EquipManager.Instance.equipedWeapon.DashAttack(atkBuff, attackSpd);
-            StartCoroutine(DashAttacking());
+            if (isDashing)
+            {
+                EquipManager.Instance.equipedWeapon.DashAttack(atkBuff, attackSpd);
+                StartCoroutine(DashAttacking());
 
-
-            return;
+                return;
+            }
+            else
+            {
+                EquipManager.Instance.equipedWeapon.Action(atkBuff, attackSpd);
+            }
         }
-        EquipManager.Instance.equipedWeapon.Action(atkBuff, attackSpd);
+
+
     }
 
     protected override void OnDieCallBack() //죽을 때 부르는 함수

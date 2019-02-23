@@ -11,6 +11,8 @@ public abstract class Character : InGameObj
     protected const float gravityDefault = 4f;
     protected const float InvincibleTIme = 0.5f;
     protected Rigidbody2D rigid;
+    protected GameObject sprite;
+
 
     #region Status //이거 더블클릭 하셈
     [Header("Status")]
@@ -58,6 +60,8 @@ public abstract class Character : InGameObj
         rigid = transform.GetComponent<Rigidbody2D>();
         rigid.gravityScale = gravityDefault;
         StatChangers = new List<StatChanger>();
+        if (transform.Find("Sprite") != null)
+            sprite = transform.Find("Sprite").gameObject;
         if (rigid == null)
         Debug.Log("Noooooo");
     }
@@ -85,9 +89,15 @@ public abstract class Character : InGameObj
         switch (dir)
         {
             case Direction.right:
-                vec = Vector2.right; direction = Direction.right;  break;
+                vec = Vector2.right; direction = Direction.right;
+                if (sprite != null)
+                    sprite.GetComponent<SpriteRenderer>().flipX = false;
+                break;
             case Direction.left:
-                vec = Vector2.left; direction = Direction.left; break;
+                vec = Vector2.left; direction = Direction.left;
+                if (sprite != null)
+                    sprite.GetComponent<SpriteRenderer>().flipX = true;
+                break;
             default:
                 vec = Vector2.zero; break;
         }
@@ -106,6 +116,22 @@ public abstract class Character : InGameObj
 
     protected void Move(Vector2 vec)
     {
+        Direction dir = vec.x >= 0 ? Direction.right : Direction.left;
+
+        switch (dir)
+        {
+            case Direction.right:
+                if (sprite != null)
+                    sprite.GetComponent<SpriteRenderer>().flipX = false;
+                break;
+            case Direction.left:
+                if (sprite != null)
+                    sprite.GetComponent<SpriteRenderer>().flipX = true;
+                break;
+            default:
+                break;
+        }
+
         transform.Translate(vec * spd * speedConst * Time.deltaTime);
 
         if (Map.Instance.CurStage.checkOutSide(transform.position))

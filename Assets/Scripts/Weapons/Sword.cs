@@ -6,8 +6,9 @@ public class Sword : Weapon
 {    
     protected override void Awake() //attackInfo
     {
-        AttackInfo[] tempInfos = new AttackInfo[2];
+        AttackInfo[] tempInfos = new AttackInfo[4];
 
+        //평타1
         tempInfos[0].attackRange = new Vector2(1f, 1f);
         tempInfos[0].hitBoxPostion = new Vector2(1f, 0f);
         tempInfos[0].damage = 1;
@@ -15,12 +16,29 @@ public class Sword : Weapon
         tempInfos[0].preDelay = 0f;
         tempInfos[0].postDelay = 0.1f;
 
-        tempInfos[1].attackRange = new Vector2(5f, 1f);
-        tempInfos[1].hitBoxPostion = new Vector2(-2.5f, 0f);
+        //평타2
+        tempInfos[1].attackRange = new Vector2(1f, 1f);
+        tempInfos[1].hitBoxPostion = new Vector2(1f, 0f);
         tempInfos[1].damage = 1;
         tempInfos[1].duration = 0.15f;
         tempInfos[1].preDelay = 0f;
         tempInfos[1].postDelay = 0.1f;
+
+        //평타3
+        tempInfos[2].attackRange = new Vector2(1f, 1f);
+        tempInfos[2].hitBoxPostion = new Vector2(1f, 0f);
+        tempInfos[2].damage = 1;
+        tempInfos[2].duration = 0.15f;
+        tempInfos[2].preDelay = 0f;
+        tempInfos[2].postDelay = 0.1f;
+
+        //대쉬 공격
+        tempInfos[3].attackRange = new Vector2(5f, 1f);
+        tempInfos[3].hitBoxPostion = new Vector2(-2.5f, 0f);
+        tempInfos[3].damage = 1;
+        tempInfos[3].duration = 0.15f;
+        tempInfos[3].preDelay = 0f;
+        tempInfos[3].postDelay = 0.1f;
 
         foreach (var tempInfo in tempInfos)
         {
@@ -28,22 +46,37 @@ public class Sword : Weapon
         }
     }
 
+    private int atkCount;
+    private float isAtkCounting;
+
+    private void Update()
+    {
+        if (isAtkCounting > 0) isAtkCounting -= Time.deltaTime;
+        if (atkCount > 0 && isAtkCounting <= 0) atkCount = 0;
+    }
+
     public override void Action(float atk, float atkSpd) // 최종적으로 이걸로 공격함
     {
-        if (!onAttack)
-        {
-            AttackInfo tempInfo = attackInfos[0];
-            tempInfo.damage += atk;
-            tempInfo.duration *= atkSpd;
-            tempInfo.preDelay *= atkSpd;
-            tempInfo.postDelay *= atkSpd;
-            StartCoroutine(Action_Attack(tempInfo));
-        }
+        AttackInfo tempInfo = attackInfos[atkCount];
+
+        tempInfo.damage += atk;
+        tempInfo.duration *= atkSpd;
+        tempInfo.preDelay *= atkSpd;
+        tempInfo.postDelay *= atkSpd;
+
+        StartCoroutine(Action_Attack(tempInfo));
+
+        Debug.Log("Count : " + atkCount);
+
+        atkCount++;
+        if (atkCount > 2)
+            atkCount = 0;
+        isAtkCounting = 0.5f;
     }
 
     public override void DashAttack(float atk, float atkSpd)
     {
-        AttackInfo tempInfo = attackInfos[1];
+        AttackInfo tempInfo = attackInfos[3];
         tempInfo.damage += atk;
         tempInfo.duration *= atkSpd;
         tempInfo.preDelay *= atkSpd;
