@@ -17,7 +17,7 @@ public class Player : Character
     private bool isLadderAction;
     public bool IsLadderAction { get { return isLadderAction; } set { isLadderAction = value; } }
     private GameObject groundObject;
-    private Vector3 currentPos;
+    private Vector3 previousPos;
 
     protected override void Awake()
     {
@@ -29,10 +29,10 @@ public class Player : Character
         base.Start();
         isMovable = true;
         myCollider = gameObject.GetComponent<BoxCollider2D>();
-        hpUI = GameObject.Find("Canvas").transform.Find("StatInfo").Find("HP").Find("Text").GetComponent<Text>();
+        //hpUI = GameObject.Find("Canvas").transform.Find("StatInfo").Find("HP").Find("Text").GetComponent<Text>();
         dashCoolUI = GameObject.Find("Canvas").transform.Find("StatInfo").Find("DashCool").Find("Text").GetComponent<Text>();
         jumpCount = 0;
-        currentPos = transform.position;
+        previousPos = transform.position;
 
     }
 
@@ -68,7 +68,7 @@ public class Player : Character
         ladderActionAnim();
 
         CheckFalling();
-        currentPos = transform.position;
+        previousPos = transform.position;
     }
 
     protected override void FixedUpdate() //물리연산용
@@ -174,6 +174,7 @@ public class Player : Character
     {
         if (isLadder)
         {
+            Debug.Log("sd");
             sprite.GetComponent<Animator>().SetBool("isRunning", false);
             sprite.GetComponent<Animator>().SetBool("isJumping", false);
             sprite.GetComponent<Animator>().SetBool("isLadder", true);
@@ -299,7 +300,7 @@ protected void JumpStop()
     private Text dashCoolUI;
     private void DisplayInfo()
     {
-        hpUI.text = hp.ToString();
+        //hpUI.text = hp.ToString();
         dashCoolUI.text = Math.Round(isDashable, 2).ToString();
     }
 
@@ -350,7 +351,7 @@ protected void JumpStop()
 
     public void CheckFalling()
     {
-        if(currentPos.y > transform.position.y)
+        if(previousPos.y > transform.position.y)
         {
             sprite.GetComponent<Animator>().SetBool("isFalling", true);
             isGround = false;
