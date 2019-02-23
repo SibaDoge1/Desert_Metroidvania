@@ -16,23 +16,28 @@ public class SaveData
         BossKillInfo = new Dictionary<int, bool>();
         MapInfo = new Dictionary<int, bool>();
         potalLockInfo = new Dictionary<int, bool>();
+        skillUnlockInfos = new bool[4];
+        isSetted = false;
     }
 
     public string curStage;
+    public float posX;
+    public float posY;
     public Dictionary<int, bool> MapInfo;
-    public IDictionary<int, bool> BossKillInfo;
+    public Dictionary<int, bool> BossKillInfo;
     public Dictionary<int, bool> potalLockInfo;
+    public bool[] skillUnlockInfos;
     public int hp;
     public bool isSetted;
 }
 
 public static class SaveManager
 {
-    private static string Ext = ".txt";
+    private static string Ext = ".ini";
     private static string FileName = "save";
     private static string Path = Application.dataPath;
     [SerializeField]
-    public static SaveData saveData { get; private set; }
+    private static SaveData saveData;
 
     public static void FirstSet()
     {
@@ -41,10 +46,9 @@ public static class SaveManager
             return;
         }
         saveData = new SaveData();
-        Debug.Log("savedata created :" + JsonUtility.ToJson(saveData));
     }
 
-    #region Set/Add
+    #region Set/Add/get
     public static void AddBossKillInfo(int boss)
     {
         if (!saveData.BossKillInfo.ContainsKey(boss))
@@ -86,19 +90,97 @@ public static class SaveManager
         else
             saveData.potalLockInfo[idx] = isUnLocked;
     }
+
+    public static void SetSkillUnlockInfo(int idx, bool isUnLocked)
+    {
+        if (saveData.skillUnlockInfos.Length < idx)
+            return;
+        saveData.skillUnlockInfos[idx] = isUnLocked;
+    }
+
+    public static bool GetBossKillInfo(int boss)
+    {
+        if (!saveData.BossKillInfo.ContainsKey(boss))
+            saveData.BossKillInfo.Add(boss, false);
+        return saveData.BossKillInfo[boss];
+    }
+
+    public static bool GetMapInfo(int stage)
+    {
+        if (!saveData.MapInfo.ContainsKey(stage))
+            saveData.MapInfo.Add(stage, false);
+        return saveData.MapInfo[stage];
+    }
+
+    public static bool GetPotalLockInfo(int idx)
+    {
+        if (!saveData.potalLockInfo.ContainsKey(idx))
+            saveData.potalLockInfo.Add(idx, false);
+        return saveData.potalLockInfo[idx];
+    }
+
+    public static bool GetSkillUnlockInfo(int idx)
+    {
+        if (saveData.skillUnlockInfos.Length < idx)
+            return false;
+        return saveData.skillUnlockInfos[idx];
+    }
     #endregion
 
-    public static bool SaveAll()
+    public static void SetSaveData()
     {
-        saveData.curStage = Map.Instance.CurStage.name;
+        if (saveData == null)
+        {
+            saveData = new SaveData();
+        }
+        saveData.curStage = PlayManager.Instance.Player.transform.parent.parent.GetComponent<Stage>().name;
         saveData.hp = PlayManager.Instance.Player.Hp;
+        saveData.posX = PlayManager.Instance.Player.transform.position.x;
+        saveData.posY = PlayManager.Instance.Player.transform.position.y;
+        saveData.isSetted = true;
+        Debug.Log("savedata Setted :" + JsonUtility.ToJson(saveData));
+    }
+
+    public static bool SaveToFile()
+    {
+        SetSaveData();
         return JsonSave(saveData, FileName, Path);
     }
 
-    public static void LoadAll()
+    public static void FirstLoad()
     {
-        JsonLoad(FileName, Path);
-        FirstSet();
+        if (JsonLoad(FileName, Path))
+        {
+            return;
+        }
+        saveData = new SaveData();
+        Debug.Log("savedata created");
+    }
+
+    public static void ApplySave()
+    {
+        if (saveData == null || !saveData.isSetted)
+        {
+            FirstSet();
+            return;
+        }
+
+        Map.Instance.ChangeStage(Map.Instance.CurStage, saveData.curStage, new Vector2(saveData.posX, saveData.posY));
+        for (int i = 0; i<Map.Instance.stages.Count; i++)
+        {
+            if(saveData.MapInfo[i] == true )
+                Map.Instance.stages[i].GetMapInfo();
+        }
+        for (int i = 0; i < Map.Instance.bosses.Count; i++)
+        {
+            if (saveData.BossKillInfo[i] == true)
+                Map.Instance.bosses[i].DestroyBoss();
+        }
+        for (int i = 0; i < Map.Instance.PotalWithLocks.Count; i++)
+        {
+            if (saveData.potalLockInfo[i] == true)
+                Map.Instance.PotalWithLocks[i].Unlock();
+        }
     }
 
     public static bool JsonSave(SaveData data, string filename, string path)
@@ -131,7 +213,6 @@ public static class SaveManager
         }
         saveData = JsonConvert.DeserializeObject<SaveData>(json);
         file.Close();
-        Debug.Log("LoadComplete");
         return true;
     }
 }

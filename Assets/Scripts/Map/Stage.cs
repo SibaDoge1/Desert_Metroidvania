@@ -5,6 +5,7 @@ using UnityEngine;
 public class Stage : MonoBehaviour
 {
     private Transform boundary;
+    private Transform dieBoundary;
 
     [SerializeField]
     public int myID { get; private set; }
@@ -14,6 +15,7 @@ public class Stage : MonoBehaviour
     private Vector2 pos;
     [SerializeField]
     private bool isMapInfoObtained;
+    private Vector2 MaxSize;
 
     public Vector2 Size { get { return size; } }
     public Vector2 Pos { get { return pos; } }
@@ -27,8 +29,11 @@ public class Stage : MonoBehaviour
     void Awake()
     {
         boundary = transform.Find("Boundary");
+        dieBoundary = transform.Find("DieBoundary");
         size.x = boundary.localScale.x / 2f;
         size.y = boundary.localScale.y / 2f;
+        MaxSize.x = dieBoundary.localScale.x / 2f;
+        MaxSize.y = dieBoundary.localScale.y / 2f;
         pos.x = transform.position.x;
         pos.y = transform.position.y;
         RespawnableObjects = new List<GameObject>();
@@ -39,8 +44,7 @@ public class Stage : MonoBehaviour
     {
         if (Map.Instance.CurStage != this) gameObject.SetActive(false);
         myID = Map.Instance.stages.IndexOf(this);
-        SaveManager.AddMapInfo(myID);
-        isMapInfoObtained = SaveManager.saveData.MapInfo[myID];
+        isMapInfoObtained = SaveManager.GetMapInfo(myID);
     }
     
     public void DeActive()
@@ -64,11 +68,11 @@ public class Stage : MonoBehaviour
 
         foreach (Transform trans in transform.Find("Objects").GetComponentInChildren<Transform>())
         {
-            if (trans.GetComponent<Respawnable>() != null)
+            if (trans.GetComponent<InGameObj>() != null && trans.GetComponent<InGameObj>().isRespawnable == true)
             {
                 GameObject objectPalete = Instantiate(trans.gameObject, trans.position, trans.rotation); //맵 상의 리스폰이 필요한 오브젝트를 찾고, 이를 RespawnableObjects에 저장해둠
                 objectPalete.SetActive(false);
-                objectPalete.transform.parent = transform.Find("RespawnPalete");
+                objectPalete.transform.SetParent(transform.Find("RespawnPalete"));
                 RespawnableObjects.Add(objectPalete);
             }
         }
@@ -89,7 +93,7 @@ public class Stage : MonoBehaviour
         for (int i = 0; i < RespawnableObjects.Count; i++)
         {
             GameObject spawnedObject = Instantiate(RespawnableObjects[i], RespawnableObjects[i].transform.position, RespawnableObjects[i].transform.rotation);
-            spawnedObject.transform.parent = transform.Find("Objects");
+            spawnedObject.transform.SetParent(transform.Find("Objects"));
             spawnedObject.SetActive(true);
         }
     }
@@ -102,9 +106,9 @@ public class Stage : MonoBehaviour
 
     public bool checkOutSide(Vector2 pos)
     {
-        return pos.x <= Map.Instance.CurStage.Pos.x - Map.Instance.CurStage.Size.x
-            || pos.y <= Map.Instance.CurStage.Pos.y - Map.Instance.CurStage.Size.y
-            || pos.x >= Map.Instance.CurStage.Pos.x + Map.Instance.CurStage.Size.x
-            || pos.y >= Map.Instance.CurStage.Pos.y + Map.Instance.CurStage.Size.y;
+        return pos.x <= Map.Instance.CurStage.Pos.x - Map.Instance.CurStage.MaxSize.x
+            || pos.y <= Map.Instance.CurStage.Pos.y - Map.Instance.CurStage.MaxSize.y
+            || pos.x >= Map.Instance.CurStage.Pos.x + Map.Instance.CurStage.MaxSize.x
+            || pos.y >= Map.Instance.CurStage.Pos.y + Map.Instance.CurStage.MaxSize.y;
     }
 }
