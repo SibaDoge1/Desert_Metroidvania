@@ -96,7 +96,7 @@ public class Sword : Weapon
         onAttack = true;
         PlayManager.Instance.Player.IsMovable = false;
 
-        PlayManager.Instance.Player.anim.Play(info.attackID);
+        PlayManager.Instance.Player.anim.Play(info.attackID, 0, 0);
 
         yield return new WaitForSeconds(info.preDelay);
 
