@@ -61,6 +61,7 @@ public abstract class Character : InGameObj
         rigid = transform.GetComponent<Rigidbody2D>();
         rigid.gravityScale = gravityDefault;
         StatChangers = new List<StatChanger>();
+
         if (transform.Find("Sprite") != null)
         {
             sprite = transform.Find("Sprite").gameObject;
@@ -129,7 +130,9 @@ public abstract class Character : InGameObj
         {
             case Direction.right:
                 if (sprite != null)
+                {
                     sprite.GetComponent<SpriteRenderer>().flipX = false;
+                }
                 break;
             case Direction.left:
                 if (sprite != null)

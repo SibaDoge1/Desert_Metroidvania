@@ -94,12 +94,38 @@ public class FlyingEnemy : RespawnableEnemy
 
     private void OnCollisionEnter2D(Collision2D c)
     {
-        if (c.gameObject.tag == "Player")
+        if(enemyState != EnemyState.DEAD)
         {
-            c.gameObject.GetComponent<Character>().GetDamage(damage);
+            if (c.gameObject.tag == "Player")
+            {
+                c.gameObject.GetComponent<Character>().GetDamage(damage);
+            }
         }
     }
 
+    protected override void OnDieCallBack()
+    {
+        StopAllCoroutines();
+        StartCoroutine("flyingEnemyDead");
+    }
+
+    IEnumerator flyingEnemyDead()
+    {
+        anim.Play("dead");
+        enemyState = EnemyState.DEAD;
+        rigid.velocity = Vector2.zero;
+        rigid.gravityScale = 1;
+        gameObject.layer = 9;
+
+        Destroy(transform.Find("Collider").gameObject);
+        Destroy(transform.Find("SearchingCollider").gameObject);
+        Destroy(transform.Find("AttackRangeCollider").gameObject);
+
+        yield return new WaitForSeconds(1f);
+
+        Destroy(gameObject);
+
+    }
 
     protected override void CheckBuffAndDebuff()
     {

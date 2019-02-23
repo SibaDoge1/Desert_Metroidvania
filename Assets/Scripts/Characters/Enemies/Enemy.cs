@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum EnemyState
 {
-    DEFAULT ,ATTACK, TRACE, PATROL
+    DEFAULT ,ATTACK, TRACE, PATROL, DEAD
 }
 
 public abstract class Enemy : Character
@@ -150,11 +150,12 @@ public abstract class Enemy : Character
             enemyCurState = enemyState;
         }
 
-        if (enemyCurState != EnemyState.ATTACK)
+        if (enemyCurState != EnemyState.ATTACK && enemyCurState != EnemyState.DEAD)
         {
             switch (enemyType)
             {
                 case EnemyType.GROUND:
+                    if(anim != null) anim.SetBool("isWalking", true);
                     Move(direction);
                     break;
                 case EnemyType.FLY:
