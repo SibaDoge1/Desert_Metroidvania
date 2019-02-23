@@ -15,6 +15,7 @@ public class Sword : Weapon
         tempInfos[0].duration = 0.15f;
         tempInfos[0].preDelay = 0f;
         tempInfos[0].postDelay = 0.1f;
+        tempInfos[0].attackID = "attack1";
 
         //평타2
         tempInfos[1].attackRange = new Vector2(1f, 1f);
@@ -23,6 +24,8 @@ public class Sword : Weapon
         tempInfos[1].duration = 0.15f;
         tempInfos[1].preDelay = 0f;
         tempInfos[1].postDelay = 0.1f;
+        tempInfos[1].attackID = "attack2";
+
 
         //평타3
         tempInfos[2].attackRange = new Vector2(1f, 1f);
@@ -31,6 +34,8 @@ public class Sword : Weapon
         tempInfos[2].duration = 0.15f;
         tempInfos[2].preDelay = 0f;
         tempInfos[2].postDelay = 0.1f;
+        tempInfos[2].attackID = "attack_skill1";
+
 
         //대쉬 공격
         tempInfos[3].attackRange = new Vector2(5f, 1f);
@@ -39,6 +44,8 @@ public class Sword : Weapon
         tempInfos[3].duration = 0.15f;
         tempInfos[3].preDelay = 0f;
         tempInfos[3].postDelay = 0.1f;
+        tempInfos[3].attackID = "dashAttack";
+
 
         foreach (var tempInfo in tempInfos)
         {
@@ -87,6 +94,9 @@ public class Sword : Weapon
     IEnumerator Action_Attack(AttackInfo info)
     {
         onAttack = true;
+
+        PlayManager.Instance.Player.anim.Play(info.attackID);
+
 
         yield return new WaitForSeconds(info.preDelay);
 
