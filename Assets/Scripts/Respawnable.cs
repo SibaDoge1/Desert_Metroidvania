@@ -11,5 +11,6 @@ public interface Respawnable
     /// 리스폰(스테이지 리셋 시 사용)
     /// </summary>
     void Reset();
+    void FirstSet();
 
 }

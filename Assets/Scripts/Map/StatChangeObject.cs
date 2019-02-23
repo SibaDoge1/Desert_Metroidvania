@@ -54,4 +54,8 @@ public class StatChangeObject : InteractObject, Respawnable
     {
         remainCount = DefaultRemainCount;
     }
+
+    public void FirstSet()
+    {
+    }
 }

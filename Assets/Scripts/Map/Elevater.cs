@@ -18,7 +18,7 @@ public class Elevater : MonoBehaviour
         minY = movingArea.position.y - (movingArea.lossyScale.y / 2f);
         _collider = transform.Find("Collider").GetComponent<BoxCollider2D>();
     }
-    void Start()
+    void OnEnable()
     {
         StartCoroutine(ElevateRoutine());
     }
@@ -42,7 +42,6 @@ public class Elevater : MonoBehaviour
         {
             while (transform.position.y > minY)
             {
-                Debug.Log(minY);
                 transform.Translate(Vector2.down * 3f * Time.deltaTime);
                 if (transform.position.y < minY)
                     transform.position = new Vector3(transform.position.x, minY, transform.position.z);
@@ -102,6 +101,7 @@ public class Elevater : MonoBehaviour
             PlayManager.Instance.Player.anim.SetBool("isFalling", false);
             */
             isElevator = true;
+            PlayManager.Instance.Player.isElevator = true;
             PlayManager.Instance.Player.transform.SetParent(transform);
         }
     }
@@ -117,7 +117,9 @@ public class Elevater : MonoBehaviour
         PlayManager.Instance.Player.SetStopGroundCheck(false);
         */
         isElevator = false;
+        PlayManager.Instance.Player.isElevator = false;
         PlayManager.Instance.Player.transform.SetParent(transform.parent);
+        PlayManager.Instance.Player.SetIsGround(false);
     }
     /*
     private void OnTriggerStay2D(Collider2D col)

@@ -275,6 +275,7 @@ protected void JumpStop()
     protected override void OnDieCallBack() //죽을 때 부르는 함수
     {
         //애니메이션재생
+        gameObject.SetActive(false);
         PlayManager.Instance.Defeat();
     }
 
@@ -351,7 +352,8 @@ protected void JumpStop()
 
     public void CheckFalling()
     {
-        if(previousPos.y > transform.position.y && !isGround && !isElevator)
+        Debug.Log(stopGroundCheck);
+        if (previousPos.y > transform.position.y && !isGround && !isElevator)
         {
             anim.SetBool("isFalling", true);
         }
@@ -359,8 +361,23 @@ protected void JumpStop()
 
     public void Reset()
     {
-        isMovable = false;
-        EquipManager.Instance.equipedWeapon.onAttack = false;
+        GameObject clone = Instantiate(gameObject, transform.position, transform.rotation);
+        clone.transform.SetParent(transform.parent);
+        PlayManager.Instance.Player = clone.GetComponent<Player>();
+        EquipManager.SetInstance(clone.transform.Find("Equip").GetComponent<EquipManager>());
+        clone.SetActive(true);
+        Destroy(gameObject);
+    }
+    
+    private GameObject myPalete;
+    public void MakePalette()
+    {
+        gameObject.SetActive(false);
+        myPalete = Instantiate(gameObject, transform.position, transform.rotation); //나의 클론을 RespawnableObjects에 저장해둠
+        myPalete.SetActive(false);
+        myPalete.transform.SetParent(transform.GetComponentInParent<Stage>().transform.Find("RespawnPalete"));
+        myPalete.GetComponent<Player>().myPalete = myPalete;
+        gameObject.SetActive(true);
     }
 
     #region setter
@@ -389,6 +406,10 @@ protected void JumpStop()
     public void SetStopGroundCheck(bool value)
     {
         stopGroundCheck = value;
+    }
+    public void SetIsGround(bool value)
+    {
+        isGround = value;
     }
     #endregion
 }

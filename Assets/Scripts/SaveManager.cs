@@ -169,7 +169,7 @@ public static class SaveManager
         for (int i = 0; i<Map.Instance.stages.Count; i++)
         {
             if(GetMapInfo(Map.Instance.stages[i].myID) == true )
-                Map.Instance.stages[i].GetMapInfo();
+                Map.Instance.stages[i].UnlockMapInfo();
         }
         for (int i = 0; i < Map.Instance.bosses.Count; i++)
         {
@@ -181,6 +181,7 @@ public static class SaveManager
             if (GetPotalLockInfo(Map.Instance.PotalWithLocks[i].myID) == true)
                 Map.Instance.PotalWithLocks[i].Unlock();
         }
+        PlayManager.Instance.Player.Hp = saveData.hp;
     }
 
     public static bool JsonSave(SaveData data, string filename, string path)

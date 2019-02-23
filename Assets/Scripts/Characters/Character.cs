@@ -193,7 +193,7 @@ public abstract class Character : InGameObj
     protected virtual void OnDieCallBack() //죽을 때 부르는 함수
     {
         //임시
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
     public void SetStat(StatType type, float value)

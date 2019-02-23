@@ -23,6 +23,7 @@ public class PlayManager : MonoBehaviour
         SaveManager.FirstLoad(GlobalData.isNewStart);
         viewer = GameObject.Find("Canvas").transform.Find("MapViewer").GetComponent<MapViewer>();
         player = GameObject.Find("Player").GetComponent<Player>();
+        player.MakePalette();
     }
 
     void Start()
@@ -45,7 +46,6 @@ public class PlayManager : MonoBehaviour
 
     public void Defeat()
     {
-        player.gameObject.SetActive(false);
         FadeTool.Instance.FadeInOut(1f, 1f, ReturnToCheckPoint);
     }
 

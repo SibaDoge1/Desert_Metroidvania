@@ -35,6 +35,7 @@ public class Stage : MonoBehaviour
         camPos.y = camBoundary.position.y;
         availablePos.x = dieBoundary.position.x;
         availablePos.y = dieBoundary.position.y;
+        FirstSetStage();
     }
 
     void Start()
@@ -52,6 +53,17 @@ public class Stage : MonoBehaviour
     {
         ResetStage();
         gameObject.SetActive(true);
+    }
+
+    public void FirstSetStage()
+    {
+        foreach (Transform trans in transform.Find("Objects").GetComponentsInChildren<Transform>())
+        {
+            if (trans.GetComponent<Respawnable>() != null)
+            {
+                trans.GetComponent<Respawnable>().FirstSet();
+            }
+        }
     }
 
     public void ResetStage()
@@ -82,7 +94,7 @@ public class Stage : MonoBehaviour
     }
     */
 
-    public void GetMapInfo()
+    public void UnlockMapInfo()
     {
         isMapInfoObtained = true;
         SaveManager.SetMapInfo(myID, true);

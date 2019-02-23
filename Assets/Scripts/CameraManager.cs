@@ -13,7 +13,6 @@ public class CameraManager : MonoBehaviour
     }
 
     private Camera mainCamera;
-    private GameObject player;
     private Vector2 camWorldScale;
     private Stage curStage;
     private bool isMovable;
@@ -32,7 +31,6 @@ public class CameraManager : MonoBehaviour
     private void Start()
     {
         mainCamera = GetComponent<Camera>();
-        player = PlayManager.Instance.Player.gameObject;
         camWorldScale = (mainCamera.ScreenToWorldPoint(new Vector2(mainCamera.pixelWidth, mainCamera.pixelHeight)) - mainCamera.ScreenToWorldPoint(new Vector2(0, 0))) / 2f; //카메라의 월드기준 크기
     }
 
@@ -41,8 +39,8 @@ public class CameraManager : MonoBehaviour
     {
         if (isMovable)
         {
-            Vector2 pos = player.transform.position;
-            MoveCam(player.transform.position);
+            Vector2 pos = PlayManager.Instance.Player.transform.position;
+            MoveCam(PlayManager.Instance.Player.transform.position);
         }
         //transform.position = Vector3.Lerp(transform.position, new Vector3(pos.x, pos.y, transform.position.z), Time.deltaTime*5f);
     }

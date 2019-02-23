@@ -7,7 +7,7 @@ public class SearchingCollider : MonoBehaviour
     Enemy parentEnemy;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         parentEnemy = transform.parent.GetComponent<Enemy>();
     }
