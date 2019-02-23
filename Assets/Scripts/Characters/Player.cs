@@ -9,7 +9,6 @@ public class Player : Character
     private bool isMovable;
     public bool IsMovable { get { return isMovable; } set { isMovable = value; } }
     private BoxCollider2D myCollider;
-    private GameObject sprite;
     private bool isGround;
     public bool IsGround { get { return isGround; } }
     private bool isJumpAniPlaying;
@@ -30,7 +29,6 @@ public class Player : Character
         base.Start();
         isMovable = true;
         myCollider = gameObject.GetComponent<BoxCollider2D>();
-        sprite = transform.Find("Sprite").gameObject;
         hpUI = GameObject.Find("Canvas").transform.Find("StatInfo").Find("HP").Find("Text").GetComponent<Text>();
         dashCoolUI = GameObject.Find("Canvas").transform.Find("StatInfo").Find("DashCool").Find("Text").GetComponent<Text>();
         jumpCount = 0;
@@ -81,7 +79,6 @@ public class Player : Character
         {
             if (MyInput.GetKey(MyKeyCode.Right))
             {
-                sprite.GetComponent<SpriteRenderer>().flipX = false;
                 sprite.GetComponent<Animator>().SetBool("isRunning", true);
                 Move(Direction.right);
             }

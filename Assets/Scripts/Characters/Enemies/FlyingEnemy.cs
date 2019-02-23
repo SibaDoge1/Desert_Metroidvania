@@ -23,7 +23,7 @@ public class FlyingEnemy : Enemy
             dir_Flying = Vector2.zero;
             yield return new WaitForSeconds(1f);
 
-            dir_Flying = new Vector2(Random.Range(0f, 10f), Random.Range(0f, 10f));
+            dir_Flying = new Vector2(Random.Range(-10f, 10f), Random.Range(-10f, 10f));
             dir_Flying.Normalize();
             yield return new WaitForSeconds(5f);
         }
