@@ -23,17 +23,21 @@ public class AttackRanageCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D c)
     {
-        attackable = true;
 
         if (isMaxAttackRanage && c.tag == "Player")
+        {
+            attackable = true;
             transform.parent.GetComponent<Enemy>().OnTriggerEnterAttack();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D c)
     {
-        attackable = false;
 
         if (isMaxAttackRanage && c.tag == "Player")
+        {
+            attackable = false;
             transform.parent.GetComponent<Enemy>().OnTriggerExitAttack();
+        }
     }
 }
