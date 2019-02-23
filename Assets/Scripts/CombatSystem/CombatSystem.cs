@@ -24,6 +24,7 @@ public struct AttackInfo
     public float duration;          //지속 시간
     public float preDelay;          //선딜레이
     public float postDelay;         //후딜레이
+    public string attackID; // 공격 종류
     public ProjectileInfo projectileInfo;
     public MonsterAttackInfo monsterattackInfo;
 }

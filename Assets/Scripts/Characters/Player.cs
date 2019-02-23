@@ -19,6 +19,7 @@ public class Player : Character
     private GameObject groundObject;
     private Vector3 previousPos;
 
+
     protected override void Awake()
     {
         base.Awake();
@@ -55,13 +56,13 @@ public class Player : Character
         {
             if (MyInput.GetKeyDown(MyKeyCode.Dash) && isDashable <= 0f) Dash();
             if (MyInput.GetKeyDown(MyKeyCode.Jump)) Jump();
-            if (MyInput.GetKeyUp(MyKeyCode.Right)) sprite.GetComponent<Animator>().SetBool("isRunning", false);
-            if (MyInput.GetKeyUp(MyKeyCode.Left)) sprite.GetComponent<Animator>().SetBool("isRunning", false);
+            if (MyInput.GetKeyUp(MyKeyCode.Right)) anim.SetBool("isRunning", false);
+            if (MyInput.GetKeyUp(MyKeyCode.Left)) anim.SetBool("isRunning", false);
         }
         if (isGround && isJumping)
         {
             isJumping = false;
-            sprite.GetComponent<Animator>().SetBool("isJumping", false);
+            anim.SetBool("isJumping", false);
         }
 
         DisplayInfo();
@@ -79,13 +80,13 @@ public class Player : Character
         {
             if (MyInput.GetKey(MyKeyCode.Right))
             {
-                sprite.GetComponent<Animator>().SetBool("isRunning", true);
+                anim.SetBool("isRunning", true);
                 Move(Direction.right);
             }
             if (MyInput.GetKey(MyKeyCode.Left))
             {
                 sprite.GetComponent<SpriteRenderer>().flipX = true;
-                sprite.GetComponent<Animator>().SetBool("isRunning", true);
+                anim.SetBool("isRunning", true);
                 Move(Direction.left);
             }
         }
@@ -116,9 +117,9 @@ public class Player : Character
         {
             StartCoroutine(PlayerDash(direction));
         }
-        sprite.GetComponent<Animator>().SetBool("isRunning", false);
-        sprite.GetComponent<Animator>().SetBool("isDash", true);
-        sprite.GetComponent<Animator>().Play("dash");
+        anim.SetBool("isRunning", false);
+        anim.SetBool("isDash", true);
+        anim.Play("dash");
     }
 
     private const float dashInvincibleTime = 0.2f;
@@ -138,9 +139,9 @@ public class Player : Character
             yield return new WaitForFixedUpdate(); //물리적인 이동같은건 fixedUpdate로
         }
 
-        if (MyInput.GetKey(MyKeyCode.Right)) sprite.GetComponent<Animator>().SetBool("isRunning", true);
-        if (MyInput.GetKey(MyKeyCode.Left)) sprite.GetComponent<Animator>().SetBool("isRunning", true);
-        sprite.GetComponent<Animator>().SetBool("isDash", false);
+        if (MyInput.GetKey(MyKeyCode.Right)) anim.SetBool("isRunning", true);
+        if (MyInput.GetKey(MyKeyCode.Left)) anim.SetBool("isRunning", true);
+        anim.SetBool("isDash", false);
 
 
         isDashing = false;
@@ -151,13 +152,13 @@ public class Player : Character
     {
 
         IsMovable = false;
-        sprite.GetComponent<Animator>().SetBool("isDashAttack", true);
+        anim.SetBool("isDashAttack", true);
 
         yield return new WaitForSeconds(0.3f);
 
         IsMovable = true;
-        sprite.GetComponent<Animator>().SetBool("isDashAttack", false);
-        sprite.GetComponent<Animator>().SetBool("isRunning", false);
+        anim.SetBool("isDashAttack", false);
+        anim.SetBool("isRunning", false);
 
 
     }
@@ -174,25 +175,24 @@ public class Player : Character
     {
         if (isLadder)
         {
-            Debug.Log("sd");
-            sprite.GetComponent<Animator>().SetBool("isRunning", false);
-            sprite.GetComponent<Animator>().SetBool("isJumping", false);
-            sprite.GetComponent<Animator>().SetBool("isLadder", true);
+            anim.SetBool("isRunning", false);
+            anim.SetBool("isJumping", false);
+            anim.SetBool("isLadder", true);
             if (isLadderAction)
             {
-                sprite.GetComponent<Animator>().SetBool("isLadderAction", true);
+                anim.SetBool("isLadderAction", true);
             }
             else
             {
-                sprite.GetComponent<Animator>().SetBool("isLadderAction", false);
+                anim.SetBool("isLadderAction", false);
             }
 
         }
         else
         {
-            sprite.GetComponent<Animator>().SetBool("isLadderAction", false);
+            anim.SetBool("isLadderAction", false);
      
-            sprite.GetComponent<Animator>().SetBool("isLadder", false);
+            anim.SetBool("isLadder", false);
         }
     }
 
@@ -204,8 +204,8 @@ public class Player : Character
             isJumping = true;
             StopCoroutine("JumpRoutine");
             StartCoroutine("JumpRoutine");
-            sprite.GetComponent<Animator>().SetBool("isJumping", true);
-            sprite.GetComponent<Animator>().Play("jump_Start");
+            anim.SetBool("isJumping", true);
+            anim.Play("jump_Start");
         }/*
         else if (jumpCount < maxJumpCount+1 && EquipManager.Instance.equipedWeapon.gameObject.name == "Sword")
         {
@@ -301,7 +301,7 @@ protected void JumpStop()
     private void DisplayInfo()
     {
         //hpUI.text = hp.ToString();
-        dashCoolUI.text = Math.Round(isDashable, 2).ToString();
+        //dashCoolUI.text = Math.Round(isDashable, 2).ToString();
     }
 
     #region GroundCheck
@@ -331,7 +331,7 @@ protected void JumpStop()
         {
             isGround = true;
             groundObject = col.gameObject;
-            sprite.GetComponent<Animator>().SetBool("isFalling", false);
+            anim.SetBool("isFalling", false);
 
         }
     }
@@ -353,7 +353,7 @@ protected void JumpStop()
     {
         if(previousPos.y > transform.position.y)
         {
-            sprite.GetComponent<Animator>().SetBool("isFalling", true);
+            anim.SetBool("isFalling", true);
             isGround = false;
         }
     }

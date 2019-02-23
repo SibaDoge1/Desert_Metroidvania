@@ -12,7 +12,7 @@ public abstract class Character : InGameObj
     protected const float InvincibleTIme = 0.5f;
     protected Rigidbody2D rigid;
     protected GameObject sprite;
-
+    public Animator anim;
 
     #region Status //이거 더블클릭 하셈
     [Header("Status")]
@@ -61,7 +61,13 @@ public abstract class Character : InGameObj
         rigid.gravityScale = gravityDefault;
         StatChangers = new List<StatChanger>();
         if (transform.Find("Sprite") != null)
+        {
             sprite = transform.Find("Sprite").gameObject;
+            if(sprite.GetComponent<Animator>() != null)
+            {
+                anim = sprite.GetComponent<Animator>();
+            }
+        }
         if (rigid == null)
         Debug.Log("Noooooo");
     }
