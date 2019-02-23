@@ -98,6 +98,11 @@ public class enemy_scorpione : Enemy
         anim.Play("dead");
         enemyState = EnemyState.DEAD;
         rigid.velocity = Vector2.zero;
+        gameObject.layer = 9;
+        Destroy(transform.Find("Collider").gameObject);
+        Destroy(transform.Find("SearchingCollider").gameObject);
+        Destroy(transform.Find("AttackRangeCollider").gameObject);
+
 
         yield return new WaitForSeconds(1f);
 

@@ -111,10 +111,15 @@ public class FlyingEnemy : Enemy
 
     IEnumerator flyingEnemyDead()
     {
-        anim.Play("Fly_dead");
+        anim.Play("dead");
         enemyState = EnemyState.DEAD;
         rigid.velocity = Vector2.zero;
         rigid.gravityScale = 1;
+        gameObject.layer = 9;
+
+        Destroy(transform.Find("Collider").gameObject);
+        Destroy(transform.Find("SearchingCollider").gameObject);
+        Destroy(transform.Find("AttackRangeCollider").gameObject);
 
         yield return new WaitForSeconds(1f);
 

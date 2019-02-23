@@ -129,7 +129,9 @@ public abstract class Character : InGameObj
         {
             case Direction.right:
                 if (sprite != null)
+                {
                     sprite.GetComponent<SpriteRenderer>().flipX = false;
+                }
                 break;
             case Direction.left:
                 if (sprite != null)
