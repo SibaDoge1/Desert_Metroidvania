@@ -31,6 +31,11 @@ public class PotalWithLock : Potal
 
     public void Unlock()
     {
+        if(SaveManager.GetSkillUnlockInfo(myID) == true)
+        {
+            return;
+        }
+        NoticeUI.Instance.MakeNotice("잠금을 풀었습니다!", 3f);
         isUnlocked = true;
         SaveManager.SetPotalLockInfo(myID, true);
     }

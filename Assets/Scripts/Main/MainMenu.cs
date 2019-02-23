@@ -4,15 +4,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
-{/*
+{
     private LoadingManager loadingPanel;
-    private GameObject _new;
-    private Option option;
-    private Exit exitPanel;
     public delegate void voidFunc();
 
     void Awake()
-    {
+    {/*
         #region 안드로이드 설정
         Input.multiTouchEnabled = false;
         Application.targetFrameRate = 60;
@@ -20,65 +17,31 @@ public class MainMenu : MonoBehaviour
         //Screen.SetResolution(Screen.width, (Screen.width / 2) * 3, true);
         Screen.orientation = ScreenOrientation.Landscape;
         #endregion
+        */
         loadingPanel = GameObject.Find("Canvas").transform.Find("LoadingPanel").GetComponent<LoadingManager>();
-        _new = GameObject.Find("Canvas").transform.Find("NewIcon").gameObject ;
-        option = GameObject.Find("Canvas").transform.Find("Option").gameObject.GetComponent<Option>();
-        exitPanel = GameObject.Find("Canvas").transform.Find("ExitPanel").gameObject.GetComponent<Exit>();
 
     }
     
     void Start()
     {
-        Database.ReadDatas();
-        SaveData.FirstSetUp();
-        CheckNew();
-    }
-
-    public void CheckNew()
-    {
-        if (SaveData.CheckNew())
-            _new.SetActive(true);
-        else
-            _new.SetActive(false);
-
     }
 
     public void OnStartButtonDown()
     {
         //SceneManager.LoadScene("Levels/LoadingScene");
+        GlobalData.isNewStart = true;
         loadingPanel.LoadScene();
     }
 
-    public void OnTutorialButtonDown()
+    public void OnContinueButtonDown()
     {
-        tutorial.On();
-    }
-
-    public void OnDiaryButtonDown()
-    {
-        voidFunc checkNew = new voidFunc(CheckNew);
-        diary.On(checkNew);
-    }
-
-    public void OnOptionButtonDown()
-    {
-        option.On();
+        GlobalData.isNewStart = false;
+        loadingPanel.LoadScene();
     }
 
     public void OnExitButtonDown()
     {
-        exitPanel.on();
+        Application.Quit();
     }
-
-
-    public void SetDiaryAllTrue()
-    {
-        SaveData.SetDiaryAllTrue();
-    }
-    public void SetCardAllTrue()
-    {
-        SaveData.SetCardAllTrue();
-    }
-    */
 
 }

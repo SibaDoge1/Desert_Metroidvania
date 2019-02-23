@@ -32,7 +32,7 @@ public class CameraManager : MonoBehaviour
     private void Start()
     {
         mainCamera = GetComponent<Camera>();
-        player = GameObject.Find("Player");
+        player = PlayManager.Instance.Player.gameObject;
         camWorldScale = (mainCamera.ScreenToWorldPoint(new Vector2(mainCamera.pixelWidth, mainCamera.pixelHeight)) - mainCamera.ScreenToWorldPoint(new Vector2(0, 0))) / 2f; //카메라의 월드기준 크기
     }
 

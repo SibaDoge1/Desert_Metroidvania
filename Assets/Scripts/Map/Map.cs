@@ -29,6 +29,11 @@ public class Map : MonoBehaviour
     void Start()
     {
         CurStage = PlayManager.Instance.Player.transform.parent.parent.GetComponent<Stage>();
+        for (int i = 0; i < Map.Instance.stages.Count; i++)
+        {
+            if (CurStage != Map.Instance.stages[i])
+                Map.Instance.stages[i].DeActive();
+        }
         Debug.Log("start Stage : " + CurStage.gameObject.name);
     }
 
@@ -45,7 +50,7 @@ public class Map : MonoBehaviour
         from = _from;
         to = _to;
         toPotal = _toPotal;
-        FadeTool.Instance.FadeInOut(1f, ChangeStage);
+        FadeTool.Instance.FadeInOut(1f, 0.5f, ChangeStage);
     }
 
     public void ChangeStage()
@@ -74,5 +79,10 @@ public class Map : MonoBehaviour
     public bool CheckOutSide(Vector2 pos)
     {
         return CurStage.CheckOutSide(pos);
+    }
+
+    public void ResetCurrentStage()
+    {
+        CurStage.ResetStage();
     }
 }

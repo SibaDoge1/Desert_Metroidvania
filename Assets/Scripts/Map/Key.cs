@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class Key : InteractObject
 {
+    public string noticeStr; //획득 시 나오는 다이알로그
+    private bool isObtained = false;
+
     protected override void Action()
     {
-        EquipManager.Instance.AddItem(gameObject);
+        if (!isObtained)
+        {
+            EquipManager.Instance.AddItem(gameObject);
+            NoticeUI.Instance.MakeNotice(noticeStr, 3f);
+            isObtained = true;
+        }
     }
 }

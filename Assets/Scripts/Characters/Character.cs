@@ -49,6 +49,7 @@ public abstract class Character : InGameObj
     public Direction Direction { get { return direction; } set { direction = value; } }
 
     public int Hp { get { return hp; } set { hp = value; } }
+    public int MaxHp { get { return maxHp; }}
     public float Spd { get { return defaultSpd; } set { defaultSpd = value; } }
     public float Def { get { return defaultDef; } set { Def = value; } }
     public float AttackSpd { get { return attackSpd; } set { attackSpd = value; } }
@@ -88,7 +89,7 @@ public abstract class Character : InGameObj
     {
     }
 
-    protected void Move(Direction dir)
+    public void Move(Direction dir)
     {
         Vector2 vec;
 
@@ -189,7 +190,7 @@ public abstract class Character : InGameObj
     protected virtual void OnDieCallBack() //죽을 때 부르는 함수
     {
         //임시
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     public void SetStat(StatType type, float value)

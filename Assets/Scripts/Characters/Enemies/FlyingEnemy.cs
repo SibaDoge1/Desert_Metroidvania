@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlyingEnemy : Enemy
+public class FlyingEnemy : RespawnableEnemy
 {
     float damage;
 

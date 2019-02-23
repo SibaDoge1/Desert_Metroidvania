@@ -8,7 +8,7 @@ public class Player : Character
 {
     private bool isMovable;
     public bool IsMovable { get { return isMovable; } set { isMovable = value; } }
-    private BoxCollider2D myCollider;
+    public BoxCollider2D MyCollider { get; private set; }
     private bool isGround;
     public bool IsGround { get { return isGround; } }
     private bool isJumpAniPlaying;
@@ -16,6 +16,7 @@ public class Player : Character
     public bool IsLadder { get { return isLadder; } set { isLadder = value; } }
     private bool isLadderAction;
     public bool IsLadderAction { get { return isLadderAction; } set { isLadderAction = value; } }
+    public bool isElevator;
     private GameObject groundObject;
     private Vector3 previousPos;
 
@@ -29,7 +30,7 @@ public class Player : Character
     {
         base.Start();
         isMovable = true;
-        myCollider = gameObject.GetComponent<BoxCollider2D>();
+        MyCollider = gameObject.GetComponent<BoxCollider2D>();
         //hpUI = GameObject.Find("Canvas").transform.Find("StatInfo").Find("HP").Find("Text").GetComponent<Text>();
         dashCoolUI = GameObject.Find("Canvas").transform.Find("StatInfo").Find("DashCool").Find("Text").GetComponent<Text>();
         jumpCount = 0;
@@ -327,7 +328,7 @@ protected void JumpStop()
 
     protected virtual void OnCollisionStay2D(Collision2D col)
     {
-        if (myCollider.bounds.min.y >= col.collider.bounds.max.y && !stopGroundCheck)
+        if (MyCollider.bounds.min.y >= col.collider.bounds.max.y && !stopGroundCheck)
         {
             isGround = true;
             groundObject = col.gameObject;
@@ -338,11 +339,10 @@ protected void JumpStop()
 
     protected virtual void OnCollisionExit2D(Collision2D col)
     {
-        if (myCollider.bounds.min.y >= col.collider.bounds.max.y)
+        if (MyCollider.bounds.min.y >= col.collider.bounds.max.y && !stopGroundCheck)
         {
             Debug.Log("air");
             isGround = false;
-
             groundObject = null;
         }
     }
@@ -351,17 +351,22 @@ protected void JumpStop()
 
     public void CheckFalling()
     {
-        if(previousPos.y > transform.position.y)
+        if(previousPos.y > transform.position.y && !isGround && !isElevator)
         {
             anim.SetBool("isFalling", true);
-            isGround = false;
         }
+    }
+
+    public void Reset()
+    {
+        isMovable = false;
+        EquipManager.Instance.equipedWeapon.onAttack = false;
     }
 
     #region setter
     public void SetTrigger(bool value)
     {
-        myCollider.isTrigger = value;
+        MyCollider.isTrigger = value;
     }
     
     /// <summary>
@@ -380,6 +385,10 @@ protected void JumpStop()
     public void SetVelocity(Vector2 value)
     {
         rigid.velocity = value;
+    }
+    public void SetStopGroundCheck(bool value)
+    {
+        stopGroundCheck = value;
     }
     #endregion
 }

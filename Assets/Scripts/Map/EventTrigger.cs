@@ -17,7 +17,6 @@ public class EventTrigger : InteractObject
 
     protected override void Action()
     {
-        Debug.Log(stayTimer);
     }
 
     protected override void Update()
@@ -27,7 +26,7 @@ public class EventTrigger : InteractObject
             switch (eventType)
             {
                 case EventType.GroundOpen: StartCoroutine(GroundOpenRoutine(0.9f, -4f)); break;
-                case EventType.Elevate: StartCoroutine(ElevateRoutine(0.9f, -4f)); break;
+                case EventType.Elevate: Obj.GetComponent<Potal>().ChangeStage(); break;
             }
             isTriggered = true;
         }
@@ -69,25 +68,9 @@ public class EventTrigger : InteractObject
         }
     }
 
-    IEnumerator ElevateRoutine(float toScale, float toPosition)
+    IEnumerator ElevateRoutine()
     {
-        // CameraManager.Instance.ShakeCam(0.2f, openTime);
-        float timer = 0f;
-        Vector3 defaultScale = Obj.transform.localScale;
-        Vector3 defaultPos = Obj.transform.localPosition;
-        Vector3 scale;
-        Vector3 pos;
-        while (timer < openTime)
-        {
-            CameraManager.Instance.MoveCam(Random.insideUnitCircle * 0.2f + (Vector2)CameraManager.Instance.transform.position);
-            scale = Obj.transform.localScale;
-            pos = Obj.transform.localPosition;
-            scale.x = Mathf.Lerp(defaultScale.x, 0.9f, timer / openTime);
-            pos.x = Mathf.Lerp(defaultPos.x, -4f, timer / openTime);
-            Obj.transform.localScale = scale;
-            Obj.transform.localPosition = pos;
-            timer += Time.deltaTime;
-            yield return null;
-        }
+        Obj.GetComponent<Potal>().ChangeStage();
+        yield return null;
     }
 }

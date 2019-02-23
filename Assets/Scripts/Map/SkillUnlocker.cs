@@ -11,7 +11,9 @@ public class SkillUnlocker : InteractObject
     }
     public void Unlock()
     {
+        NoticeUI.Instance.MakeNotice(ID_Skill + "번 스킬을 획득했습니다", 3f);
         SaveManager.SetSkillUnlockInfo(ID_Skill, true);
+        Destroy(gameObject);
     }
 
     protected override void Action()

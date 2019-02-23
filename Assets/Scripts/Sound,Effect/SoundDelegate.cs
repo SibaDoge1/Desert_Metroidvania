@@ -8,11 +8,6 @@ public enum BGM
     Floor1_BOSS,
     Title
 }
-public enum CardSoundType
-{
-    Hit,
-    CriticalHit
-}
 public enum EffectSoundType
 {
     GetHit,
@@ -31,27 +26,30 @@ public class SoundDelegate : MonoBehaviour {
     #region variables
     AudioSource bgm;
 
-    private float bgmSound = 1f;
-    public float BGMSound
+    private static float bgmSound = 1f;
+    public static float BGMSound
     {
         get { return bgmSound; }
         set
         {
             bgmSound = value;
-            bgm.volume = bgmSound;
         }
     }
 
-    private float effectSound =1f;
-    public float EffectSound
+    private static float effectSound =1f;
+    public static float EffectSound
     {
         get { return effectSound; }
         set { effectSound = value; }
     }
 
-    public static SoundDelegate instance;
+    private static SoundDelegate instance = null;
+    public static SoundDelegate Instance
+    {
+        get { return instance; }
+    }
+
     public AudioClip[] bgmAudioClips;
-    public GameObject[] cardAudioObject;
     public GameObject[] effectAudioObject;
     #endregion
 
@@ -65,7 +63,7 @@ public class SoundDelegate : MonoBehaviour {
         }
         else
         {
-            UnityEngine.Debug.LogError("SingleTone Error : SoundDelegate");
+            UnityEngine.Debug.LogError("SingleTone Error : " + this.name);
             Destroy(this);
         }
 
@@ -75,14 +73,17 @@ public class SoundDelegate : MonoBehaviour {
     public void PlayBGM(BGM b)
     {
         bgm.clip = bgmAudioClips[(int)b];
+        bgm.volume = bgmSound;
         bgm.Play();
     }
-    public GameObject PlayCardSound(CardSoundType cst,Vector3 position)
-    {
-        return Instantiate(cardAudioObject[(int)cst],position,Quaternion.identity);
-    }
+
     public GameObject PlayEffectSound(EffectSoundType ef, Vector3 position)
     {
         return Instantiate(effectAudioObject[(int)ef], position, Quaternion.identity);
+    }
+
+    public GameObject PlayEffectSound(EffectSoundType ef, Transform obj)
+    {
+        return Instantiate(effectAudioObject[(int)ef], obj.position, Quaternion.identity, obj);
     }
 }

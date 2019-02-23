@@ -37,7 +37,11 @@ public class FadeTool : MonoBehaviour
     }
     public void FadeInOut(float time, voidFunc func)
     {
-        StartCoroutine(FadeInOutRoutine(time, func));
+        StartCoroutine(FadeInOutRoutine(time,0f, func));
+    }
+    public void FadeInOut(float time, float waitTime, voidFunc func)
+    {
+        StartCoroutine(FadeInOutRoutine(time, waitTime, func));
     }
 
     IEnumerator FadeOutRoutine(float time, voidFunc func)
@@ -78,7 +82,7 @@ public class FadeTool : MonoBehaviour
         }
     }
 
-    IEnumerator FadeInOutRoutine(float time, voidFunc func)
+    IEnumerator FadeInOutRoutine(float time, float waitTime, voidFunc func)
     {
         Color DefaultCol = fade.color;
         Color col = fade.color;
@@ -95,6 +99,7 @@ public class FadeTool : MonoBehaviour
         {
             func();
         }
+        yield return new WaitForSeconds(waitTime);
         DefaultCol = fade.color;
         col = fade.color;
         curtime = 0f;

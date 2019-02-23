@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss : Enemy //이거 상속으로 보스 만들어주셈
+public abstract class Boss : Enemy //이거 상속으로 보스 만들어주셈
 {
     [SerializeField]
     public int myID { get; private set; }
     [SerializeField]
     private bool isKilled;
+    public string noticeStr; //죽였을 때 나오는 다이알로그 내용
 
     protected override void Awake()
     {
@@ -21,7 +22,7 @@ public class Boss : Enemy //이거 상속으로 보스 만들어주셈
         isKilled = SaveManager.GetBossKillInfo(myID);
         if (isKilled)
         {
-            gameObject.SetActive(false);
+            DeActive();
         }
     }
 
@@ -40,12 +41,15 @@ public class Boss : Enemy //이거 상속으로 보스 만들어주셈
         throw new System.NotImplementedException();
     }
 
-    public void Killed() //죽을 때 불러주셈
+    protected override void OnDieCallBack() //죽을 때
     {
         SaveManager.SetBossKillInfo(myID, true);
+        NoticeUI.Instance.MakeNotice(noticeStr, 6f);
+        gameObject.SetActive(false);
     }
-    public void DestroyBoss()
+
+    public void DeActive()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

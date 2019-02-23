@@ -23,9 +23,9 @@ public class Bullet : MonoBehaviour {
 			yield return null;
 		}
 		if (target == null) {
-			EffectDelegate.instance.MadeEffect (CardEffectType.Hit, recentTargetPos);
+			EffectDelegate.Instance.MadeEffect (CardEffectType.Hit, recentTargetPos);
 		} else {
-			EffectDelegate.instance.MadeEffect (CardEffectType.Hit, target);
+			EffectDelegate.Instance.MadeEffect (CardEffectType.Hit, target);
 		}
 		Destroy (gameObject);
 	}
