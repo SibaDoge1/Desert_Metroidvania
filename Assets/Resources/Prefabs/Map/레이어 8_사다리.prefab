@@ -96,12 +96,12 @@ PrefabInstance:
     - target: {fileID: 3724199803594580358, guid: 60447f06ea5771c4b81eea95fd197760,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.018
+      value: -0.063
       objectReference: {fileID: 0}
     - target: {fileID: 3724199803594580358, guid: 60447f06ea5771c4b81eea95fd197760,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.668
+      value: 2.883
       objectReference: {fileID: 0}
     - target: {fileID: 3724199803594580358, guid: 60447f06ea5771c4b81eea95fd197760,
         type: 3}
@@ -151,12 +151,12 @@ PrefabInstance:
     - target: {fileID: 3724199803594580358, guid: 60447f06ea5771c4b81eea95fd197760,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 2.4363284
+      value: 2.0050983
       objectReference: {fileID: 0}
     - target: {fileID: 3724199803594580358, guid: 60447f06ea5771c4b81eea95fd197760,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 6.133259
+      value: 5.973794
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60447f06ea5771c4b81eea95fd197760, type: 3}
@@ -181,7 +181,7 @@ PrefabInstance:
     - target: {fileID: 1726601636831356326, guid: 0e0879e1f46bf034689f58b8d7e9382b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.004
+      value: -0.08
       objectReference: {fileID: 0}
     - target: {fileID: 1726601636831356326, guid: 0e0879e1f46bf034689f58b8d7e9382b,
         type: 3}
@@ -231,19 +231,20 @@ PrefabInstance:
     - target: {fileID: 1726601636831356326, guid: 0e0879e1f46bf034689f58b8d7e9382b,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.23334481
+      value: 0.33834997
       objectReference: {fileID: 0}
     - target: {fileID: 1726601636831356326, guid: 0e0879e1f46bf034689f58b8d7e9382b,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 8.413894
+      value: 8.193028
       objectReference: {fileID: 0}
     - target: {fileID: 1726601636831356330, guid: 0e0879e1f46bf034689f58b8d7e9382b,
         type: 3}
       propertyPath: m_Name
       value: Ladder
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1726601636831356325, guid: 0e0879e1f46bf034689f58b8d7e9382b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0e0879e1f46bf034689f58b8d7e9382b, type: 3}
 --- !u!4 &6332515976370277143 stripped
 Transform:
