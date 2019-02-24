@@ -30,6 +30,11 @@ public class StatChanger : MonoBehaviour
                 DestroyMe();
             }
         }
+        if (statType == StatType.MaxHP)
+        {
+            linkedChar.DefaultMaxHp += (int)value; 
+            DestroyMe();
+        }
         else
         {
             linkedChar.SetStat(statType, value);

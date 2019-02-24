@@ -28,6 +28,7 @@ public class SaveData
     public Dictionary<int, bool> potalLockInfo;
     public bool[] skillUnlockInfos;
     public int hp;
+    public int defaultMaxHp;
     public bool isSetted;
 }
 
@@ -135,6 +136,7 @@ public static class SaveManager
         }
         saveData.curStage = PlayManager.Instance.Player.transform.parent.parent.GetComponent<Stage>().name;
         saveData.hp = PlayManager.Instance.Player.Hp;
+        saveData.defaultMaxHp = PlayManager.Instance.Player.DefaultMaxHp;
         saveData.posX = PlayManager.Instance.Player.transform.position.x;
         saveData.posY = PlayManager.Instance.Player.transform.position.y;
         saveData.isSetted = true;
@@ -182,6 +184,7 @@ public static class SaveManager
                 Map.Instance.PotalWithLocks[i].Unlock();
         }
         PlayManager.Instance.Player.Hp = saveData.hp;
+        PlayManager.Instance.Player.DefaultMaxHp = saveData.defaultMaxHp;
     }
 
     public static bool JsonSave(SaveData data, string filename, string path)

@@ -49,7 +49,8 @@ public abstract class Character : InGameObj
     public Direction Direction { get { return direction; } set { direction = value; } }
 
     public int Hp { get { return hp; } set { hp = value; } }
-    public int MaxHp { get { return maxHp; }}
+    public int MaxHp { get { return maxHp; } }
+    public int DefaultMaxHp { get { return defaultMaxHp; } set { defaultMaxHp = value; } }
     public float Spd { get { return defaultSpd; } set { defaultSpd = value; } }
     public float Def { get { return defaultDef; } set { Def = value; } }
     public float AttackSpd { get { return attackSpd; } set { attackSpd = value; } }
