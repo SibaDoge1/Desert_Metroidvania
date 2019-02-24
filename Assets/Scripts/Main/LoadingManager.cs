@@ -21,6 +21,12 @@ public class LoadingManager : MonoBehaviour {
         }
     }
 
+    void Start()
+    {
+
+        LoadScene();
+    }
+
     public void LoadScene()
     {
         gameObject.SetActive(true);
@@ -34,7 +40,7 @@ public class LoadingManager : MonoBehaviour {
 
     private IEnumerator LoadSceneRoutine()
     {
-        AsyncOperation op = SceneManager.LoadSceneAsync("Scenes/Stage");
+        AsyncOperation op = SceneManager.LoadSceneAsync(GlobalData.GetChangeScene());
         op.allowSceneActivation = false;
 
         while (!op.isDone)

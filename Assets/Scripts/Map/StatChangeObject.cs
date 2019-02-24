@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum StatType
 {
-    HP, Damage, SPD, DEF, AttackSPD, MaxHP
+    HP, Damage, SPD, DEF, AttackSPD, MaxHP, Trap, MaxHeal
 }
 public class StatChangeObject : InteractObject, Respawnable
 {
@@ -39,14 +39,27 @@ public class StatChangeObject : InteractObject, Respawnable
             obj = Instantiate(prefab, transform.position, transform.rotation);
             obj.GetComponent<StatChanger>().Construct(PlayManager.Instance.Player, type, value, buffTime);
             remainCount--;
+
+            string typeStr;
+            switch (type)
+            {
+                case StatType.AttackSPD: typeStr = "공격속도"; break;
+                case StatType.HP: typeStr = "체력"; break;
+                case StatType.MaxHP: typeStr = "최대체력"; break;
+                case StatType.SPD: typeStr = "이동속도"; break;
+                case StatType.Damage: typeStr = "공격력"; break;
+                case StatType.DEF: typeStr = "방어력"; break;
+                default: typeStr = ""; break;
+            }
             if(value > 0)
             {
-                NoticeUI.Instance.MakeNotice("버프를 받습니다\n" + type.ToString() +" " + value + " 증가", 3f);
+               // NoticeUI.Instance.MakeNotice("버프를 받습니다\n" + typeStr + " " + value + " 증가", 3f);
             }
             if (value < 0)
             {
-                NoticeUI.Instance.MakeNotice("너프를 받습니다\n" + type.ToString() + " " + value + " 감소", 3f);
+               // NoticeUI.Instance.MakeNotice("너프를 받습니다\n" + typeStr + " " + value + " 감소", 3f);
             }
+
         }
     }
 

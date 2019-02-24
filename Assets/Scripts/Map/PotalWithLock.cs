@@ -23,7 +23,7 @@ public class PotalWithLock : Potal
             ChangeStage();
             return;
         }
-        if (linkedKey.transform.parent == EquipManager.Instance.transform)
+        else if (linkedKey.transform.parent == EquipManager.Instance.transform)
         {
             Unlock();
         }
@@ -35,7 +35,6 @@ public class PotalWithLock : Potal
         {
             return;
         }
-        NoticeUI.Instance.MakeNotice("잠금을 풀었습니다!", 3f);
         isUnlocked = true;
         SaveManager.SetPotalLockInfo(myID, true);
     }

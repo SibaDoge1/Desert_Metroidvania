@@ -53,12 +53,12 @@ public class Player : Character
         if (isDashable > 0f) isDashable = Mathf.Clamp(isDashable - Time.deltaTime, 0, dashCoolTime);
         if (Map.Instance.CheckOutSide(transform.position)) OnDieCallBack();
         if (MyInput.GetKeyDown(MyKeyCode.Attack)) Action();
+        if (MyInput.GetKeyUp(MyKeyCode.Right)) anim.SetBool("isRunning", false); //달리기 애니메이션 버그, 이걸 밖으로 빼니 고쳐짐
+        if (MyInput.GetKeyUp(MyKeyCode.Left)) anim.SetBool("isRunning", false);
         if (IsMovable)
         {
             if (MyInput.GetKeyDown(MyKeyCode.Dash) && isDashable <= 0f) Dash();
             if (MyInput.GetKeyDown(MyKeyCode.Jump)) Jump();
-            if (MyInput.GetKeyUp(MyKeyCode.Right)) anim.SetBool("isRunning", false);
-            if (MyInput.GetKeyUp(MyKeyCode.Left)) anim.SetBool("isRunning", false);
         }
         if (isGround && isJumping)
         {
@@ -128,6 +128,7 @@ public class Player : Character
     private const float dashCoolTime = 0.25f;
     IEnumerator PlayerDash(Direction dir)
     {
+
         float timer = 0;
         IsSuper = dashInvincibleTime;
 
@@ -151,13 +152,10 @@ public class Player : Character
 
     IEnumerator DashAttacking()
     {
-
-        IsMovable = false;
         anim.SetBool("isDashAttack", true);
 
         yield return new WaitForSeconds(0.3f);
 
-        IsMovable = true;
         anim.SetBool("isDashAttack", false);
         anim.SetBool("isRunning", false);
 
@@ -228,6 +226,20 @@ public class Player : Character
         stopGroundCheck = false;
     }
     
+    public void JumpAttackMove(Vector2 vec)
+    {
+        Move(vec);
+    }
+
+    public void JumpAgain()
+    {
+        isJumping = true;
+        StopCoroutine("JumpRoutine");
+        StartCoroutine("JumpRoutine");
+        anim.SetBool("isJumping", true);
+        anim.Play("jump_Start");
+    }
+
     /*
     //float jumpCount = 0f;
 
@@ -263,6 +275,12 @@ protected void JumpStop()
 
                 return;
             }
+            else if (MyInput.GetKey(MyKeyCode.Down) && !IsGround)
+            {
+                EquipManager.Instance.equipedWeapon.JumpSkillAction(atkBuff, attackSpd);
+
+                return;
+            }
             else
             {
                 EquipManager.Instance.equipedWeapon.Action(atkBuff, attackSpd);
@@ -276,7 +294,7 @@ protected void JumpStop()
     {
         //애니메이션재생
         gameObject.SetActive(false);
-        PlayManager.Instance.Defeat();
+        PlayManager.Instance.Return();
     }
 
     protected override void CheckBuffAndDebuff()
@@ -329,9 +347,12 @@ protected void JumpStop()
 
     protected virtual void OnCollisionExit2D(Collision2D col)
     {
-        Debug.Log("air");
-        isGround = false;
-        groundObject = null;
+        if(col.gameObject == groundObject)
+        {
+            Debug.Log("air");
+            isGround = false;
+            groundObject = null;
+        }
         //if (MyCollider.bounds.min.y >= col.collider.bounds.max.y && !stopGroundCheck)
     }
     protected virtual void OnCollisionStay2D(Collision2D col)

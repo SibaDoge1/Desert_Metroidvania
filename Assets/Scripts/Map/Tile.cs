@@ -34,7 +34,7 @@ public class Tile : MonoBehaviour
         Debug.Log("down");
         StopCoroutine("ClickCheck");
         clickCheckTimer = 0;
-        player.transform.Translate(Vector2.down * (transform.localScale.y+ player.transform.localScale.y/2f));
+        player.transform.Translate(Vector2.down * (transform.lossyScale.y+ player.transform.lossyScale.y/2f));
     }
 
     IEnumerator ClickCheck()
@@ -52,7 +52,7 @@ public class Tile : MonoBehaviour
     {
         if (col.transform.CompareTag("Player"))
         {
-            if (col.transform.position.y - col.transform.localScale.y / 2f >= transform.position.y + transform.localScale.y / 2f)
+            if (col.transform.position.y - col.transform.lossyScale.y / 2f >= transform.position.y + transform.lossyScale.y / 2f)
             {
                 isAtObject = true;
                 player = col.gameObject.GetComponent<Player>();

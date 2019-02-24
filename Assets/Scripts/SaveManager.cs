@@ -17,6 +17,8 @@ public class SaveData
         MapInfo = new Dictionary<int, bool>();
         potalLockInfo = new Dictionary<int, bool>();
         skillUnlockInfos = new bool[4];
+        triggerInfo = new Dictionary<int, bool>();
+        defaultMaxHp = 1;
         isSetted = false;
     }
 
@@ -26,8 +28,10 @@ public class SaveData
     public Dictionary<int, bool> MapInfo;
     public Dictionary<int, bool> BossKillInfo;
     public Dictionary<int, bool> potalLockInfo;
-    public bool[] skillUnlockInfos;
+    public Dictionary<int, bool> triggerInfo;
+    public bool[] skillUnlockInfos; //순서 : 대시, 대시스킬, 점프스킬, 평타3
     public int hp;
+    public int defaultMaxHp;
     public bool isSetted;
 }
 
@@ -98,6 +102,13 @@ public static class SaveManager
         saveData.skillUnlockInfos[idx] = isUnLocked;
     }
 
+    public static void SetTriggerInfo(int idx, bool isUnLocked)
+    {
+        if (!saveData.triggerInfo.ContainsKey(idx))
+            return;
+        saveData.triggerInfo[idx] = isUnLocked;
+    }
+
     public static bool GetBossKillInfo(int boss)
     {
         if (!saveData.BossKillInfo.ContainsKey(boss))
@@ -125,6 +136,13 @@ public static class SaveManager
             return false;
         return saveData.skillUnlockInfos[idx];
     }
+
+    public static bool GetTriggerInfo(int boss)
+    {
+        if (!saveData.triggerInfo.ContainsKey(boss))
+            saveData.triggerInfo.Add(boss, false);
+        return saveData.triggerInfo[boss];
+    }
     #endregion
 
     public static void SetSaveData()
@@ -135,6 +153,7 @@ public static class SaveManager
         }
         saveData.curStage = PlayManager.Instance.Player.transform.parent.parent.GetComponent<Stage>().name;
         saveData.hp = PlayManager.Instance.Player.Hp;
+        saveData.defaultMaxHp = PlayManager.Instance.Player.DefaultMaxHp;
         saveData.posX = PlayManager.Instance.Player.transform.position.x;
         saveData.posY = PlayManager.Instance.Player.transform.position.y;
         saveData.isSetted = true;
@@ -168,20 +187,26 @@ public static class SaveManager
         Map.Instance.ChangeStage(Map.Instance.CurStage, saveData.curStage, new Vector2(saveData.posX, saveData.posY));
         for (int i = 0; i<Map.Instance.stages.Count; i++)
         {
-            if(GetMapInfo(Map.Instance.stages[i].myID) == true )
+            if(GetMapInfo(i) == true )
                 Map.Instance.stages[i].UnlockMapInfo();
         }
         for (int i = 0; i < Map.Instance.bosses.Count; i++)
         {
-            if (GetBossKillInfo(Map.Instance.bosses[i].myID) == true)
+            if (GetBossKillInfo(i) == true)
                 Map.Instance.bosses[i].DeActive();
         }
         for (int i = 0; i < Map.Instance.PotalWithLocks.Count; i++)
         {
-            if (GetPotalLockInfo(Map.Instance.PotalWithLocks[i].myID) == true)
+            if (GetPotalLockInfo(i) == true)
                 Map.Instance.PotalWithLocks[i].Unlock();
         }
+        for (int i = 0; i < Map.Instance.EventTriggers.Count; i++)
+        {
+            if (GetTriggerInfo(i) == true)
+                Map.Instance.EventTriggers[i].Unlock();
+        }
         PlayManager.Instance.Player.Hp = saveData.hp;
+        PlayManager.Instance.Player.DefaultMaxHp = saveData.defaultMaxHp;
     }
 
     public static bool JsonSave(SaveData data, string filename, string path)

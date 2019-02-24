@@ -17,7 +17,7 @@ public class PlayManager : MonoBehaviour
         if (instance == null) instance = this;
         else
         {
-            Debug.LogError("Singleton Error! : " + this.name);
+            Debug.LogWarning("Singleton Error! : " + this.name);
             Destroy(this);
         }
         SaveManager.FirstLoad(GlobalData.isNewStart);
@@ -29,6 +29,7 @@ public class PlayManager : MonoBehaviour
     void Start()
     {
         SaveManager.ApplySave();
+        FadeTool.Instance.FadeIn(1f, null);
     }
 
     void Update()
@@ -44,7 +45,7 @@ public class PlayManager : MonoBehaviour
         }
     }
 
-    public void Defeat()
+    public void Return()
     {
         FadeTool.Instance.FadeInOut(1f, 1f, ReturnToCheckPoint);
     }

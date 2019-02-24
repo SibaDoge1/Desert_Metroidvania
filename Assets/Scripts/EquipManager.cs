@@ -13,7 +13,7 @@ public class EquipManager : MonoBehaviour
         if (instance == null) instance = this;
         else if (instance != this)
         {
-            Debug.LogError("Singleton Error! : " + this.name);
+            Debug.LogWarning("Singleton Error! : " + this.name);
             Destroy(gameObject);
         }
         equipedWeapon = transform.Find("Weapon").transform.GetChild(0).GetComponent<Weapon>();     //왠지 안돼서 플레이어 컴포넌트에 붙임

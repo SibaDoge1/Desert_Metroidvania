@@ -18,7 +18,7 @@ public class Stage : MonoBehaviour
     [SerializeField]
     private Vector2 availablePos;
     [SerializeField]
-    private bool isMapInfoObtained;
+    public bool isMapInfoObtained { get; private set; }
 
     public Vector2 CamSize { get { return camSize; } }
     public Vector2 CamPos { get { return camPos; } }
@@ -27,10 +27,10 @@ public class Stage : MonoBehaviour
     {
         camBoundary = transform.Find("Boundary");
         dieBoundary = transform.Find("DieBoundary");
-        camSize.x = camBoundary.localScale.x / 2f;
-        camSize.y = camBoundary.localScale.y / 2f;
-        availableSize.x = dieBoundary.localScale.x / 2f;
-        availableSize.y = dieBoundary.localScale.y / 2f;
+        camSize.x = camBoundary.lossyScale.x / 2f;
+        camSize.y = camBoundary.lossyScale.y / 2f;
+        availableSize.x = dieBoundary.lossyScale.x / 2f;
+        availableSize.y = dieBoundary.lossyScale.y / 2f;
         camPos.x = camBoundary.position.x;
         camPos.y = camBoundary.position.y;
         availablePos.x = dieBoundary.position.x;

@@ -42,17 +42,17 @@ public class CombatSystem : MonoBehaviour
         if (instance == null) instance = this;
         else if (instance != this)
         {
-            Debug.LogError("Singleton Error! : " + this.name);
+            Debug.LogWarning("Singleton Error! : " + this.name);
             Destroy(gameObject);
         }
-        _damagingCollider = Resources.Load("Prefabs/DamagingCollider") as GameObject;
-        _projectile = Resources.Load("Prefabs/ProjectileObject") as GameObject;
+        _damagingCollider = Resources.Load("Prefabs/Colliders/DamagingCollider") as GameObject;
+        _projectile = Resources.Load("Prefabs/Colliders/ProjectileObject") as GameObject;
     }
 
     GameObject _damagingCollider;
     GameObject _projectile;
 
-    public void InstantiateHitBox(AttackInfo attackInfo, Transform transform_attacker)
+    public GameObject InstantiateHitBox(AttackInfo attackInfo, Transform transform_attacker)
         //attacker의 transform을 기준으로 DamagingCollider 생성
     {
         BoxCollider2D damagingCollider_Collider2D = Instantiate(_damagingCollider, transform_attacker.position, Quaternion.identity).GetComponent<BoxCollider2D>();
@@ -73,6 +73,35 @@ public class CombatSystem : MonoBehaviour
 
         damagingCollider.gameObject.transform.SetParent(transform_attacker);
         damagingCollider.DestroyCollider(attackInfo.duration);
+
+        return damagingCollider.gameObject;
+    }
+
+    public GameObject InstantiateHitBox(AttackInfo attackInfo, Transform transform_attacker, string path)
+    //path의 DamagingCollider 상속 오브젝트를 생성
+    {
+        GameObject dCol = Resources.Load(path) as GameObject;
+
+        BoxCollider2D damagingCollider_Collider2D = Instantiate(dCol, transform_attacker.position, Quaternion.identity).GetComponent<BoxCollider2D>();
+        DamagingCollider damagingCollider = damagingCollider_Collider2D.gameObject.GetComponent<DamagingCollider>();
+
+        damagingCollider_Collider2D.size = attackInfo.attackRange;
+        Vector3 tempV3 = damagingCollider_Collider2D.transform.position;
+        tempV3.x += attackInfo.hitBoxPostion.x * (int)transform_attacker.GetComponentInParent<Character>().Direction;
+        tempV3.y += attackInfo.hitBoxPostion.y;
+        damagingCollider_Collider2D.transform.position = tempV3;
+
+        damagingCollider.damage = attackInfo.damage;
+
+        if (PlayManager.Instance.isTestMode)
+        {
+            damagingCollider.ChangeSprite(attackInfo.attackRange);
+        }
+
+        damagingCollider.gameObject.transform.SetParent(transform_attacker);
+        damagingCollider.DestroyCollider(attackInfo.duration);
+
+        return damagingCollider.gameObject;
     }
 
     public void InstantiateProjectile(AttackInfo attackInfo, Transform transform_attacker)

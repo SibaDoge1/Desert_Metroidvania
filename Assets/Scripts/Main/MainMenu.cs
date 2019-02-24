@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    private LoadingManager loadingPanel;
     public delegate void voidFunc();
 
     void Awake()
@@ -18,7 +17,6 @@ public class MainMenu : MonoBehaviour
         Screen.orientation = ScreenOrientation.Landscape;
         #endregion
         */
-        loadingPanel = GameObject.Find("Canvas").transform.Find("LoadingPanel").GetComponent<LoadingManager>();
 
     }
     
@@ -27,21 +25,28 @@ public class MainMenu : MonoBehaviour
     }
 
     public void OnStartButtonDown()
-    {
-        //SceneManager.LoadScene("Levels/LoadingScene");
+    {;
         GlobalData.isNewStart = true;
-        loadingPanel.LoadScene();
+        GlobalData.SetChangeScene("Scenes/Stage");
+        FadeTool.Instance.FadeInOut(1f,0.5f, LoadScene);
     }
 
     public void OnContinueButtonDown()
     {
         GlobalData.isNewStart = false;
-        loadingPanel.LoadScene();
+        GlobalData.SetChangeScene("Scenes/Stage");
+        FadeTool.Instance.FadeInOut(1f, 0.5f, LoadScene);
     }
 
     public void OnExitButtonDown()
     {
         Application.Quit();
+    }
+
+    public void LoadScene()
+    {
+
+        SceneManager.LoadScene("Scenes/LoadingScene");
     }
 
 }

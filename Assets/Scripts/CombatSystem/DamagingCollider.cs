@@ -12,10 +12,10 @@ public class DamagingCollider : MonoBehaviour
     {
         //if (c.transform.parent == null) return;
 
-        if (c.tag == "Enemy" || c.tag == "Player")
+        if (gameObject.tag != "Enemy" && c.tag == "Enemy" || c.tag == "Player")
         {   
             //무적 시간? 있나?
-            c.GetComponent<Character>().GetDamage(damage);
+            c.GetComponent<Character>().GetDamage(damage, transform);
             if (hitEffect != null)
             {
                 Instantiate(hitEffect, transform.position, transform.rotation);
@@ -41,7 +41,7 @@ public class DamagingCollider : MonoBehaviour
         OnDestroyCallBack();
     }
 
-    protected void OnDestroyCallBack()
+    public void OnDestroyCallBack()
     {
         StopAllCoroutines();
         Destroy(gameObject);

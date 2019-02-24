@@ -21,7 +21,7 @@ public class StatChanger : MonoBehaviour
         {
             if (value < 0)
             {
-                linkedChar.GetDamage(-(int)value);
+                linkedChar.GetDamage(-(int)value, transform);
                 DestroyMe();
             }
             else if (value > 0)
@@ -30,11 +30,26 @@ public class StatChanger : MonoBehaviour
                 DestroyMe();
             }
         }
+        else if(statType == StatType.MaxHP)
+        {
+            linkedChar.DefaultMaxHp += (int)value; 
+            DestroyMe();
+        }
+        else if(statType == StatType.Trap)
+        {
+            linkedChar.GetDamage(linkedChar.Hp,transform);
+            DestroyMe();
+        }
+        else if(statType == StatType.MaxHP)
+        {
+            linkedChar.GetHeal(linkedChar.DefaultMaxHp);
+            DestroyMe();
+        }
         else
         {
             linkedChar.SetStat(statType, value);
         }
-        
+
     }
 
     /// <summary>
@@ -57,7 +72,7 @@ public class StatChanger : MonoBehaviour
         transform.SetParent(linkedChar.transform.Find("StatChangers"));
         linkedChar.AddStatChanger(this);
         if (cha.gameObject.CompareTag("Player") && 
-            statType != StatType.HP && statType != StatType.MaxHP)
+            statType != StatType.HP && statType != StatType.MaxHP && statType != StatType.MaxHeal && statType != StatType.Trap)
         {
             BuffUI.Instance.MakeEntity(statType, value, Time);
         }

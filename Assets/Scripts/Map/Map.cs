@@ -15,13 +15,14 @@ public class Map : MonoBehaviour
     public List<Boss> bosses;
     public List<Stage> stages;
     public List<PotalWithLock> PotalWithLocks;
+    public List<EventTrigger> EventTriggers;
 
     void Awake()
     {
         if (instance == null) instance = this;
         else
         {
-            Debug.LogError("Singleton Error! : " + this.name);
+            Debug.LogWarning("Singleton Error! : " + this.name);
             Destroy(gameObject);
         }
     }

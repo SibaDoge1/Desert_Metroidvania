@@ -27,15 +27,26 @@ public class BuffEntity : MonoBehaviour
     public void Construct(StatType type, float value, float time)
     {
         buffTime = time;
+        string typeStr;
+        switch (type)
+        {
+            case StatType.AttackSPD: typeStr = "공격속도"; break;
+            case StatType.HP: typeStr = "체력"; break;
+            case StatType.MaxHP: typeStr = "최대체력"; break;
+            case StatType.SPD: typeStr = "이동속도"; break;
+            case StatType.Damage: typeStr = "공격력"; break;
+            case StatType.DEF: typeStr = "방어력"; break;
+            default: typeStr = ""; break;
+        }
         if (value > 0)
         {
-            text.text = type.ToString() + "\n" + value + "+";
+            text.text = typeStr + "\n" + value + "+";
             fill.color = Color.green;
             text.color = Color.black;
         }
         else if (value < 0)
         {
-            text.text = type.ToString() + "\n" + value + "-";
+            text.text = typeStr + "\n" + value + "-";
             fill.color = Color.red;
             text.color = Color.white;
         }

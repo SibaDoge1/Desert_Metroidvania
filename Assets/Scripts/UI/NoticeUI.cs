@@ -23,7 +23,7 @@ public class NoticeUI : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Singleton Error! : " + this.name);
+            Debug.LogWarning("Singleton Error! : " + this.name);
             Destroy(this);
         }
         noticeEntity = Resources.Load<GameObject>("Prefabs/UI/NoticeEntity");

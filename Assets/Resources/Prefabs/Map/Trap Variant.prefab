@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 4259934073577201627, guid: ff1894cfc64f72c4eac1ace0564b8a30,
         type: 3}
       propertyPath: m_Name
-      value: Trap
+      value: Trap Variant
       objectReference: {fileID: 0}
     - target: {fileID: 4259934073577201626, guid: ff1894cfc64f72c4eac1ace0564b8a30,
         type: 3}
@@ -86,6 +86,11 @@ PrefabInstance:
         type: 3}
       propertyPath: buffTime
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4259934073577201620, guid: ff1894cfc64f72c4eac1ace0564b8a30,
+        type: 3}
+      propertyPath: type
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4259934073577201625, guid: ff1894cfc64f72c4eac1ace0564b8a30,
         type: 3}
