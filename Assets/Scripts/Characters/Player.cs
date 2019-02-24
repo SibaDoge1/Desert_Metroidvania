@@ -126,6 +126,7 @@ public class Player : Character
     private const float dashInvincibleTime = 0.2f;
     private const float dashTime = 0.25f;
     private const float dashCoolTime = 0.25f;
+    private bool stopDash = false;
     IEnumerator PlayerDash(Direction dir)
     {
 
@@ -134,11 +135,19 @@ public class Player : Character
 
         while(timer < dashTime)
         {
+            yield return new WaitForFixedUpdate(); //물리적인 이동같은건 fixedUpdate로
+
+            if (stopDash)
+            {
+                Debug.Log("StopDash");
+                stopDash = false;
+                break;
+            }
+
             spd = Mathf.Lerp(Spd * 8f, Spd, timer / dashTime);
             Move(dir);
 
             timer += Time.fixedDeltaTime;
-            yield return new WaitForFixedUpdate(); //물리적인 이동같은건 fixedUpdate로
         }
 
         if (MyInput.GetKey(MyKeyCode.Right)) anim.SetBool("isRunning", true);
@@ -225,7 +234,9 @@ public class Player : Character
         yield return new WaitForSeconds(0.1f);
         stopGroundCheck = false;
     }
-    
+
+    public bool stopJumpSkill = false;
+
     public void JumpAttackMove(Vector2 vec)
     {
         Move(vec);
@@ -364,6 +375,11 @@ protected void JumpStop()
             anim.SetBool("isFalling", false);
 
         }
+        if (col.gameObject.tag == "Tile" && isDashing)
+        {
+            stopDash = true;
+        }
+
     }
     #endregion
 
