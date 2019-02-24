@@ -12,8 +12,29 @@ public class Key : InteractObject
         if (!isObtained)
         {
             EquipManager.Instance.AddItem(gameObject);
-            NoticeUI.Instance.MakeNotice(noticeStr, 3f);
+            StartCoroutine(CamShakeRoutine());
             isObtained = true;
+        }
+    }
+
+    public void Obtain()
+    {
+        if (!isObtained)
+        {
+            EquipManager.Instance.AddItem(gameObject);
+            isObtained = true;
+        }
+    }
+
+
+    IEnumerator CamShakeRoutine()
+    {
+        float timer = 0f;
+        while (timer < 2f)
+        {
+            CameraManager.Instance.MoveCam(Random.insideUnitCircle * 0.2f + (Vector2)CameraManager.Instance.transform.position);
+            timer += Time.deltaTime;
+            yield return null;
         }
     }
 }

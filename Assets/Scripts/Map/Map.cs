@@ -15,6 +15,7 @@ public class Map : MonoBehaviour
     public List<Boss> bosses;
     public List<Stage> stages;
     public List<PotalWithLock> PotalWithLocks;
+    public List<EventTrigger> EventTriggers;
 
     void Awake()
     {

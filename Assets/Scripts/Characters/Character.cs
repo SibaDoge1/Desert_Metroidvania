@@ -45,6 +45,8 @@ public abstract class Character : InGameObj
     protected float isSuper = 0f; //무적
     public float IsSuper { get { return isSuper; } set { isSuper = value; } }
 
+    protected float isDamaged = 0f;
+    protected Color defaultColor;
     protected Direction direction = Direction.right;
     public Direction Direction { get { return direction; } set { direction = value; } }
 
@@ -66,7 +68,8 @@ public abstract class Character : InGameObj
         if (transform.Find("Sprite") != null)
         {
             sprite = transform.Find("Sprite").gameObject;
-            if(sprite.GetComponent<Animator>() != null)
+            defaultColor = sprite.GetComponent<SpriteRenderer>().color;
+            if (sprite.GetComponent<Animator>() != null)
             {
                 anim = sprite.GetComponent<Animator>();
             }
@@ -82,8 +85,22 @@ public abstract class Character : InGameObj
     protected virtual void Update()
     {
         if (IsSuper > 0f)
+        {
             IsSuper -= Time.deltaTime;
-
+            if(sprite != null)
+                sprite.GetComponent<SpriteRenderer>().color = Color.red;
+        }
+        if (isDamaged > 0f)
+        {
+            isDamaged -= Time.deltaTime;
+            if (sprite != null)
+                sprite.GetComponent<SpriteRenderer>().color = Color.red;
+        }
+        else
+        {
+            if (sprite != null)
+                sprite.GetComponent<SpriteRenderer>().color = defaultColor;
+        }
         CheckBuffAndDebuff();
     }
 
@@ -164,13 +181,20 @@ public abstract class Character : InGameObj
     }
 
 
-    public virtual void GetDamage(float damage) // 공격받을시 실행, 초기 데미지를 전달
+    public virtual void GetDamage(float damage, Transform col) // 공격받을시 실행, 초기 데미지를 전달
     {
         if (isSuper <= 0f)
         {
             //임시
             Hp -= (int)damage;
             IsSuper = InvincibleTIme;
+            isDamaged = InvincibleTIme;
+            if (transform.position.x < col.position.x)
+                rigid.AddForce(Vector2.left * 150);
+                //Move(Vector2.left * 4);
+            else
+                rigid.AddForce(Vector2.right * 150);
+                 //Move(Vector2.right * 4);
 
             Debug.Log("Damaged : " + gameObject.name);
 

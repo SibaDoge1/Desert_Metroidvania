@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum StatType
 {
-    HP, Damage, SPD, DEF, AttackSPD, MaxHP
+    HP, Damage, SPD, DEF, AttackSPD, MaxHP, Trap, MaxHeal
 }
 public class StatChangeObject : InteractObject, Respawnable
 {
@@ -53,11 +53,11 @@ public class StatChangeObject : InteractObject, Respawnable
             }
             if(value > 0)
             {
-                NoticeUI.Instance.MakeNotice("버프를 받습니다\n" + typeStr + " " + value + " 증가", 3f);
+               // NoticeUI.Instance.MakeNotice("버프를 받습니다\n" + typeStr + " " + value + " 증가", 3f);
             }
             if (value < 0)
             {
-                NoticeUI.Instance.MakeNotice("너프를 받습니다\n" + typeStr + " " + value + " 감소", 3f);
+               // NoticeUI.Instance.MakeNotice("너프를 받습니다\n" + typeStr + " " + value + " 감소", 3f);
             }
 
         }

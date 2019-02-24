@@ -98,7 +98,7 @@ public class FlyingEnemy : RespawnableEnemy
         {
             if (c.gameObject.tag == "Player")
             {
-                c.gameObject.GetComponent<Character>().GetDamage(damage);
+                c.gameObject.GetComponent<Character>().GetDamage(damage, transform);
             }
         }
     }

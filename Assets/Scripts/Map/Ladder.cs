@@ -24,14 +24,14 @@ public class Ladder : InteractObject
         {
             if (MyInput.GetKey(MyKeyCode.Up))
             {
-                if (PlayManager.Instance.Player.transform.position.y <= transform.position.y + transform.localScale.y / 2f + 0.1f)
+                if (PlayManager.Instance.Player.transform.position.y <= transform.position.y + transform.lossyScale.y / 2f + 0.1f)
                 {
                     LadderIn(true);
                 }
             }
             if (MyInput.GetKey(MyKeyCode.Down))
             {
-                if (PlayManager.Instance.Player.transform.position.y >= transform.position.y + transform.localScale.y / 2f)
+                if (PlayManager.Instance.Player.transform.position.y >= transform.position.y + transform.lossyScale.y / 2f)
                 {
                     LadderIn(false);
                 }
@@ -62,7 +62,7 @@ public class Ladder : InteractObject
     private void UpLadder()
     {
         if (!isUsingLadder) return;
-        if (PlayManager.Instance.Player.transform.position.y <= transform.position.y + transform.localScale.y / 2f + 0.1f)
+        if (PlayManager.Instance.Player.transform.position.y <= transform.position.y + transform.lossyScale.y / 2f + 0.1f)
         {
             PlayManager.Instance.Player.transform.Translate(Vector2.up * climbSpeed);
             PlayManager.Instance.Player.IsLadderAction = true;
@@ -95,7 +95,7 @@ public class Ladder : InteractObject
     {
         if (!isUsingLadder) return;
 
-        if (PlayManager.Instance.Player.transform.position.y < transform.position.y - transform.localScale.y / 2f - 0.1f)
+        if (PlayManager.Instance.Player.transform.position.y < transform.position.y - transform.lossyScale.y / 2f - 0.1f)
         {
             LadderOut();
         }

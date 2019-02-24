@@ -82,7 +82,7 @@ public class ShootingEnemy : RespawnableEnemy
     {
         if (c.gameObject.tag == "Player")
         {
-            c.gameObject.GetComponent<Character>().GetDamage(attackInfos[0].damage);
+            c.gameObject.GetComponent<Character>().GetDamage(attackInfos[0].damage, transform);
         }
     }
 }
