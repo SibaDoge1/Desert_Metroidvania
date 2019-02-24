@@ -349,7 +349,6 @@ protected void JumpStop()
 
     public void CheckFalling()
     {
-        Debug.Log(stopGroundCheck);
         if (previousPos.y > transform.position.y && !isGround && !isElevator)
         {
             anim.SetBool("isFalling", true);

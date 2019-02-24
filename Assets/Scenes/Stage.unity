@@ -899,7 +899,7 @@ PrefabInstance:
     - target: {fileID: 3730827106159044992, guid: 63cca4db042845141a86ee52b2f470a4,
         type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 3730827106159044994, guid: 63cca4db042845141a86ee52b2f470a4,
         type: 3}
@@ -7907,7 +7907,7 @@ GameObject:
   - component: {fileID: 637487475}
   - component: {fileID: 637487471}
   - component: {fileID: 637487474}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -8040,13 +8040,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e5f25e313ccde64e964a17bd6d875f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRespawnable: 0
   anim: {fileID: 0}
   defaultSpd: 5
   defaultDef: 0
   jumpPower: 6
   defaultMaxHp: 10
-  hp: 3
+  hp: 10
   maxHp: 10
   spd: 5
   def: 0
@@ -10552,7 +10551,7 @@ GameObject:
   - component: {fileID: 823248919}
   - component: {fileID: 823248921}
   - component: {fileID: 823248920}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15064,7 +15063,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1267843395}
   - component: {fileID: 1267843396}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: HitCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15216,7 +15215,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1293563205}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: StatChangers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17558,7 +17557,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000010405155, y: 0}
+  m_AnchoredPosition: {x: 0.0000329751, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1478030584
@@ -18422,7 +18421,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000032043085, y: -0.0000058947535}
+  m_AnchoredPosition: {x: -0.000032043085, y: 0.000004999089}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1563876551
@@ -19909,7 +19908,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1672842618}
   - component: {fileID: 1672842619}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: MapIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24223,11 +24222,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 474084942}
     m_Modifications:
-    - target: {fileID: 1726601636831356330, guid: 0e0879e1f46bf034689f58b8d7e9382b,
-        type: 3}
-      propertyPath: m_Name
-      value: Ladder
-      objectReference: {fileID: 0}
     - target: {fileID: 1726601636831356326, guid: 0e0879e1f46bf034689f58b8d7e9382b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -24292,6 +24286,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: 0.21204479
+      objectReference: {fileID: 0}
+    - target: {fileID: 1726601636831356330, guid: 0e0879e1f46bf034689f58b8d7e9382b,
+        type: 3}
+      propertyPath: m_Name
+      value: Ladder
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1726601636831356325, guid: 0e0879e1f46bf034689f58b8d7e9382b, type: 3}
@@ -25953,6 +25952,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: monster_Fly
       objectReference: {fileID: 0}
+    - target: {fileID: 2117724527, guid: f0c7f212962e65d48add9f5edb84a597, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2117724533, guid: f0c7f212962e65d48add9f5edb84a597, type: 3}
       propertyPath: m_LocalPosition.x
       value: -91.47
@@ -25996,6 +25999,10 @@ PrefabInstance:
     - target: {fileID: 2117724533, guid: f0c7f212962e65d48add9f5edb84a597, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2117724531, guid: f0c7f212962e65d48add9f5edb84a597, type: 3}
+      propertyPath: m_Mass
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0c7f212962e65d48add9f5edb84a597, type: 3}
@@ -26805,7 +26812,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3186620347178500935}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26837,7 +26844,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3186620347699449927}
   - component: {fileID: 3186620347699449925}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Equip
   m_TagString: Untagged
   m_Icon: {fileID: 0}

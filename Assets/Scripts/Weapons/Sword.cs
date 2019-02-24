@@ -41,7 +41,7 @@ public class Sword : Weapon
         tempInfos[3].attackRange = new Vector2(5f, 1f);
         tempInfos[3].hitBoxPostion = new Vector2(-2.5f, 0f);
         tempInfos[3].damage = 1;
-        tempInfos[3].duration = 0.15f;
+        tempInfos[3].duration = 0.2f;
         tempInfos[3].preDelay = 0f;
         tempInfos[3].postDelay = 0.1f;
         tempInfos[3].attackID = "dashAttack";
