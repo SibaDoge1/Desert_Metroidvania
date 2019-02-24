@@ -147,6 +147,7 @@ public class Sword : Weapon
     {
         onAttack = true;
         PlayManager.Instance.Player.IsMovable = false;
+        PlayManager.Instance.Player.stopJumpSkill = false;
 
         string path = "Prefabs/Colliders/JumpSkillCollider";
 
@@ -159,6 +160,9 @@ public class Sword : Weapon
         while (true)
         {
             if (col.GetComponent<JumpSkillCollider>().isTriggered)
+                break;
+
+            else if (PlayManager.Instance.Player.stopJumpSkill)
                 break;
 
             PlayManager.Instance.Player.JumpAttackMove(vec);
