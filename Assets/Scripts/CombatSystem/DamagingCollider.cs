@@ -12,7 +12,7 @@ public class DamagingCollider : MonoBehaviour
     {
         //if (c.transform.parent == null) return;
 
-        if (c.tag == "Enemy" || c.tag == "Player")
+        if (gameObject.tag != "Enemy" && c.tag == "Enemy" || c.tag == "Player")
         {   
             //무적 시간? 있나?
             c.GetComponent<Character>().GetDamage(damage, transform);
