@@ -63,6 +63,7 @@ public class Map : MonoBehaviour
         CurStage = to;
         if (from != null && from != to)
             from.DeActive();
+        ChangeBgm(to.name);
         Debug.Log("Stage : " + CurStage.gameObject.name);
     }
 
@@ -75,7 +76,22 @@ public class Map : MonoBehaviour
         CurStage = _to;
         if(_from != null && _from != _to)
             _from.DeActive();
+        ChangeBgm(toStr);
         Debug.Log("Stage : " + CurStage.gameObject.name);
+    }
+
+    public void ChangeBgm(string toStr)
+    {
+        switch (toStr)
+        {
+            case "Stage_A2": SoundDelegate.Instance.PlayBGM(BGM.A1A2); break;
+            case "Stage_A3": SoundDelegate.Instance.PlayBGM(BGM.A1A2); break;
+            case "Stage_B1": SoundDelegate.Instance.PlayBGM(BGM.B1B2); break;
+            case "Stage_B2": SoundDelegate.Instance.PlayBGM(BGM.B1B2); break;
+            case "Stage_C1": SoundDelegate.Instance.PlayBGM(BGM.C1C2); break;
+            case "Stage_C2": SoundDelegate.Instance.PlayBGM(BGM.C1C2); break;
+            case "Stage_C3": SoundDelegate.Instance.PlayBGM(BGM.C3); break;
+        }
     }
 
     public bool CheckOutSide(Vector2 pos)

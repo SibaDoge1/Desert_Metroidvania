@@ -72,6 +72,7 @@ public class StatChanger : MonoBehaviour
         }
         transform.SetParent(linkedChar.transform.Find("StatChangers"));
         linkedChar.AddStatChanger(this);
+        EffectDelegate.Instance.MadeEffect(EffectType.LightWall, linkedChar.transform);
         if (cha.gameObject.CompareTag("Player") && 
             statType != StatType.HP && statType != StatType.MaxHP && statType != StatType.MaxHeal && statType != StatType.Trap)
         {

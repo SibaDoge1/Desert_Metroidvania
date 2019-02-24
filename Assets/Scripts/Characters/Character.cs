@@ -194,8 +194,9 @@ public abstract class Character : InGameObj
                 //Move(Vector2.left * 4);
             else
                 rigid.AddForce(Vector2.right * 150);
-                 //Move(Vector2.right * 4);
+            //Move(Vector2.right * 4);
 
+            SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Hit);
             Debug.Log("Damaged : " + gameObject.name);
 
             if (Hp <= 0)
@@ -227,7 +228,7 @@ public abstract class Character : InGameObj
         {
             case StatType.DEF: def += value; break;
             case StatType.SPD: spd += value; break;
-            case StatType.AttackSPD: attackSpd += value; break;
+            case StatType.AttackSPD: attackSpd -= value; break;
             case StatType.Damage: atkBuff += value; break;
             case StatType.MaxHP: maxHp += (int)value;  break;
             case StatType.HP: break;

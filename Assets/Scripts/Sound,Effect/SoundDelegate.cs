@@ -4,7 +4,10 @@ using UnityEngine;
 
 public enum BGM
 {
-    Stage,
+    A1A2,
+    B1B2,
+    C1C2,
+    C3,
     Title
 }
 public enum EffectSoundType
@@ -44,7 +47,7 @@ public class SoundDelegate : MonoBehaviour {
     }
 
     public AudioClip[] bgmAudioClips;
-    public AudioClip[] effectAudioClips;
+    public GameObject[] effectAudioClips;
     public GameObject audioSource;
     #endregion
 
@@ -58,7 +61,7 @@ public class SoundDelegate : MonoBehaviour {
         else
         {
             UnityEngine.Debug.LogError("SingleTone Error : " + this.name);
-            Destroy(this);
+            Destroy(gameObject);
         }
 
         bgm = transform.Find("BGM").GetComponent<AudioSource>();
@@ -67,29 +70,29 @@ public class SoundDelegate : MonoBehaviour {
     public void PlayBGM(BGM b)
     {
         bgm.clip = bgmAudioClips[(int)b];
-        bgm.volume = bgmSound;
+       // bgm.volume = bgmSound;
         bgm.Play();
     }
 
 
     public GameObject PlayEffectSound(EffectSoundType ef)
     {
-        GameObject madeObj = Instantiate(audioSource, transform.position, Quaternion.identity);
-        madeObj.GetComponent<SoundObject>().Play(effectAudioClips[(int)ef]);
+        GameObject madeObj = Instantiate(effectAudioClips[(int)ef], transform.position, Quaternion.identity);
+        madeObj.GetComponent<SoundObject>().Play();
         return madeObj;
     }
 
     public GameObject PlayEffectSound(EffectSoundType ef, Vector3 position)
     {
-        GameObject madeObj = Instantiate(audioSource, position, Quaternion.identity);
-        madeObj.GetComponent<SoundObject>().Play(effectAudioClips[(int)ef]);
+        GameObject madeObj = Instantiate(effectAudioClips[(int)ef], position, Quaternion.identity);
+        madeObj.GetComponent<SoundObject>().Play();
         return madeObj;
     }
 
     public GameObject PlayEffectSound(EffectSoundType ef, Transform obj)
     {
-        GameObject madeObj = Instantiate(audioSource, obj.position, Quaternion.identity, obj);
-        madeObj.GetComponent<SoundObject>().Play(effectAudioClips[(int)ef]);
+        GameObject madeObj = Instantiate(effectAudioClips[(int)ef], obj.position, Quaternion.identity, obj);
+        madeObj.GetComponent<SoundObject>().Play();
         return madeObj;
     }
 }

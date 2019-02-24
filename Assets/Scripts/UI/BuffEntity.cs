@@ -10,6 +10,7 @@ public class BuffEntity : MonoBehaviour
     private Slider slider;
     private float remainTime;
     private float buffTime;
+    private bool isInfinite = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -27,6 +28,11 @@ public class BuffEntity : MonoBehaviour
     public void Construct(StatType type, float value, float time)
     {
         buffTime = time;
+        if (time < 0)
+        {
+            buffTime = 1f;
+            isInfinite = true;
+        }
         string typeStr;
         switch (type)
         {
@@ -61,7 +67,8 @@ public class BuffEntity : MonoBehaviour
         while (remainTime > 0)
         {
             slider.value = remainTime / buffTime;
-            remainTime -= Time.deltaTime;
+            if(!isInfinite)
+                remainTime -= Time.deltaTime;
             yield return null;
         }
         Destroy(gameObject);

@@ -43,6 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15eae7c0ddc64934d93b844a7661a4e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectPrefabs: []
+  effectPrefabs:
+  - {fileID: 100004, guid: 4b955cf9ff9926f4c8520b9c4a69047b, type: 3}
+  - {fileID: 100002, guid: f349813a5b0226d45a4472ff928a6707, type: 3}
+  - {fileID: 100006, guid: 2207630ad17aac94b8a0006b9199d875, type: 3}
+  - {fileID: 987025806668975794, guid: 11e4cbbb07dc2604a91dead32764a4dd, type: 3}
   UIEffect: []
   textEffectPrefab: {fileID: 0}

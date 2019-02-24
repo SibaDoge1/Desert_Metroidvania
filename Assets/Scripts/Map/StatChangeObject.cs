@@ -9,7 +9,7 @@ public class StatChangeObject : InteractObject, Respawnable
 {
 
     public StatType type;
-    public int value = 1; // 기본값
+    public float value = 1; // 기본값
     public float buffTime = 0;
     private GameObject prefab;
     public int remainCount = 1;
