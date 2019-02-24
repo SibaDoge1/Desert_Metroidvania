@@ -40,9 +40,10 @@ public class StatChanger : MonoBehaviour
             linkedChar.GetDamage(linkedChar.Hp,transform);
             DestroyMe();
         }
-        else if(statType == StatType.MaxHP)
+        else if(statType == StatType.MaxHeal)
         {
-            linkedChar.GetHeal(linkedChar.DefaultMaxHp);
+            Debug.Log(linkedChar.MaxHp);
+            linkedChar.GetHeal(linkedChar.MaxHp);
             DestroyMe();
         }
         else

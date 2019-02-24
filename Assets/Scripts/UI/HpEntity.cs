@@ -6,10 +6,12 @@ using UnityEngine.UI;
 public class HpEntity : MonoBehaviour
 {
     private Image image;
+    public Sprite sprite1;
+    public Sprite sprite2;
     // Start is called before the first frame update
     void Awake()
     {
-        image = transform.GetComponent<Image>();
+        image = transform.Find("Image").GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -18,8 +20,11 @@ public class HpEntity : MonoBehaviour
         
     }
 
-    public void ChangeColor(Color col)
+    public void ChangeColor(bool isFull)
     {
-        image.color = col;
+        if (isFull)
+            image.sprite = sprite1;
+        else
+            image.sprite = sprite2;
     }
 }

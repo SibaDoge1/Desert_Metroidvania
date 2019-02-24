@@ -36,9 +36,7 @@ public class BuffUI : MonoBehaviour
 
     public void MakeEntity(StatType type, float value, float time)
     {
-        Debug.Log(time);
         GameObject obj = Instantiate(buffEntity, transform.position, Quaternion.identity, content);
-        Debug.Log(obj.ToString());
         obj.transform.SetParent(content);
         obj.GetComponent<BuffEntity>().Construct(type, value, time);
     }

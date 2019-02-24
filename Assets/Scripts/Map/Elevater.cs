@@ -10,6 +10,7 @@ public class Elevater : MonoBehaviour
     private float minY;
     private BoxCollider2D _collider;
     private Player player;
+    private Transform mask;
     // Start is called before the first frame update
     void Awake()
     {
@@ -17,6 +18,7 @@ public class Elevater : MonoBehaviour
         maxY = movingArea.position.y + (movingArea.lossyScale.y / 2f);
         minY = movingArea.position.y - (movingArea.lossyScale.y / 2f);
         _collider = transform.Find("Collider").GetComponent<BoxCollider2D>();
+        mask = transform.Find("Mask");
     }
     void OnEnable()
     {
@@ -43,6 +45,9 @@ public class Elevater : MonoBehaviour
             while (transform.position.y > minY)
             {
                 transform.Translate(Vector2.down * 3f * Time.deltaTime);
+                Vector2 scale = mask.localScale;
+                scale.y += -1f * 3f * Time.deltaTime;
+                mask.localScale = scale;
                 if (transform.position.y < minY)
                     transform.position = new Vector3(transform.position.x, minY, transform.position.z);
                 yield return new WaitForFixedUpdate();
@@ -51,6 +56,9 @@ public class Elevater : MonoBehaviour
             while (transform.position.y < maxY)
             {
                 transform.Translate(Vector2.up * 3f * Time.deltaTime);
+                Vector2 scale = mask.localScale;
+                scale.y += -1f * 3f * Time.deltaTime;
+                mask.localScale = scale;
                 if (transform.position.y > maxY)
                     transform.position = new Vector3(transform.position.x, maxY, transform.position.z);
                 yield return new WaitForFixedUpdate();

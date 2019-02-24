@@ -42,13 +42,13 @@ public class MapViewer : MonoBehaviour
             else
                 Map.Instance.stages[i].gameObject.SetActive(false);
         }
-        routine = StartCoroutine(MapViewerRoutine());
+        //routine = StartCoroutine(MapViewerRoutine());
     }
 
     public void Off()
     {
         isViewing = false;
-        StopCoroutine(routine);
+        //StopCoroutine(routine);
         for (int i = 0; i < Map.Instance.stages.Count; i++)
         {
             if (Map.Instance.CurStage == Map.Instance.stages[i])

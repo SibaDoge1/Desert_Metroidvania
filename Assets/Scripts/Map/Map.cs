@@ -51,7 +51,8 @@ public class Map : MonoBehaviour
         from = _from;
         to = _to;
         toPotal = _toPotal;
-        FadeTool.Instance.FadeInOut(1f, 0.5f, ChangeStage);
+        PlayManager.Instance.Player.IsMovable = false;
+        FadeTool.Instance.FadeInOut(0.5f, 0.2f, ChangeStage, ()=>{PlayManager.Instance.Player.IsMovable = true;});
     }
 
     public void ChangeStage()
