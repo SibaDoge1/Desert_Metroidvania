@@ -41,7 +41,7 @@ public class DamagingCollider : MonoBehaviour
         OnDestroyCallBack();
     }
 
-    protected void OnDestroyCallBack()
+    public void OnDestroyCallBack()
     {
         StopAllCoroutines();
         Destroy(gameObject);
