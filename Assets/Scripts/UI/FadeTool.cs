@@ -20,9 +20,10 @@ public class FadeTool : MonoBehaviour
         if (instance == null) instance = this;
         else
         {
-            Debug.LogError("Singleton Error! : " + this.name);
+            Debug.LogWarning("Singleton Error! : " + this.name);
             Destroy(this);
         }
+        DontDestroyOnLoad(gameObject);
         fade = GameObject.Find("Canvas").transform.Find("Fade").GetComponent<Image>();
     }
 
@@ -46,6 +47,7 @@ public class FadeTool : MonoBehaviour
 
     IEnumerator FadeOutRoutine(float time, voidFunc func)
     {
+        //fade.gameObject.SetActive(true);
         Color DefaultCol = fade.color;
         Color col = fade.color;
         float curtime = 0f;
@@ -61,10 +63,12 @@ public class FadeTool : MonoBehaviour
         {
             func();
         }
+        //fade.gameObject.SetActive(false);
     }
 
     IEnumerator FadeInRoutine(float time, voidFunc func)
     {
+        //fade.gameObject.SetActive(true);
         Color DefaultCol = fade.color;
         Color col = fade.color;
         float curtime = 0f;
@@ -80,10 +84,12 @@ public class FadeTool : MonoBehaviour
         {
             func();
         }
+        //fade.gameObject.SetActive(false);
     }
 
     IEnumerator FadeInOutRoutine(float time, float waitTime, voidFunc func)
     {
+        //fade.gameObject.SetActive(true);
         Color DefaultCol = fade.color;
         Color col = fade.color;
         float curtime = 0f;
@@ -111,5 +117,11 @@ public class FadeTool : MonoBehaviour
             fade.color = col;
             yield return null;
         }
+        //fade.gameObject.SetActive(false);
+    }
+
+    public void SetImage(Image image)
+    {
+        fade = image;
     }
 }

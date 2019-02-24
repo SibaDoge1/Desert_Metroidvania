@@ -64,8 +64,8 @@ public class Sword : Weapon
 
     public override void Action(float atk, float atkSpd) // 최종적으로 이걸로 공격함
     {
+        SoundDelegate.Instance.PlayEffectSound((EffectSoundType)atkCount);
         AttackInfo tempInfo = attackInfos[atkCount];
-
         tempInfo.damage += atk;
         tempInfo.duration *= atkSpd;
         tempInfo.preDelay *= atkSpd;

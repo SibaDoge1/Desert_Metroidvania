@@ -4,23 +4,17 @@ using UnityEngine;
 
 public enum BGM
 {
-    FLOOR1,
-    Floor1_BOSS,
+    Stage,
     Title
 }
 public enum EffectSoundType
 {
-    GetHit,
-    RoomClear,
-    RoomMove,
-    GameOver,
-}
-public enum ButtonSoundType
-{
-    Normal,
-    Select,
-    Exit,
-    Confirm,
+    Attack1,
+    Attack2,
+    Attack3,
+    Hit,
+    HitWall,
+    HitGolem
 }
 public class SoundDelegate : MonoBehaviour {
     #region variables
@@ -50,12 +44,12 @@ public class SoundDelegate : MonoBehaviour {
     }
 
     public AudioClip[] bgmAudioClips;
-    public GameObject[] effectAudioObject;
+    public AudioClip[] effectAudioClips;
+    public GameObject audioSource;
     #endregion
 
     void Awake()
     {
-        //Changes: destroy 부분 추가
         if (instance == null)
         {
             instance = this;
@@ -77,13 +71,25 @@ public class SoundDelegate : MonoBehaviour {
         bgm.Play();
     }
 
+
+    public GameObject PlayEffectSound(EffectSoundType ef)
+    {
+        GameObject madeObj = Instantiate(audioSource, transform.position, Quaternion.identity);
+        madeObj.GetComponent<SoundObject>().Play(effectAudioClips[(int)ef]);
+        return madeObj;
+    }
+
     public GameObject PlayEffectSound(EffectSoundType ef, Vector3 position)
     {
-        return Instantiate(effectAudioObject[(int)ef], position, Quaternion.identity);
+        GameObject madeObj = Instantiate(audioSource, position, Quaternion.identity);
+        madeObj.GetComponent<SoundObject>().Play(effectAudioClips[(int)ef]);
+        return madeObj;
     }
 
     public GameObject PlayEffectSound(EffectSoundType ef, Transform obj)
     {
-        return Instantiate(effectAudioObject[(int)ef], obj.position, Quaternion.identity, obj);
+        GameObject madeObj = Instantiate(audioSource, obj.position, Quaternion.identity, obj);
+        madeObj.GetComponent<SoundObject>().Play(effectAudioClips[(int)ef]);
+        return madeObj;
     }
 }

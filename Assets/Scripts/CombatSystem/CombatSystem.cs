@@ -42,7 +42,7 @@ public class CombatSystem : MonoBehaviour
         if (instance == null) instance = this;
         else if (instance != this)
         {
-            Debug.LogError("Singleton Error! : " + this.name);
+            Debug.LogWarning("Singleton Error! : " + this.name);
             Destroy(gameObject);
         }
         _damagingCollider = Resources.Load("Prefabs/DamagingCollider") as GameObject;

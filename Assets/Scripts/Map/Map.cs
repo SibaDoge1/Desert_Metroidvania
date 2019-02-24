@@ -21,7 +21,7 @@ public class Map : MonoBehaviour
         if (instance == null) instance = this;
         else
         {
-            Debug.LogError("Singleton Error! : " + this.name);
+            Debug.LogWarning("Singleton Error! : " + this.name);
             Destroy(gameObject);
         }
     }
