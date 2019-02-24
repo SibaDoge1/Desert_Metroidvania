@@ -22,7 +22,7 @@ public class JumpSkillCollider : DamagingCollider
     {
         base.OnTriggerEnter2D(c);
 
-        if (c.tag == "Player" && c.tag == "Enemy" && c.tag == "Tile")
+        if (c.tag == "Enemy" || c.tag == "Tile")
             isTriggered = true;
     }
 }

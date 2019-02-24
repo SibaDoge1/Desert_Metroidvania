@@ -231,6 +231,15 @@ public class Player : Character
         Move(vec);
     }
 
+    public void JumpAgain()
+    {
+        isJumping = true;
+        StopCoroutine("JumpRoutine");
+        StartCoroutine("JumpRoutine");
+        anim.SetBool("isJumping", true);
+        anim.Play("jump_Start");
+    }
+
     /*
     //float jumpCount = 0f;
 

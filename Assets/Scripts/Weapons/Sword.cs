@@ -167,6 +167,7 @@ public class Sword : Weapon
         }
 
         col.GetComponent<DamagingCollider>().OnDestroyCallBack();
+        PlayManager.Instance.Player.JumpAgain();
 
         onAttack = false;
         PlayManager.Instance.Player.IsMovable = true;
