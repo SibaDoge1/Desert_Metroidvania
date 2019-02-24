@@ -89,8 +89,11 @@ public class enemy_scorpione : RespawnableEnemy
 
     protected override void OnDieCallBack()
     {
-        StopAllCoroutines();
-        StartCoroutine("EnemyDead");
+        if(enemyState != EnemyState.DEAD)
+        {
+            StopAllCoroutines();
+            StartCoroutine("EnemyDead");
+        }
     }
 
     IEnumerator EnemyDead()

@@ -105,8 +105,11 @@ public class FlyingEnemy : RespawnableEnemy
 
     protected override void OnDieCallBack()
     {
-        StopAllCoroutines();
-        StartCoroutine("flyingEnemyDead");
+        if (enemyState != EnemyState.DEAD)
+        {
+            StopAllCoroutines();
+            StartCoroutine("flyingEnemyDead");
+        }
     }
 
     IEnumerator flyingEnemyDead()

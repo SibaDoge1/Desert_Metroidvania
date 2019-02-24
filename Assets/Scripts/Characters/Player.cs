@@ -327,6 +327,13 @@ protected void JumpStop()
 
     }
 
+    protected virtual void OnCollisionExit2D(Collision2D col)
+    {
+        Debug.Log("air");
+        isGround = false;
+        groundObject = null;
+        //if (MyCollider.bounds.min.y >= col.collider.bounds.max.y && !stopGroundCheck)
+    }
     protected virtual void OnCollisionStay2D(Collision2D col)
     {
         if (MyCollider.bounds.min.y >= col.collider.bounds.max.y && !stopGroundCheck)
@@ -337,22 +344,11 @@ protected void JumpStop()
 
         }
     }
-
-    protected virtual void OnCollisionExit2D(Collision2D col)
-    {
-        if (MyCollider.bounds.min.y >= col.collider.bounds.max.y && !stopGroundCheck)
-        {
-            Debug.Log("air");
-            isGround = false;
-            groundObject = null;
-        }
-    }
     #endregion
 
 
     public void CheckFalling()
     {
-        Debug.Log(stopGroundCheck);
         if (previousPos.y > transform.position.y && !isGround && !isElevator)
         {
             anim.SetBool("isFalling", true);
