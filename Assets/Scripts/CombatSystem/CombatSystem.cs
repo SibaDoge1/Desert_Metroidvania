@@ -24,7 +24,8 @@ public struct AttackInfo
     public float duration;          //지속 시간
     public float preDelay;          //선딜레이
     public float postDelay;         //후딜레이
-    public string attackID; // 공격 종류
+    public string attackID;         //공격 종류
+    public float cooltime;          //쿨타임
     public ProjectileInfo projectileInfo;
     public MonsterAttackInfo monsterattackInfo;
 }
@@ -73,6 +74,7 @@ public class CombatSystem : MonoBehaviour
 
         damagingCollider.gameObject.transform.SetParent(transform_attacker);
         damagingCollider.DestroyCollider(attackInfo.duration);
+        damagingCollider.parentTransform = transform_attacker;
 
         return damagingCollider.gameObject;
     }
@@ -100,6 +102,7 @@ public class CombatSystem : MonoBehaviour
 
         damagingCollider.gameObject.transform.SetParent(transform_attacker);
         damagingCollider.DestroyCollider(attackInfo.duration);
+        damagingCollider.parentTransform = transform_attacker;
 
         return damagingCollider.gameObject;
     }
@@ -120,7 +123,8 @@ public class CombatSystem : MonoBehaviour
         switch (attackInfo.projectileInfo.proType)
         {
             case ProjectileType.DIRECTION:      //바라보는 방향
-
+                damagingCollider.ShootProjectile_Direction(attackInfo.projectileInfo.projectileSpd,
+                    transform_attacker.GetComponentInParent<Character>().Direction);
                 break;
             case ProjectileType.HOMING:         //유도
 
@@ -140,6 +144,7 @@ public class CombatSystem : MonoBehaviour
             damagingCollider.ChangeProjectileSprite(attackInfo.projectileInfo.attackSprite);
         }
 
+        damagingCollider.parentTransform = transform_attacker;
         damagingCollider.DestroyCollider(attackInfo.duration);
     }
 

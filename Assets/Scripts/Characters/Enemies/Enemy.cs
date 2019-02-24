@@ -83,7 +83,7 @@ public abstract class Enemy : Character
         {
             AttackInfo tempInfo = attackInfos[colIndex];
 
-            if (c.attackable)
+            if (c.attackable && c.cooltime <= 0f)
             {
                 attackValueSum += tempInfo.monsterattackInfo.attackValue;
 
@@ -91,6 +91,9 @@ public abstract class Enemy : Character
                 {
                     validAttacks.Add(tempInfo);
                 }
+
+                if (tempInfo.cooltime > 0f)
+                    attackRangeColliders[colIndex].cooltime = tempInfo.cooltime;
             }
 
             colIndex++;

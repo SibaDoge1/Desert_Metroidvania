@@ -6,13 +6,14 @@ public class DamagingCollider : MonoBehaviour
 {
     public float damage;
     public Sprite colliderSprite;
+    public Transform parentTransform;
     public GameObject hitEffect;
 
     protected virtual void OnTriggerEnter2D(Collider2D c)
     {
         //if (c.transform.parent == null) return;
 
-        if (gameObject.tag != "Enemy" && c.tag == "Enemy" || c.tag == "Player")
+        if ((parentTransform.tag != "Enemy" && c.tag == "Enemy") || c.tag == "Player")
         {   
             //무적 시간? 있나?
             c.GetComponent<Character>().GetDamage(damage, transform);
@@ -41,7 +42,7 @@ public class DamagingCollider : MonoBehaviour
         OnDestroyCallBack();
     }
 
-    public void OnDestroyCallBack()
+    public virtual void OnDestroyCallBack()
     {
         StopAllCoroutines();
         Destroy(gameObject);
