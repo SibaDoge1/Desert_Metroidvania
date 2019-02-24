@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class enemy_scorpione : Enemy
+public class enemy_scorpione : RespawnableEnemy
 {
     protected override void Awake()
     {

@@ -23,12 +23,6 @@ public class Stage : MonoBehaviour
     public Vector2 CamSize { get { return camSize; } }
     public Vector2 CamPos { get { return camPos; } }
 
-    /// <summary>
-    /// 리스폰을 위한 일종의 캐시저장소임
-    /// </summary>
-    [SerializeField]
-    private List<GameObject> RespawnableObjects;
-
     void Awake()
     {
         camBoundary = transform.Find("Boundary");
@@ -41,13 +35,11 @@ public class Stage : MonoBehaviour
         camPos.y = camBoundary.position.y;
         availablePos.x = dieBoundary.position.x;
         availablePos.y = dieBoundary.position.y;
-        RespawnableObjects = new List<GameObject>();
-        MakePalete();
+        FirstSetStage();
     }
 
     void Start()
     {
-        if (Map.Instance.CurStage != this) gameObject.SetActive(false);
         myID = Map.Instance.stages.IndexOf(this);
         isMapInfoObtained = SaveManager.GetMapInfo(myID);
     }
@@ -63,17 +55,35 @@ public class Stage : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    public void ResetStage()
+    public void FirstSetStage()
     {
-        RespawnObjects();
+        foreach (Transform trans in transform.Find("Objects").GetComponentsInChildren<Transform>())
+        {
+            if (trans.GetComponent<Respawnable>() != null)
+            {
+                trans.GetComponent<Respawnable>().FirstSet();
+            }
+        }
     }
 
+    public void ResetStage()
+    {
+        foreach (Transform trans in transform.Find("Objects").GetComponentsInChildren<Transform>())
+        {
+            if (trans.GetComponent<Respawnable>() != null)
+            {
+                trans.GetComponent<Respawnable>().Reset();
+            }
+        }
+    }
+
+    /*
     public void MakePalete()
     {
 
         foreach (Transform trans in transform.Find("Objects").GetComponentInChildren<Transform>())
         {
-            if (trans.GetComponent<InGameObj>() != null && trans.GetComponent<InGameObj>().isRespawnable == true)
+            if (trans.GetComponent<RespawnEnemy>() != null)
             {
                 GameObject objectPalete = Instantiate(trans.gameObject, trans.position, trans.rotation); //맵 상의 리스폰이 필요한 오브젝트를 찾고, 이를 RespawnableObjects에 저장해둠
                 objectPalete.SetActive(false);
@@ -82,28 +92,9 @@ public class Stage : MonoBehaviour
             }
         }
     }
+    */
 
-    /// <summary>
-    /// RespawnableObjects에서 오브젝트들을 꺼내와서 생성함
-    /// </summary>
-    public void RespawnObjects()
-    {
-        foreach (Transform trans in transform.Find("Objects").GetComponentInChildren<Transform>()) //원래 있던 오브젝트는 삭제
-        {
-            if (trans.GetComponent<Respawnable>() != null)
-            {
-                Destroy(trans.gameObject);
-            }
-        }
-        for (int i = 0; i < RespawnableObjects.Count; i++)
-        {
-            GameObject spawnedObject = Instantiate(RespawnableObjects[i], RespawnableObjects[i].transform.position, RespawnableObjects[i].transform.rotation);
-            spawnedObject.transform.SetParent(transform.Find("Objects"));
-            spawnedObject.SetActive(true);
-        }
-    }
-    
-    public void GetMapInfo()
+    public void UnlockMapInfo()
     {
         isMapInfoObtained = true;
         SaveManager.SetMapInfo(myID, true);

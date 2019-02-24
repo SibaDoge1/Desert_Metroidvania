@@ -7,7 +7,7 @@ public enum EnemyState
     DEFAULT ,ATTACK, TRACE, PATROL, DEAD
 }
 
-public abstract class Enemy : Character, Respawnable
+public abstract class Enemy : Character
 {
     protected enum EnemyType
     {
@@ -44,11 +44,6 @@ public abstract class Enemy : Character, Respawnable
 
         if (patternChangable)
             CheckAI();
-    }
-
-    public virtual void ResetEnemy() //팔레트에서 리스폰 될 때 사용하는 함수로 쓰자
-    {
-
     }
 
     protected override void OnDieCallBack() //죽을 때 부르는 함수

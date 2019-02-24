@@ -134,7 +134,7 @@ public class Ladder : InteractObject
                 vec = Vector2.zero; break;
         }
         
-        PlayManager.Instance.Player.transform.Translate(vec * (transform.localScale.x/2f + 0.1f));
+        PlayManager.Instance.Player.transform.Translate(vec * (transform.lossyScale.x/2f + 0.1f));
         PlayManager.Instance.Player.JumpCount = 0;
         LadderOut();
     }

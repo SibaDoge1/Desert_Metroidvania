@@ -20,9 +20,10 @@ public class PlayManager : MonoBehaviour
             Debug.LogError("Singleton Error! : " + this.name);
             Destroy(this);
         }
-        SaveManager.FirstLoad();
+        SaveManager.FirstLoad(GlobalData.isNewStart);
         viewer = GameObject.Find("Canvas").transform.Find("MapViewer").GetComponent<MapViewer>();
         player = GameObject.Find("Player").GetComponent<Player>();
+        player.MakePalette();
     }
 
     void Start()
@@ -45,12 +46,12 @@ public class PlayManager : MonoBehaviour
 
     public void Defeat()
     {
-        player.gameObject.SetActive(false);
-        FadeTool.Instance.FadeInOut(1f, ReturnToCheckPoint);
+        FadeTool.Instance.FadeInOut(1f, 1f, ReturnToCheckPoint);
     }
 
     public void ReturnToCheckPoint()
     {
+        player.Reset();
         player.gameObject.SetActive(true);
         SaveManager.ApplySave();
     }

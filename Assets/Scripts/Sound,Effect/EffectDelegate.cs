@@ -3,19 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum CardEffectType{Shield, Blood, Heal, Hit}
-public enum RangeEffectType {CARD,ENEMY,DIR}
+//public enum RangeEffectType {CARD,ENEMY,DIR}
 public enum UIEffect {CARD,REPORT }
-public class EffectDelegate : MonoBehaviour {
-	public static EffectDelegate instance;
-	void Awake()
+public class EffectDelegate : MonoBehaviour
+{
+    private static EffectDelegate instance = null;
+    public static EffectDelegate Instance
     {
-		instance = this;
-	}
-
-
+        get { return instance; }
+    }
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            UnityEngine.Debug.LogError("SingleTone Error : " + this.name);
+            Destroy(this);
+        }
+    }
 
 	public GameObject[] effectPrefabs;
-    public GameObject[] rangeLayer;
+    //public GameObject[] rangeLayer;
     public GameObject[] UIEffect;
     public GameObject textEffectPrefab;
 
@@ -32,14 +44,12 @@ public class EffectDelegate : MonoBehaviour {
 	public GameObject MadeEffect(CardEffectType eType, Vector3 worldPosition){
         return Instantiate(effectPrefabs [(int)eType], worldPosition, Quaternion.identity);
 	}
-	public GameObject MadeEffect(CardEffectType eType, Tile targetTile){
-        return Instantiate(effectPrefabs [(int)eType], targetTile.transform.position, Quaternion.identity);
-	}
 
     public void DestroyEffect(GameObject go)
     {
-        DestroyImmediate(go);
+        Destroy(go);
     }
+    /*
 
 	public GameObject MadeEffect(int damage, Transform parent){
         GameObject go = Instantiate(textEffectPrefab, parent);
@@ -82,4 +92,5 @@ public class EffectDelegate : MonoBehaviour {
             }
         }
     }
+    */
 }

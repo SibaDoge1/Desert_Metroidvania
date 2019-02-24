@@ -40,5 +40,10 @@ public class EquipManager : MonoBehaviour
     {
         item.transform.SetParent(transform);
     }
+
+    public static void SetInstance(EquipManager equip)
+    {
+        instance = equip;
+    }
 }
 

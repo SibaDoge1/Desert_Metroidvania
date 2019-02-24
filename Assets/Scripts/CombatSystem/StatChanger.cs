@@ -56,6 +56,11 @@ public class StatChanger : MonoBehaviour
         }
         transform.SetParent(linkedChar.transform.Find("StatChangers"));
         linkedChar.AddStatChanger(this);
+        if (cha.gameObject.CompareTag("Player") && 
+            statType != StatType.HP && statType != StatType.MaxHP)
+        {
+            BuffUI.Instance.MakeEntity(statType, value, Time);
+        }
     }
 
     public void DestroyMe()

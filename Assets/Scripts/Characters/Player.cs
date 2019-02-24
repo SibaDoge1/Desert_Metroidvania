@@ -8,7 +8,7 @@ public class Player : Character
 {
     private bool isMovable;
     public bool IsMovable { get { return isMovable; } set { isMovable = value; } }
-    private BoxCollider2D myCollider;
+    public BoxCollider2D MyCollider { get; private set; }
     private bool isGround;
     public bool IsGround { get { return isGround; } }
     private bool isJumpAniPlaying;
@@ -16,9 +16,9 @@ public class Player : Character
     public bool IsLadder { get { return isLadder; } set { isLadder = value; } }
     private bool isLadderAction;
     public bool IsLadderAction { get { return isLadderAction; } set { isLadderAction = value; } }
+    public bool isElevator;
     private GameObject groundObject;
-    private Vector3 currentPos;
-   
+    private Vector3 previousPos;
 
 
     protected override void Awake()
@@ -30,12 +30,11 @@ public class Player : Character
     {
         base.Start();
         isMovable = true;
-        myCollider = gameObject.GetComponent<BoxCollider2D>();
-        hpUI = GameObject.Find("Canvas").transform.Find("StatInfo").Find("HP").Find("Text").GetComponent<Text>();
+        MyCollider = gameObject.GetComponent<BoxCollider2D>();
+        //hpUI = GameObject.Find("Canvas").transform.Find("StatInfo").Find("HP").Find("Text").GetComponent<Text>();
         dashCoolUI = GameObject.Find("Canvas").transform.Find("StatInfo").Find("DashCool").Find("Text").GetComponent<Text>();
         jumpCount = 0;
-        currentPos = transform.position;
-        
+        previousPos = transform.position;
 
     }
 
@@ -71,7 +70,7 @@ public class Player : Character
         ladderActionAnim();
 
         CheckFalling();
-        currentPos = transform.position;
+        previousPos = transform.position;
     }
 
     protected override void FixedUpdate() //물리연산용
@@ -276,6 +275,7 @@ protected void JumpStop()
     protected override void OnDieCallBack() //죽을 때 부르는 함수
     {
         //애니메이션재생
+        gameObject.SetActive(false);
         PlayManager.Instance.Defeat();
     }
 
@@ -329,7 +329,7 @@ protected void JumpStop()
 
     protected virtual void OnCollisionStay2D(Collision2D col)
     {
-        if (myCollider.bounds.min.y >= col.collider.bounds.max.y && !stopGroundCheck)
+        if (MyCollider.bounds.min.y >= col.collider.bounds.max.y && !stopGroundCheck)
         {
             isGround = true;
             groundObject = col.gameObject;
@@ -340,11 +340,10 @@ protected void JumpStop()
 
     protected virtual void OnCollisionExit2D(Collision2D col)
     {
-        if (myCollider.bounds.min.y >= col.collider.bounds.max.y)
+        if (MyCollider.bounds.min.y >= col.collider.bounds.max.y && !stopGroundCheck)
         {
             Debug.Log("air");
             isGround = false;
-
             groundObject = null;
         }
     }
@@ -353,17 +352,38 @@ protected void JumpStop()
 
     public void CheckFalling()
     {
-        if(currentPos.y > transform.position.y)
+        Debug.Log(stopGroundCheck);
+        if (previousPos.y > transform.position.y && !isGround && !isElevator)
         {
             anim.SetBool("isFalling", true);
-            isGround = false;
         }
+    }
+
+    public void Reset()
+    {
+        GameObject clone = Instantiate(gameObject, transform.position, transform.rotation);
+        clone.transform.SetParent(transform.parent);
+        PlayManager.Instance.Player = clone.GetComponent<Player>();
+        EquipManager.SetInstance(clone.transform.Find("Equip").GetComponent<EquipManager>());
+        clone.SetActive(true);
+        Destroy(gameObject);
+    }
+    
+    private GameObject myPalete;
+    public void MakePalette()
+    {
+        gameObject.SetActive(false);
+        myPalete = Instantiate(gameObject, transform.position, transform.rotation); //나의 클론을 RespawnableObjects에 저장해둠
+        myPalete.SetActive(false);
+        myPalete.transform.SetParent(transform.GetComponentInParent<Stage>().transform.Find("RespawnPalete"));
+        myPalete.GetComponent<Player>().myPalete = myPalete;
+        gameObject.SetActive(true);
     }
 
     #region setter
     public void SetTrigger(bool value)
     {
-        myCollider.isTrigger = value;
+        MyCollider.isTrigger = value;
     }
     
     /// <summary>
@@ -382,6 +402,14 @@ protected void JumpStop()
     public void SetVelocity(Vector2 value)
     {
         rigid.velocity = value;
+    }
+    public void SetStopGroundCheck(bool value)
+    {
+        stopGroundCheck = value;
+    }
+    public void SetIsGround(bool value)
+    {
+        isGround = value;
     }
     #endregion
 }

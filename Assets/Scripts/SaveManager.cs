@@ -147,9 +147,9 @@ public static class SaveManager
         return JsonSave(saveData, FileName, Path);
     }
 
-    public static void FirstLoad()
+    public static void FirstLoad(bool isNewStart)
     {
-        if (JsonLoad(FileName, Path))
+        if (!isNewStart && JsonLoad(FileName, Path))
         {
             return;
         }
@@ -168,19 +168,20 @@ public static class SaveManager
         Map.Instance.ChangeStage(Map.Instance.CurStage, saveData.curStage, new Vector2(saveData.posX, saveData.posY));
         for (int i = 0; i<Map.Instance.stages.Count; i++)
         {
-            if(saveData.MapInfo[Map.Instance.stages[i].myID] == true )
-                Map.Instance.stages[i].GetMapInfo();
+            if(GetMapInfo(Map.Instance.stages[i].myID) == true )
+                Map.Instance.stages[i].UnlockMapInfo();
         }
         for (int i = 0; i < Map.Instance.bosses.Count; i++)
         {
-            if (saveData.BossKillInfo[Map.Instance.bosses[i].myID] == true)
-                Map.Instance.bosses[i].DestroyBoss();
+            if (GetBossKillInfo(Map.Instance.bosses[i].myID) == true)
+                Map.Instance.bosses[i].DeActive();
         }
         for (int i = 0; i < Map.Instance.PotalWithLocks.Count; i++)
         {
-            if (saveData.potalLockInfo[Map.Instance.PotalWithLocks[i].myID] == true)
+            if (GetPotalLockInfo(Map.Instance.PotalWithLocks[i].myID) == true)
                 Map.Instance.PotalWithLocks[i].Unlock();
         }
+        PlayManager.Instance.Player.Hp = saveData.hp;
     }
 
     public static bool JsonSave(SaveData data, string filename, string path)

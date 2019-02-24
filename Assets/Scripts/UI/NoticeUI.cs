@@ -26,7 +26,7 @@ public class NoticeUI : MonoBehaviour
             Debug.LogError("Singleton Error! : " + this.name);
             Destroy(this);
         }
-        noticeEntity = Resources.Load<GameObject>("Prefabs/NoticeEntity");
+        noticeEntity = Resources.Load<GameObject>("Prefabs/UI/NoticeEntity");
         content = transform.Find("Viewport").Find("Content");
         myScrollRect = transform.GetComponent<ScrollRect>();
     }
@@ -42,6 +42,7 @@ public class NoticeUI : MonoBehaviour
     /// <param name="time"></param>
     public void MakeNotice(string str, float time)
     {
+        if (str.Length == 0) return;
         GameObject obj = Instantiate(noticeEntity, transform.position, Quaternion.identity);
         obj.transform.SetParent(content);
         obj.GetComponent<Text>().text = str;

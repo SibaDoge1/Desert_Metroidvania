@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class InGameObj : MonoBehaviour
 {
-    public bool isRespawnable = false;
+    //public bool isRespawnable = false;
 }
