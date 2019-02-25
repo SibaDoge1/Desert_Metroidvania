@@ -33,6 +33,7 @@ public class StatChangeObject : InteractObject, Respawnable
     {
         if (remainCount > 0 || isInfinite)
         {
+            SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Buff);
             if (value == 0) return;
             Debug.Log("stat change");
             GameObject obj;

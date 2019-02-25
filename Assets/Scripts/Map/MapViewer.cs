@@ -16,6 +16,7 @@ public class MapViewer : MonoBehaviour
 
     public void Toggle()
     {
+        SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Button);
 
         if (!isViewing)
         {
