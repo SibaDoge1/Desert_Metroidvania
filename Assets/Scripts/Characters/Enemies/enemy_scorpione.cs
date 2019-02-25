@@ -14,8 +14,8 @@ public class enemy_scorpione : RespawnableEnemy
         tempInfos[0].hitBoxPostion = new Vector2(1f, 0f);
         tempInfos[0].damage = 1;
         tempInfos[0].duration = 0.2f;
-        tempInfos[0].preDelay = 0.5f;
-        tempInfos[0].postDelay = 0.5f;
+        tempInfos[0].preDelay = 1f;
+        tempInfos[0].postDelay = 0.8f;
 
         tempInfos[0].monsterattackInfo.attackValue = 1;
         tempInfos[0].monsterattackInfo.attackIndex = 0;
@@ -74,6 +74,8 @@ public class enemy_scorpione : RespawnableEnemy
                 float vectorToPlayer = playerPos.x - transform.position.x;
 
                 direction = vectorToPlayer > 0 ? Direction.right : Direction.left;
+                Move(direction);
+
                 yield return new WaitForSeconds(tempInfo.preDelay);
 
                 CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
