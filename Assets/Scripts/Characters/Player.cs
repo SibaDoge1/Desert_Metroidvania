@@ -57,7 +57,13 @@ public class Player : Character
         if (MyInput.GetKeyUp(MyKeyCode.Left)) anim.SetBool("isRunning", false);
         if (IsMovable)
         {
-            if (MyInput.GetKeyDown(MyKeyCode.Dash) && isDashable <= 0f) Dash();
+            if (SaveManager.GetSkillUnlockInfo(0))
+            {
+                if (MyInput.GetKeyDown(MyKeyCode.Dash) && isDashable <= 0f && isGround && !isDashing)
+                    Dash();
+            }
+
+
             if (MyInput.GetKeyDown(MyKeyCode.Jump)) Jump();
         }
         if (isGround && isJumping)
@@ -281,20 +287,25 @@ protected void JumpStop()
         {
             if (isDashing)
             {
-                EquipManager.Instance.equipedWeapon.DashAttack(atkBuff, attackSpd);
-                StartCoroutine(DashAttacking());
+                if (SaveManager.GetSkillUnlockInfo(2))
+                {
+                    EquipManager.Instance.equipedWeapon.DashAttack(atkBuff, attackSpd);
+                    StartCoroutine(DashAttacking());
+                }
 
                 return;
             }
             else if (MyInput.GetKey(MyKeyCode.Down) && !IsGround)
             {
-                EquipManager.Instance.equipedWeapon.JumpSkillAction(atkBuff, attackSpd);
+                if (SaveManager.GetSkillUnlockInfo(1))
+                    EquipManager.Instance.equipedWeapon.JumpSkillAction(atkBuff, attackSpd);
 
                 return;
             }
             else
             {
-                EquipManager.Instance.equipedWeapon.Action(atkBuff, attackSpd);
+                if (EquipManager.Instance.equipedWeapon.atkCooltime <= 0f)
+                    EquipManager.Instance.equipedWeapon.Action(atkBuff, attackSpd);
             }
         }
 

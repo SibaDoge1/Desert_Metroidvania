@@ -68,7 +68,12 @@ public class Sword : Weapon
     private void Update()
     {
         if (isAtkCounting > 0) isAtkCounting -= Time.deltaTime;
-        if (atkCount > 0 && isAtkCounting <= 0) atkCount = 0;
+        if (atkCooltime > 0) atkCooltime -= Time.deltaTime;
+        if (atkCount > 0 && isAtkCounting <= 0) 
+        {
+            //atkCooltime = 0.5f;
+            atkCount = 0;
+        }
     }
 
     public override void Action(float atk, float atkSpd) // 최종적으로 이걸로 공격함
@@ -83,9 +88,20 @@ public class Sword : Weapon
 
         atkCount++;
         if (atkCount > 2)
+        {
             atkCount = 0;
+            //atkCooltime = 0.5f;
+        }
         else if (atkCount >= 2 && !PlayManager.Instance.Player.IsGround)
+        {
             atkCount = 0;
+            //atkCooltime = 0.5f;
+        }
+        if (atkCount >= 2 && !SaveManager.GetSkillUnlockInfo(3))
+        {
+            atkCount = 0;
+            //atkCooltime = 0.5f;
+        }
         isAtkCounting = 0.5f;
     }
 
@@ -121,10 +137,13 @@ public class Sword : Weapon
 
         CombatSystem.Instance.InstantiateHitBox(info, gameObject.transform);
 
-        yield return new WaitForSeconds(info.postDelay + info.duration);
+        yield return new WaitForSeconds(info.duration);
 
-        onAttack = false;
+
+        yield return new WaitForSeconds(info.postDelay);
+
         PlayManager.Instance.Player.IsMovable = true;
+        onAttack = false;
 
     }
 

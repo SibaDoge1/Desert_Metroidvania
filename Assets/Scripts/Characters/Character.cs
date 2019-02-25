@@ -186,7 +186,8 @@ public abstract class Character : InGameObj
         if (isSuper > 0f) return;
         //임시
         Hp -= (int)damage;
-        IsSuper = InvincibleTIme;
+        if (gameObject.tag == "Player")
+            IsSuper = InvincibleTIme;
         isDamaged = InvincibleTIme;
         if (transform.position.x < col.position.x)
             rigid.AddForce(Vector2.left * 150);
