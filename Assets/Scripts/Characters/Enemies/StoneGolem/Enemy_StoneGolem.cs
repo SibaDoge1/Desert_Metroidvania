@@ -149,11 +149,9 @@ public class Enemy_StoneGolem : Boss
         AttackInfo tempInfo;
         Vector2 playerPos = PlayManager.Instance.Player.transform.position;
         float vectorToPlayer = playerPos.x - transform.position.x;
-        direction = vectorToPlayer > 0 ? Direction.right : Direction.left;
-        //attackInfo.monsterattackInfo.attackIndex = 4;
         SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
-       
-        Move(direction);
+        Direction dir = vectorToPlayer > 0 ? Direction.right : Direction.left;
+        Move(dir);
 
         switch (attackInfo.monsterattackInfo.attackIndex)
         {
@@ -167,7 +165,7 @@ public class Enemy_StoneGolem : Boss
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
                 anim.Play("Smash");
-                CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
+                CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform,dir);
 
                 yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
                 break;
@@ -181,7 +179,7 @@ public class Enemy_StoneGolem : Boss
                 anim.Play("prev_Stomp");
                 yield return new WaitForSeconds(tempInfo.preDelay);
                 anim.Play("Stomp");
-                CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
+                CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform,dir);
 
                 yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
                 break;
@@ -215,7 +213,7 @@ public class Enemy_StoneGolem : Boss
                 yield return new WaitForSeconds(tempInfo.preDelay);
                 anim.Play("DoubleSmash");
                 yield return new WaitForSeconds(0.4f);
-                CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
+                CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform,dir);
                 StartCoroutine(ShootShockWave());
 
                 yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);

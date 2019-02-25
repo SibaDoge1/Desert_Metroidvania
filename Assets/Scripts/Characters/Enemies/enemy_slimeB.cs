@@ -73,12 +73,12 @@ public class enemy_slimeB: RespawnableEnemy
                 Vector2 playerPos = PlayManager.Instance.Player.transform.position;
                 float vectorToPlayer = playerPos.x - transform.position.x;
 
-                direction = vectorToPlayer > 0 ? Direction.right : Direction.left;
-                Move(direction);
+                Direction dir = vectorToPlayer > 0 ? Direction.right : Direction.left;
+                Move(dir);
                 yield return new WaitForSeconds(tempInfo.preDelay);
 
                 SoundDelegate.Instance.PlayEffectSound(EffectSoundType.SlimeAttack);
-                CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
+                CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform, dir);
 
                 yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
                 break;
