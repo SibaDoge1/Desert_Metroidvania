@@ -315,9 +315,21 @@ protected void JumpStop()
 
     protected override void OnDieCallBack() //죽을 때 부르는 함수
     {
-        //애니메이션재생
+        StartCoroutine(PlayerDead());
+
+    }
+
+    IEnumerator PlayerDead()
+    {
+        anim.Play("dead");
+
+        yield return new WaitForSeconds(2f);
+
         gameObject.SetActive(false);
         PlayManager.Instance.Return();
+
+        //애니메이션재생
+
     }
 
     protected override void CheckBuffAndDebuff()
@@ -398,7 +410,7 @@ protected void JumpStop()
 
     public void CheckFalling()
     {
-        if (previousPos.y > transform.position.y && !isGround && !isElevator)
+        if (previousPos.y > transform.position.y && !isElevator)
         {
             anim.SetBool("isFalling", true);
         }
