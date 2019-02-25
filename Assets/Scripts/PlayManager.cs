@@ -51,7 +51,6 @@ public class PlayManager : MonoBehaviour
             isFirstSaved = true;
         }
     }
-
     public void Return()
     {
         FadeTool.Instance.FadeInOut(1f, 1f, ReturnToCheckPoint);
@@ -73,7 +72,7 @@ public class PlayManager : MonoBehaviour
         yield return new WaitForSeconds(5f);
         GlobalData.SetChangeScene("Scenes/MainMenu");
         Time.timeScale = 1f;
-        FadeTool.Instance.FadeInOut(1f, 0f, LoadScene);
+        FadeTool.Instance.FadeOut(1f, LoadScene);
     }
 
     public void LoadScene()

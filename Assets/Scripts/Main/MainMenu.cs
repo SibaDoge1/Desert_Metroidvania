@@ -40,14 +40,14 @@ public class MainMenu : MonoBehaviour
     {;
         GlobalData.isNewStart = true;
         GlobalData.SetChangeScene("Scenes/Stage");
-        FadeTool.Instance.FadeInOut(1f,0f, LoadScene);
+        FadeTool.Instance.FadeOut(1f, LoadScene);
     }
 
     public void OnContinueButtonDown()
     {
         GlobalData.isNewStart = false;
         GlobalData.SetChangeScene("Scenes/Stage");
-        FadeTool.Instance.FadeInOut(1f, 0f, LoadScene);
+        FadeTool.Instance.FadeOut(1f, LoadScene);
     }
 
     public void OnExitButtonDown()

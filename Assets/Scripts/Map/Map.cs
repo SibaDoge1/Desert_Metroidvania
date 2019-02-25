@@ -30,6 +30,7 @@ public class Map : MonoBehaviour
     void Start()
     {
         CurStage = PlayManager.Instance.Player.transform.parent.parent.GetComponent<Stage>();
+        ChangeBgm(CurStage.name);
         for (int i = 0; i < Map.Instance.stages.Count; i++)
         {
             if (CurStage != Map.Instance.stages[i])
