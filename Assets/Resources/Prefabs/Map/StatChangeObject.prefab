@@ -122,7 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isTouch: 0
   type: 0
-  value: 0
+  value: 1
   buffTime: 2
   remainCount: 1
   isInfinite: 0

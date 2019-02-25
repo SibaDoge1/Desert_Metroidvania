@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class InteractObject : MonoBehaviour
 {
     protected bool isAtObject = false;
+    public bool IsAtObject { get { return isAtObject; } }
     /// <summary>
     /// 트루면 터치만 돼도 작동, false면 키를 눌러야 작동
     /// </summary>

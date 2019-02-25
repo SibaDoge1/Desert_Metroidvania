@@ -27,6 +27,6 @@ public class GuideObject : MonoBehaviour
 
     protected virtual void Trigger()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

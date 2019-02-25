@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 7249053008991481447, guid: dc5aef5009b19564da229b489e8d4fbb,
         type: 3}
       propertyPath: m_Name
-      value: SlimeDie
+      value: SlimeDie Variant
       objectReference: {fileID: 0}
     - target: {fileID: 2090202537104293124, guid: dc5aef5009b19564da229b489e8d4fbb,
         type: 3}

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public delegate void voidFunc();
@@ -18,15 +19,28 @@ public class FadeTool : MonoBehaviour
     void Awake()
     {
         if (instance == null) instance = this;
-        else
+        else if(instance != this)
         {
             Debug.LogWarning("Singleton Error! : " + this.name);
-            Destroy(this);
+            Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
         fade = GameObject.Find("Canvas").transform.Find("Fade").GetComponent<Image>();
     }
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        fade = GameObject.Find("Canvas").transform.Find("Fade").GetComponent<Image>();
+    }
     public void FadeOut(float time, voidFunc func)
     {
         StartCoroutine(FadeOutRoutine(time, func));

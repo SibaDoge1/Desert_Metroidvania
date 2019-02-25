@@ -45,11 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bgmAudioClips:
-  - {fileID: 8300000, guid: 13030f45459b23f42987bcecc5b573d1, type: 3}
-  - {fileID: 8300000, guid: 183b5e9d104465a48adf04094af18e56, type: 3}
-  - {fileID: 8300000, guid: 90ca0115f18ba474a9ae06e72b1b1112, type: 3}
-  - {fileID: 8300000, guid: fcb5644c28aa220479a5e7898e6527e7, type: 3}
-  - {fileID: 8300000, guid: 3c721bbed205cd24dba4dca2756eaed3, type: 3}
+  - {fileID: 4901872645885774288, guid: 9423a6e7fe267a34a8dd7239616b51b7, type: 3}
+  - {fileID: 1617774806903912993, guid: e4b0a87a7ce058643af840abbf83020c, type: 3}
+  - {fileID: 8537924164601276343, guid: 0d028b2c98ba0dc48a1a89731bf75255, type: 3}
+  - {fileID: 6475620405040220678, guid: 6048005efe17cc9488c48667fb8e91a0, type: 3}
+  - {fileID: 3450936509038329006, guid: 802ec8ceb4d173349a702de590b69c0a, type: 3}
+  - {fileID: 6888595876568775871, guid: b6a12c9b4c3ba0540a2b92661bbe3bd2, type: 3}
   effectAudioClips:
   - {fileID: 5659713419286658142, guid: 8dec4637d12779647935fb33f54bf162, type: 3}
   - {fileID: 722799523855644868, guid: 431a15b82118f244081fcd10a7f1542a, type: 3}
@@ -107,7 +108,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.8
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0

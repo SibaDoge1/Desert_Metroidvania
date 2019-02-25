@@ -32,7 +32,8 @@ public class StatChanger : MonoBehaviour
         }
         else if(statType == StatType.MaxHP)
         {
-            linkedChar.DefaultMaxHp += (int)value; 
+            linkedChar.DefaultMaxHp += (int)value;
+            linkedChar.GetHeal((int)value);
             DestroyMe();
         }
         else if(statType == StatType.Trap)

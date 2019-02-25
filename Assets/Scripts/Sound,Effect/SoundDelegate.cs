@@ -8,7 +8,8 @@ public enum BGM
     B1B2,
     C1C2,
     C3,
-    Title
+    Title,
+    TitleClear
 }
 public enum EffectSoundType
 {
@@ -51,7 +52,7 @@ public class SoundDelegate : MonoBehaviour {
         get { return instance; }
     }
 
-    public AudioClip[] bgmAudioClips;
+    public GameObject[] bgmAudioClips;
     public GameObject[] effectAudioClips;
     public GameObject audioSource;
     #endregion
@@ -74,9 +75,10 @@ public class SoundDelegate : MonoBehaviour {
 
     public void PlayBGM(BGM b)
     {
-        bgm.clip = bgmAudioClips[(int)b];
-       // bgm.volume = bgmSound;
-        bgm.Play();
+        Destroy(bgm.gameObject);
+        GameObject madeObj = Instantiate(bgmAudioClips[(int)b], transform.position, Quaternion.identity, transform);
+        bgm = madeObj.GetComponent<AudioSource>();
+        // bgm.volume = bgmSound;
     }
 
 

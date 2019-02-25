@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b34bfec8773a2834e9789f0d83b66e38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTouch: 0
   linkedPotal: {fileID: 0}
   isUnlocked: 0
   linkedKey: {fileID: 0}
@@ -86,6 +87,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 0.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 4585205203017456833, guid: 963d894e04aeee9418202a7853c91506,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4585205203017456832, guid: 963d894e04aeee9418202a7853c91506, type: 3}

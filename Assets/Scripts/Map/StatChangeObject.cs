@@ -39,6 +39,10 @@ public class StatChangeObject : InteractObject, Respawnable
             obj = Instantiate(prefab, transform.position, transform.rotation);
             obj.GetComponent<StatChanger>().Construct(PlayManager.Instance.Player, type, value, buffTime);
             remainCount--;
+            if(remainCount <= 0 && !isInfinite)
+            {
+                gameObject.SetActive(false);
+            }
             /*
             string typeStr;
             switch (type)
