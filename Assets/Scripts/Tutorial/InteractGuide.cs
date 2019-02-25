@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LadderGuide : GuideObject
+public class InteractGuide : GuideObject
 {
-    public Ladder linkedLadder;
-
-    // Update is called once per frame
+    public InteractObject linkedInteract;
     protected override void Trigger()
     {
-        if (linkedLadder.isUsingLadder)
+        if (true)
         {
             Destroy(gameObject);
         }

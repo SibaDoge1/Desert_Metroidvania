@@ -39,7 +39,7 @@ public class StatChangeObject : InteractObject, Respawnable
             obj = Instantiate(prefab, transform.position, transform.rotation);
             obj.GetComponent<StatChanger>().Construct(PlayManager.Instance.Player, type, value, buffTime);
             remainCount--;
-
+            /*
             string typeStr;
             switch (type)
             {
@@ -53,13 +53,13 @@ public class StatChangeObject : InteractObject, Respawnable
             }
             if(value > 0)
             {
-               // NoticeUI.Instance.MakeNotice("버프를 받습니다\n" + typeStr + " " + value + " 증가", 3f);
+               NoticeUI.Instance.MakeNotice("버프를 받습니다\n" + typeStr + " " + value + " 증가", 3f);
             }
             if (value < 0)
             {
-               // NoticeUI.Instance.MakeNotice("너프를 받습니다\n" + typeStr + " " + value + " 감소", 3f);
+               NoticeUI.Instance.MakeNotice("너프를 받습니다\n" + typeStr + " " + value + " 감소", 3f);
             }
-
+            */
         }
     }
 

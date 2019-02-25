@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 7249053008991481447, guid: dc5aef5009b19564da229b489e8d4fbb,
         type: 3}
       propertyPath: m_Name
-      value: GolemAttack
+      value: GolemAttack Variant
       objectReference: {fileID: 0}
     - target: {fileID: 2090202537104293124, guid: dc5aef5009b19564da229b489e8d4fbb,
         type: 3}
@@ -67,5 +67,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4535682796979658774, guid: dc5aef5009b19564da229b489e8d4fbb,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7198a70913638c443922df8902746bb9, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc5aef5009b19564da229b489e8d4fbb, type: 3}

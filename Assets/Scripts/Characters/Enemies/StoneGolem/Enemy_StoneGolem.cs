@@ -263,22 +263,30 @@ public class Enemy_StoneGolem : Boss
     {
         Vector2 meteorVec;
         meteorVec.x = Random.Range(transform.position.x + 20f, transform.position.x - 20f);
-        meteorVec.y = 5f;
+        meteorVec.y = transform.position.y + 20f;
         GameObject tempLine = Instantiate(meteorLine, meteorVec, Quaternion.identity);
 
         Vector2 meteorVec2;
         meteorVec2.x = Random.Range(transform.position.x + 20f, transform.position.x - 20f);
-        meteorVec2.y = 5f;
+        meteorVec2.y = transform.position.y+20f;
         GameObject tempLine2 = Instantiate(meteorLine, meteorVec2, Quaternion.identity);
+
+        Vector2 meteorVec3;
+        meteorVec3.x = Random.Range(transform.position.x + 20f, transform.position.x - 20f);
+        meteorVec3.y = transform.position.y + 20f;
+        GameObject tempLine3 = Instantiate(meteorLine, meteorVec2, Quaternion.identity);
 
         yield return new WaitForSeconds(0.5f);
 
         Destroy(tempLine);
         Destroy(tempLine2);
+        Destroy(tempLine3);
         GameObject tempMeteor = Instantiate(meteor, meteorVec, Quaternion.identity);
         tempMeteor.GetComponent<DamagingCollider>().parentTransform = transform;
         GameObject tempMeteor2 = Instantiate(meteor, meteorVec2, Quaternion.identity);
         tempMeteor2.GetComponent<DamagingCollider>().parentTransform = transform;
+        GameObject tempMeteor3 = Instantiate(meteor, meteorVec2, Quaternion.identity);
+        tempMeteor3.GetComponent<DamagingCollider>().parentTransform = transform;
     }
 
     private void InstantiateShockWave(AttackInfo attackInfo, Direction dir, Vector3 pos)
