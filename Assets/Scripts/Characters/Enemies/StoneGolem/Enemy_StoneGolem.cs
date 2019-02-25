@@ -31,8 +31,8 @@ public class Enemy_StoneGolem : Boss
         tempInfos[0].hitBoxPostion = new Vector2(2f, 3.5f);
         tempInfos[0].damage = 1;
         tempInfos[0].duration = 0.4f;
-        tempInfos[0].preDelay = 0.8f;
-        tempInfos[0].postDelay = 3f;
+        tempInfos[0].preDelay = 1.5f;
+        tempInfos[0].postDelay = 2f;
 
         tempInfos[0].monsterattackInfo.attackValue = 5;
         tempInfos[0].monsterattackInfo.attackIndex = 0;
@@ -42,8 +42,8 @@ public class Enemy_StoneGolem : Boss
         tempInfos[1].hitBoxPostion = new Vector2(2f, 1f);
         tempInfos[1].damage = 2;
         tempInfos[1].duration = 0.4f;
-        tempInfos[1].preDelay = 0.8f;
-        tempInfos[1].postDelay = 4f;
+        tempInfos[1].preDelay = 1.8f;
+        tempInfos[1].postDelay = 3f;
 
         tempInfos[1].monsterattackInfo.attackValue = 5;
         tempInfos[1].monsterattackInfo.attackIndex = 1;
@@ -153,6 +153,9 @@ public class Enemy_StoneGolem : Boss
         direction = vectorToPlayer > 0 ? Direction.right : Direction.left;
         //attackInfo.monsterattackInfo.attackIndex = 4;
         SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
+       
+        Move(direction);
+
         switch (attackInfo.monsterattackInfo.attackIndex)
         {
             case 0:
@@ -161,9 +164,10 @@ public class Enemy_StoneGolem : Boss
                 tempInfo.duration *= atkSpd;
                 tempInfo.preDelay *= atkSpd;
                 tempInfo.postDelay *= atkSpd;
-                yield return new WaitForSeconds(tempInfo.preDelay - 0.6f);
+                anim.Play("prev_Smash");
+
+                yield return new WaitForSeconds(tempInfo.preDelay);
                 anim.Play("Smash");
-                yield return new WaitForSeconds(0.6f);
                 CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
 
                 yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
@@ -175,9 +179,9 @@ public class Enemy_StoneGolem : Boss
                 tempInfo.preDelay *= atkSpd;
                 tempInfo.postDelay *= atkSpd;
 
-                yield return new WaitForSeconds(tempInfo.preDelay - 0.5f);
+                anim.Play("prev_Stomp");
+                yield return new WaitForSeconds(tempInfo.preDelay);
                 anim.Play("Stomp");
-                yield return new WaitForSeconds(0.5f);
                 CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
 
                 yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
@@ -190,7 +194,9 @@ public class Enemy_StoneGolem : Boss
                 tempInfo.postDelay *= atkSpd;
 
 
-                yield return new WaitForSeconds(tempInfo.preDelay-0.8f);
+                anim.Play("prev_Throw");
+
+                yield return new WaitForSeconds(tempInfo.preDelay);
                 anim.Play("Throw");
                 yield return new WaitForSeconds(0.8f);
                 CombatSystem.Instance.InstantiateProjectile(tempInfo, gameObject.transform);
@@ -205,7 +211,9 @@ public class Enemy_StoneGolem : Boss
                 tempInfo.preDelay *= atkSpd;
                 tempInfo.postDelay *= atkSpd;
 
-                yield return new WaitForSeconds(tempInfo.preDelay - 0.4f);
+                anim.Play("prev_DoubleSmash");
+
+                yield return new WaitForSeconds(tempInfo.preDelay);
                 anim.Play("DoubleSmash");
                 yield return new WaitForSeconds(0.4f);
                 CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
@@ -220,8 +228,9 @@ public class Enemy_StoneGolem : Boss
                 tempInfo.preDelay *= atkSpd;
                 tempInfo.postDelay *= atkSpd;
 
+                anim.Play("prev_DoubleSmash");
 
-                yield return new WaitForSeconds(tempInfo.preDelay - 0.4f);
+                yield return new WaitForSeconds(tempInfo.preDelay);
                 anim.Play("DoubleSmash");
                 yield return new WaitForSeconds(0.4f);
                 for (int i = 0; i < 6; i++)
