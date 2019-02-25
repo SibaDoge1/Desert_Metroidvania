@@ -74,7 +74,7 @@ public class Enemy_StoneGolem : Boss
         tempInfos[4].preDelay = 2.5f;
         tempInfos[4].postDelay = 7f;
 
-        tempInfos[4].monsterattackInfo.attackValue = 100;
+        tempInfos[4].monsterattackInfo.attackValue = 1;
         tempInfos[4].monsterattackInfo.attackIndex = 4;
 
         //중거리 공격 충격파
