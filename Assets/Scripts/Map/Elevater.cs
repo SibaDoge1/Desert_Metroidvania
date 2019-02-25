@@ -44,23 +44,13 @@ public class Elevater : MonoBehaviour
         {
             while (transform.position.y > minY)
             {
-                transform.Translate(Vector2.down * 3f * Time.deltaTime);
-                Vector2 scale = mask.localScale;
-                scale.y += -1f * 3f * Time.deltaTime;
-                mask.localScale = scale;
-                if (transform.position.y < minY)
-                    transform.position = new Vector3(transform.position.x, minY, transform.position.z);
+                Move(Vector2.down * 4f * Time.deltaTime);
                 yield return new WaitForFixedUpdate();
             }
             yield return new WaitForSeconds(1f);
             while (transform.position.y < maxY)
             {
-                transform.Translate(Vector2.up * 3f * Time.deltaTime);
-                Vector2 scale = mask.localScale;
-                scale.y += -1f * 3f * Time.deltaTime;
-                mask.localScale = scale;
-                if (transform.position.y > maxY)
-                    transform.position = new Vector3(transform.position.x, maxY, transform.position.z);
+                Move(Vector2.up * 4f * Time.deltaTime);
                 yield return new WaitForFixedUpdate();
             }
             yield return new WaitForSeconds(1f);
@@ -69,11 +59,13 @@ public class Elevater : MonoBehaviour
 
     public void Move(Vector2 vec)
     {
-        transform.Translate(Vector2.down * 2f * Time.deltaTime);
-        if (transform.position.y < minY)
-            transform.position = new Vector2(0, minY - transform.position.y);
-        else if(transform.position.y > maxY)
-            transform.position = new Vector2(0, maxY - transform.position.y);
+        transform.Translate(vec);
+        Vector2 scale = mask.localScale;
+        Vector2 pos = mask.localPosition;
+        scale.y -= vec.y;
+        pos.y -= 0.5f * vec.y;
+        mask.localScale = scale;
+        mask.localPosition = pos;
     }
 
     private void OnTriggerStay2D(Collider2D col)
