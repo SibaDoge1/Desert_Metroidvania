@@ -5,6 +5,7 @@ using UnityEngine;
 public static class GlobalData
 {
     public static bool isNewStart;
+    public static bool isClear;
     private static string changeSceneTo;
 
     public static void SetChangeScene(string str)

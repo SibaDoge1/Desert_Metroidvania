@@ -20,6 +20,7 @@ public class SaveData
         triggerInfo = new Dictionary<int, bool>();
         defaultMaxHp = 1;
         isSetted = false;
+        isClear = false;
     }
 
     public string curStage;
@@ -32,6 +33,7 @@ public class SaveData
     public bool[] skillUnlockInfos; //순서 : 대시, 대시스킬, 점프스킬, 평타3
     public int hp;
     public int defaultMaxHp;
+    public bool isClear;
     public bool isSetted;
 }
 
@@ -109,6 +111,11 @@ public static class SaveManager
         saveData.triggerInfo[idx] = isUnLocked;
     }
 
+    public static void SetIsClear(bool value)
+    {
+        saveData.isClear = value;
+    }
+
     public static bool GetBossKillInfo(int boss)
     {
         if (!saveData.BossKillInfo.ContainsKey(boss))
@@ -142,6 +149,11 @@ public static class SaveManager
         if (!saveData.triggerInfo.ContainsKey(boss))
             saveData.triggerInfo.Add(boss, false);
         return saveData.triggerInfo[boss];
+    }
+
+    public static bool GetIsClear()
+    {
+        return saveData.isClear;
     }
     #endregion
 

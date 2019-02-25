@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Enemy_StoneGolem : Boss
 {
@@ -329,4 +330,16 @@ public class Enemy_StoneGolem : Boss
     {
         SoundDelegate.Instance.PlayEffectSound(EffectSoundType.HitGolem);
     }
+
+
+    protected override void OnDieCallBack() //죽을 때
+    {
+        SaveManager.SetBossKillInfo(myID, true);
+        SaveManager.SetIsClear(true);
+        NoticeUI.Instance.MakeNotice(noticeStr, 6f);
+        PlayManager.Instance.GoToTitle();
+        gameObject.SetActive(false);
+    }
+
+
 }

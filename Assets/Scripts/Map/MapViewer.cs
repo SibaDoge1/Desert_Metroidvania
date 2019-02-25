@@ -32,22 +32,23 @@ public class MapViewer : MonoBehaviour
         gameObject.SetActive(true);
         isViewing = true;
         indicator.SetActive(true);
-        Time.timeScale = 0f;
         for(int i =0; i<Map.Instance.stages.Count; i++)
         {
-            if(SaveManager.GetMapInfo(Map.Instance.stages[i].myID) == true || Map.Instance.CurStage == Map.Instance.stages[i])
+            if(SaveManager.GetMapInfo(Map.Instance.stages[i].myID) == true)
             {
                 Map.Instance.stages[i].gameObject.SetActive(true);
             }
             else
                 Map.Instance.stages[i].gameObject.SetActive(false);
         }
+        Time.timeScale = 0f;
         //routine = StartCoroutine(MapViewerRoutine());
     }
 
     public void Off()
     {
         isViewing = false;
+        Time.timeScale = 1f;
         //StopCoroutine(routine);
         for (int i = 0; i < Map.Instance.stages.Count; i++)
         {
@@ -58,7 +59,6 @@ public class MapViewer : MonoBehaviour
             else
                 Map.Instance.stages[i].gameObject.SetActive(false);
         }
-        Time.timeScale = 1f;
         indicator.SetActive(false);
         gameObject.SetActive(false);
     }

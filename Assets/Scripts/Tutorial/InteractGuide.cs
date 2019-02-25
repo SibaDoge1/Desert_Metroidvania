@@ -7,9 +7,9 @@ public class InteractGuide : GuideObject
     public InteractObject linkedInteract;
     protected override void Trigger()
     {
-        if (true)
+        if (linkedInteract.IsAtObject)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

@@ -11,7 +11,7 @@ public class LadderGuide : GuideObject
     {
         if (linkedLadder.isUsingLadder)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

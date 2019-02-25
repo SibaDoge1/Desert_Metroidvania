@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
     public delegate void voidFunc();
+    private Image flower;
 
     void Awake()
     {/*
@@ -17,26 +19,35 @@ public class MainMenu : MonoBehaviour
         Screen.orientation = ScreenOrientation.Landscape;
         #endregion
         */
+        flower = GameObject.Find("Flower").GetComponent<Image>();
+        flower.gameObject.SetActive(false);
+        SaveManager.FirstLoad(false);
 
     }
     
     void OnEnable()
     {
         SoundDelegate.Instance.PlayBGM(BGM.Title);
+        if (SaveManager.GetIsClear() == true)
+        {
+            Debug.Log("clear");
+            flower.gameObject.SetActive(true);
+            SoundDelegate.Instance.PlayBGM(BGM.TitleClear);
+        }
     }
 
     public void OnStartButtonDown()
     {;
         GlobalData.isNewStart = true;
         GlobalData.SetChangeScene("Scenes/Stage");
-        FadeTool.Instance.FadeInOut(1f,0.5f, LoadScene);
+        FadeTool.Instance.FadeInOut(1f,0f, LoadScene);
     }
 
     public void OnContinueButtonDown()
     {
         GlobalData.isNewStart = false;
         GlobalData.SetChangeScene("Scenes/Stage");
-        FadeTool.Instance.FadeInOut(1f, 0.5f, LoadScene);
+        FadeTool.Instance.FadeInOut(1f, 0f, LoadScene);
     }
 
     public void OnExitButtonDown()

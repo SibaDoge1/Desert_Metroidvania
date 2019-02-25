@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayManager : MonoBehaviour
 {
@@ -61,6 +62,23 @@ public class PlayManager : MonoBehaviour
         player.Reset();
         player.gameObject.SetActive(true);
         SaveManager.ApplySave();
+    }
+    public void GoToTitle()
+    {
+        StartCoroutine(BossClear());
+    }
+
+    IEnumerator BossClear()
+    {
+        yield return new WaitForSeconds(5f);
+        GlobalData.SetChangeScene("Scenes/MainMenu");
+        Time.timeScale = 1f;
+        FadeTool.Instance.FadeInOut(1f, 0f, LoadScene);
+    }
+
+    public void LoadScene()
+    {
+        SceneManager.LoadScene("Scenes/LoadingScene");
     }
 
     public bool isTestMode = true;
