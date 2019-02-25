@@ -241,7 +241,7 @@ GameObject:
   - component: {fileID: 2117724531}
   - component: {fileID: 2117724530}
   - component: {fileID: 2117724529}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: monster_Fly
   m_TagString: Enemy
   m_Icon: {fileID: 0}
