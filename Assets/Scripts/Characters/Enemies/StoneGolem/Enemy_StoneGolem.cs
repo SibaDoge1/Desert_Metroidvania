@@ -134,7 +134,7 @@ public class Enemy_StoneGolem : Boss
             Vector2 playerPos = PlayManager.Instance.Player.transform.position; //var는 웬만하면 안쓰는게 좋음
             float vectorToPlayer = playerPos.x - transform.position.x;
 
-            direction = vectorToPlayer > 0 ? Direction.right : Direction.left;
+            if(!isAttack) direction = vectorToPlayer > 0 ? Direction.right : Direction.left;
 
             yield return new WaitForSeconds(0.5f);
         }
@@ -142,8 +142,8 @@ public class Enemy_StoneGolem : Boss
 
     protected override IEnumerator Attack(float atk, float atkSpd, AttackInfo attackInfo)
     {
-        Debug.Log("Start");
-
+        isAttack = true;
+    
         anim.SetBool("isWalking", false);
         patternChangable = false;
         AttackInfo tempInfo;
@@ -161,9 +161,10 @@ public class Enemy_StoneGolem : Boss
                 tempInfo.duration *= atkSpd;
                 tempInfo.preDelay *= atkSpd;
                 tempInfo.postDelay *= atkSpd;
-                anim.Play("prev_Smash");
 
+                anim.Play("prev_Smash");
                 yield return new WaitForSeconds(tempInfo.preDelay);
+                Move(dir);
                 anim.Play("Smash");
                 CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform,dir);
 
@@ -178,6 +179,7 @@ public class Enemy_StoneGolem : Boss
 
                 anim.Play("prev_Stomp");
                 yield return new WaitForSeconds(tempInfo.preDelay);
+                Move(dir);
                 anim.Play("Stomp");
                 CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform,dir);
 
@@ -194,6 +196,7 @@ public class Enemy_StoneGolem : Boss
                 anim.Play("prev_Throw");
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
+                Move(dir);
                 anim.Play("Throw");
                 yield return new WaitForSeconds(0.8f);
                 CombatSystem.Instance.InstantiateProjectile(tempInfo, gameObject.transform);
@@ -211,6 +214,7 @@ public class Enemy_StoneGolem : Boss
                 anim.Play("prev_DoubleSmash");
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
+                Move(dir);
                 anim.Play("DoubleSmash");
                 yield return new WaitForSeconds(0.4f);
                 CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform,dir);
@@ -228,6 +232,7 @@ public class Enemy_StoneGolem : Boss
                 anim.Play("prev_DoubleSmash");
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
+                Move(dir);
                 anim.Play("DoubleSmash");
                 yield return new WaitForSeconds(0.4f);
                 for (int i = 0; i < 6; i++)
@@ -244,7 +249,8 @@ public class Enemy_StoneGolem : Boss
                 yield return new WaitForSeconds(tempInfo.postDelay);
                 break;
         }
-
+        isAttack = false;
+        Debug.Log("end");
         patternChangable = true;
 
         yield return null;
