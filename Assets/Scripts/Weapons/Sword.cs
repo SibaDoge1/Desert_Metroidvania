@@ -169,6 +169,7 @@ public class Sword : Weapon
         PlayManager.Instance.Player.stopJumpSkill = false;
 
         string path = "Prefabs/Colliders/JumpSkillCollider";
+        SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Dash);
 
         GameObject col = CombatSystem.Instance.InstantiateHitBox(info, gameObject.transform, path);
 

@@ -30,7 +30,7 @@ public class SaveData
     public Dictionary<int, bool> BossKillInfo;
     public Dictionary<int, bool> potalLockInfo;
     public Dictionary<int, bool> triggerInfo;
-    public bool[] skillUnlockInfos; //순서 : 대시, 대시스킬, 점프스킬, 평타3
+    public bool[] skillUnlockInfos; //순서 : 대시, 점프스킬, 대시스킬, 평타3
     public int hp;
     public int defaultMaxHp;
     public bool isClear;

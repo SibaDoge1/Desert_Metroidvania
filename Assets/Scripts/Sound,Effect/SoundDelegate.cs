@@ -23,7 +23,11 @@ public enum EffectSoundType
     MummyDie,
     SlimeAttack,
     SlimeDie,
-    GolemAttack
+    GolemAttack,
+    Button,
+    Dash,
+    Buff,
+    Jump
 }
 public class SoundDelegate : MonoBehaviour {
     #region variables

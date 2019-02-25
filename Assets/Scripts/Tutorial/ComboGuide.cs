@@ -7,7 +7,7 @@ public class ComboGuide : GuideObject
     public GameObject linkedObj;
     protected override void Trigger()
     {
-        if(linkedObj == null)
+        if (linkedObj.active == false)
         {
             StartCoroutine(Check());
         }

@@ -37,7 +37,8 @@ public class MainMenu : MonoBehaviour
     }
 
     public void OnStartButtonDown()
-    {;
+    {
+        SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Button);
         GlobalData.isNewStart = true;
         GlobalData.SetChangeScene("Scenes/Stage");
         FadeTool.Instance.FadeOut(1f, LoadScene);
@@ -45,6 +46,7 @@ public class MainMenu : MonoBehaviour
 
     public void OnContinueButtonDown()
     {
+        SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Button);
         GlobalData.isNewStart = false;
         GlobalData.SetChangeScene("Scenes/Stage");
         FadeTool.Instance.FadeOut(1f, LoadScene);
@@ -52,6 +54,7 @@ public class MainMenu : MonoBehaviour
 
     public void OnExitButtonDown()
     {
+        SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Button);
         Application.Quit();
     }
 

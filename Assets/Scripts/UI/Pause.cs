@@ -16,6 +16,7 @@ public class Pause : MonoBehaviour
 
     public void Toggle()
     {
+        SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Button);
 
         if (!isOn)
         {
@@ -43,17 +44,20 @@ public class Pause : MonoBehaviour
 
     public void OnResumeButtonDown()
     {
+        SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Button);
         Off();
     }
 
     public void OnCheckPointButtonDown()
     {
+        SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Button);
         Off();
         PlayManager.Instance.Return();
     }
 
     public void OnTitleButtonDown()
     {
+        SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Button);
         GlobalData.SetChangeScene("Scenes/MainMenu");
         Time.timeScale = 1f;
         FadeTool.Instance.FadeInOut(1f, 0.5f, LoadScene);
@@ -65,6 +69,7 @@ public class Pause : MonoBehaviour
     }
     public void OnExitButtonDown()
     {
+        SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Button);
         Application.Quit();
     }
 

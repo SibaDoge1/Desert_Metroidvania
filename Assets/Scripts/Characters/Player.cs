@@ -135,11 +135,11 @@ public class Player : Character
     private bool stopDash = false;
     IEnumerator PlayerDash(Direction dir)
     {
-
         float timer = 0;
         IsSuper = dashInvincibleTime;
 
-        while(timer < dashTime)
+        SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Dash);
+        while (timer < dashTime)
         {
             yield return new WaitForFixedUpdate(); //물리적인 이동같은건 fixedUpdate로
 
@@ -170,7 +170,6 @@ public class Player : Character
         anim.SetBool("isDashAttack", true);
 
         yield return new WaitForSeconds(0.3f);
-
         anim.SetBool("isDashAttack", false);
         anim.SetBool("isRunning", false);
 
