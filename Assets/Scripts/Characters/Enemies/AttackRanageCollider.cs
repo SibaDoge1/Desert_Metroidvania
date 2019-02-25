@@ -7,6 +7,7 @@ public class AttackRanageCollider : MonoBehaviour
     Enemy parentEnemy;
 
     public bool attackable;
+    public float cooltime = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -17,7 +18,8 @@ public class AttackRanageCollider : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (cooltime > 0)
+            cooltime -= Time.deltaTime;
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D c)
