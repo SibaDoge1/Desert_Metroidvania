@@ -183,29 +183,31 @@ public abstract class Character : InGameObj
 
     public virtual void GetDamage(float damage, Transform col) // 공격받을시 실행, 초기 데미지를 전달
     {
-        if (isSuper <= 0f)
+        if (isSuper > 0f) return;
+        //임시
+        Hp -= (int)damage;
+        IsSuper = InvincibleTIme;
+        isDamaged = InvincibleTIme;
+        if (transform.position.x < col.position.x)
+            rigid.AddForce(Vector2.left * 150);
+        //Move(Vector2.left * 4);
+        else
+            rigid.AddForce(Vector2.right * 150);
+        //Move(Vector2.right * 4);
+        PlayHitSound();
+        Debug.Log("Damaged : " + gameObject.name);
+
+        if (Hp <= 0)
         {
-            //임시
-            Hp -= (int)damage;
-            IsSuper = InvincibleTIme;
-            isDamaged = InvincibleTIme;
-            if (transform.position.x < col.position.x)
-                rigid.AddForce(Vector2.left * 150);
-                //Move(Vector2.left * 4);
-            else
-                rigid.AddForce(Vector2.right * 150);
-            //Move(Vector2.right * 4);
-
-            SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Hit);
-            Debug.Log("Damaged : " + gameObject.name);
-
-            if (Hp <= 0)
-            {
-                OnDieCallBack();
-            }
-            //방어력 등등 데미지 연산 후 최종데미지, 0이하로 줄어들면 사망
+            OnDieCallBack();
         }
+        //방어력 등등 데미지 연산 후 최종데미지, 0이하로 줄어들면 사망
 
+    }
+
+    public virtual void PlayHitSound()
+    {
+        SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Hit);
     }
 
     public virtual void GetHeal(int heal)
@@ -215,6 +217,7 @@ public abstract class Character : InGameObj
         if (Hp > maxHp)
             Hp = maxHp;
     }
+    
 
     protected virtual void OnDieCallBack() //죽을 때 부르는 함수
     {

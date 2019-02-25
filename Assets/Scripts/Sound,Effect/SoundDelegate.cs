@@ -17,7 +17,12 @@ public enum EffectSoundType
     Attack3,
     Hit,
     HitWall,
-    HitGolem
+    HitGolem,
+    MummyAttack,
+    MummyDie,
+    SlimeAttack,
+    SlimeDie,
+    GolemAttack
 }
 public class SoundDelegate : MonoBehaviour {
     #region variables

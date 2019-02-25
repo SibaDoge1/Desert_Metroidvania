@@ -77,6 +77,7 @@ public class enemy_slimeB: RespawnableEnemy
                 Move(direction);
                 yield return new WaitForSeconds(tempInfo.preDelay);
 
+                SoundDelegate.Instance.PlayEffectSound(EffectSoundType.SlimeAttack);
                 CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
 
                 yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
@@ -100,6 +101,7 @@ public class enemy_slimeB: RespawnableEnemy
     IEnumerator EnemyDead()
     {
         anim.Play("dead");
+        SoundDelegate.Instance.PlayEffectSound(EffectSoundType.SlimeDie);
         enemyState = EnemyState.DEAD;
         rigid.velocity = Vector2.zero;
         gameObject.layer = 9;

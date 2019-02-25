@@ -301,6 +301,8 @@ protected void JumpStop()
 
     }
 
+
+
     protected override void OnDieCallBack() //죽을 때 부르는 함수
     {
         //애니메이션재생
