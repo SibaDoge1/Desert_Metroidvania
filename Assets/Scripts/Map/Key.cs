@@ -11,9 +11,13 @@ public class Key : InteractObject
     {
         if (!isObtained)
         {
-            EquipManager.Instance.AddItem(gameObject);
-            StartCoroutine(CamShakeRoutine());
             isObtained = true;
+            GameObject obj = Instantiate(gameObject, transform.position, transform.rotation, transform.parent);
+            obj.transform.Find("Image").transform.localPosition = new Vector2(-0.4f, -0.2f);
+            obj.transform.Find("Image").transform.rotation = Quaternion.Euler(new Vector3(0, 0,45));
+            obj.GetComponent<Key>().StartShake();
+            EquipManager.Instance.AddItem(gameObject);
+            gameObject.SetActive(false);
         }
     }
 
@@ -21,11 +25,18 @@ public class Key : InteractObject
     {
         if (!isObtained)
         {
-            EquipManager.Instance.AddItem(gameObject);
             isObtained = true;
+            GameObject obj = Instantiate(gameObject, transform.position, transform.rotation, transform.parent);
+            obj.GetComponent<SpriteRenderer>().flipX = true;
+            gameObject.SetActive(false);
+            EquipManager.Instance.AddItem(gameObject);
         }
     }
 
+    public void StartShake()
+    {
+        StartCoroutine(CamShakeRoutine());
+    }
 
     IEnumerator CamShakeRoutine()
     {

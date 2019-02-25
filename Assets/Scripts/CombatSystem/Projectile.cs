@@ -25,6 +25,16 @@ public class Projectile : DamagingCollider
         spd = _spd;
         dir.x = playerPos.x - projPos.x;
         dir.y = playerPos.y - projPos.y;
+        dir.Normalize();
+
+        StartCoroutine(MoveProjectile());
+    }
+
+    public void ShootProjectile_Direction(float _spd, Direction direction)
+    {
+        spd = _spd;
+        dir.x = (int)direction;
+        dir.Normalize();
 
         StartCoroutine(MoveProjectile());
     }

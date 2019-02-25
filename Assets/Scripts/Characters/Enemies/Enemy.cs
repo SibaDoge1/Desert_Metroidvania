@@ -43,7 +43,7 @@ public abstract class Enemy : Character
         base.Update();
 
         if (patternChangable)
-            CheckAI();
+            PatternCheck();
     }
 
     protected override void OnDieCallBack() //죽을 때 부르는 함수
@@ -64,11 +64,11 @@ public abstract class Enemy : Character
 
     public virtual void OnTriggerEnterAttack()
     {
-        enemyState = EnemyState.ATTACK;
+        //enemyState = EnemyState.ATTACK;
     }
     public virtual void OnTriggerExitAttack()
     {
-        enemyState = EnemyState.TRACE;
+        //enemyState = EnemyState.TRACE;
     }
 
     public virtual void PatternCheck()
@@ -83,7 +83,7 @@ public abstract class Enemy : Character
         {
             AttackInfo tempInfo = attackInfos[colIndex];
 
-            if (c.attackable)
+            if (c.attackable && c.cooltime <= 0f)
             {
                 attackValueSum += tempInfo.monsterattackInfo.attackValue;
 
@@ -91,6 +91,9 @@ public abstract class Enemy : Character
                 {
                     validAttacks.Add(tempInfo);
                 }
+
+                if (tempInfo.cooltime > 0f)
+                    attackRangeColliders[colIndex].cooltime = tempInfo.cooltime;
             }
 
             colIndex++;
@@ -98,8 +101,10 @@ public abstract class Enemy : Character
 
         int attackIndex = (int)Random.Range(0f, attackValueSum);
 
-        attack = StartCoroutine(Attack(atkBuff, attackSpd, validAttacks[attackIndex]));
-
+        if (attackValueSum > 0)
+            attack = StartCoroutine(Attack(atkBuff, attackSpd, validAttacks[attackIndex]));
+        else
+            CheckAI();
     }
 
     public virtual void CheckAI()
@@ -107,7 +112,6 @@ public abstract class Enemy : Character
         switch (enemyState)
         {       //상태가 변경됐을 시, 코루틴을 시작함
             case EnemyState.ATTACK:
-                PatternCheck();
                 break;
 
             case EnemyState.TRACE:
@@ -130,7 +134,6 @@ public abstract class Enemy : Character
             switch (enemyCurState)
             {
                 case EnemyState.ATTACK:
-                    StopCoroutine(attack);
                     break;
 
                 case EnemyState.TRACE:

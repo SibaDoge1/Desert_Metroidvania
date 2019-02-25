@@ -10,6 +10,7 @@ public class PlayManager : MonoBehaviour
         get { return instance; }
     }
     private MapViewer viewer;
+    private Pause pause;
     private bool isFirstSaved = false;
 
     void Awake()
@@ -23,6 +24,7 @@ public class PlayManager : MonoBehaviour
         SaveManager.FirstLoad(GlobalData.isNewStart);
         viewer = GameObject.Find("Canvas").transform.Find("MapViewer").GetComponent<MapViewer>();
         player = GameObject.Find("Player").GetComponent<Player>();
+        pause = GameObject.Find("Canvas").transform.Find("Pause").GetComponent<Pause>();
         player.MakePalette();
     }
 
@@ -34,9 +36,13 @@ public class PlayManager : MonoBehaviour
 
     void Update()
     {
-        if (MyInput.GetKeyDown(MyKeyCode.Map))
+        if (Input.GetKeyDown((KeyCode)MyKeyCode.Map))
         {
             viewer.Toggle();
+        }
+        if (Input.GetKeyDown((KeyCode)MyKeyCode.Esc))
+        {
+            pause.Toggle();
         }
         if (!isFirstSaved)
         {

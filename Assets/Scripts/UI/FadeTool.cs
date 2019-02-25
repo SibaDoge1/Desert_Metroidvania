@@ -38,11 +38,15 @@ public class FadeTool : MonoBehaviour
     }
     public void FadeInOut(float time, voidFunc func)
     {
-        StartCoroutine(FadeInOutRoutine(time,0f, func));
+        StartCoroutine(FadeInOutRoutine(time,0f, func, null));
     }
     public void FadeInOut(float time, float waitTime, voidFunc func)
     {
-        StartCoroutine(FadeInOutRoutine(time, waitTime, func));
+        StartCoroutine(FadeInOutRoutine(time, waitTime, func, null));
+    }
+    public void FadeInOut(float time, float waitTime, voidFunc func, voidFunc endFunc)
+    {
+        StartCoroutine(FadeInOutRoutine(time, waitTime, func, endFunc));
     }
 
     IEnumerator FadeOutRoutine(float time, voidFunc func)
@@ -87,7 +91,7 @@ public class FadeTool : MonoBehaviour
         //fade.gameObject.SetActive(false);
     }
 
-    IEnumerator FadeInOutRoutine(float time, float waitTime, voidFunc func)
+    IEnumerator FadeInOutRoutine(float time, float waitTime, voidFunc middleFunc, voidFunc endFunc)
     {
         //fade.gameObject.SetActive(true);
         Color DefaultCol = fade.color;
@@ -101,9 +105,9 @@ public class FadeTool : MonoBehaviour
             fade.color = col;
             yield return null;
         }
-        if (func != null)
+        if (middleFunc != null)
         {
-            func();
+            middleFunc();
         }
         yield return new WaitForSeconds(waitTime);
         DefaultCol = fade.color;
@@ -116,6 +120,10 @@ public class FadeTool : MonoBehaviour
             col.a = Mathf.Lerp(DefaultCol.a, 0, curtime / time);
             fade.color = col;
             yield return null;
+        }
+        if (endFunc != null)
+        {
+            endFunc();
         }
         //fade.gameObject.SetActive(false);
     }

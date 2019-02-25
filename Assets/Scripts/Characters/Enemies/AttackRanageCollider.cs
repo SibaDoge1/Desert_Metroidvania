@@ -7,7 +7,7 @@ public class AttackRanageCollider : MonoBehaviour
     Enemy parentEnemy;
 
     public bool attackable;
-    public bool isMaxAttackRanage;      //이게 가장 넓은 공격 범위인지 체크
+    public float cooltime = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -18,26 +18,25 @@ public class AttackRanageCollider : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (cooltime > 0)
+            cooltime -= Time.deltaTime;
     }
 
-    private void OnTriggerEnter2D(Collider2D c)
+    protected virtual void OnTriggerEnter2D(Collider2D c)
     {
-
-        if (isMaxAttackRanage && c.tag == "Player")
+        if (c.tag == "Player")
         {
             attackable = true;
-            transform.parent.GetComponent<Enemy>().OnTriggerEnterAttack();
         }
+
     }
 
-    private void OnTriggerExit2D(Collider2D c)
+    protected virtual void OnTriggerExit2D(Collider2D c)
     {
 
-        if (isMaxAttackRanage && c.tag == "Player")
+        if (c.tag == "Player")
         {
             attackable = false;
-            transform.parent.GetComponent<Enemy>().OnTriggerExitAttack();
         }
     }
 }

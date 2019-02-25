@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CardEffectType{Shield, Blood, Heal, Hit}
+public enum EffectType{PowerAura, ShinyItem, CircularLightWall, LightWall}
 //public enum RangeEffectType {CARD,ENEMY,DIR}
 public enum UIEffect {CARD,REPORT }
 public class EffectDelegate : MonoBehaviour
@@ -35,13 +35,13 @@ public class EffectDelegate : MonoBehaviour
     {
         return Instantiate(UIEffect[(int)eType], parent);
     }
-    public GameObject MadeEffect(CardEffectType eType, Transform parent){
-        return Instantiate(effectPrefabs [(int)eType], parent);
+    public GameObject MadeEffect(EffectType eType, Transform parent){
+        return Instantiate(effectPrefabs [(int)eType], parent.position, effectPrefabs[(int)eType].transform.rotation, parent);
 	}
-	public GameObject MadeEffect(CardEffectType eType, InGameObj parent){
+	public GameObject MadeEffect(EffectType eType, InGameObj parent){
         return Instantiate(effectPrefabs [(int)eType], parent.transform);
 	}
-	public GameObject MadeEffect(CardEffectType eType, Vector3 worldPosition){
+	public GameObject MadeEffect(EffectType eType, Vector3 worldPosition){
         return Instantiate(effectPrefabs [(int)eType], worldPosition, Quaternion.identity);
 	}
 

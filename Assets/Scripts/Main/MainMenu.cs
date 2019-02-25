@@ -20,8 +20,9 @@ public class MainMenu : MonoBehaviour
 
     }
     
-    void Start()
+    void OnEnable()
     {
+        SoundDelegate.Instance.PlayBGM(BGM.Title);
     }
 
     public void OnStartButtonDown()

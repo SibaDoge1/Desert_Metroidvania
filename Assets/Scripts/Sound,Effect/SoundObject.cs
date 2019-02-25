@@ -6,10 +6,9 @@ public class SoundObject : MonoBehaviour
 {
     private bool isPlayed = false;
     private AudioSource src;
-    public void Play(AudioClip clip)
+    public void Play()
     {
         src = transform.GetComponent<AudioSource>();
-        src.clip = clip;
         src.Play();
         isPlayed = true;
     }

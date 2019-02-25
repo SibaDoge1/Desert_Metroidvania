@@ -66,8 +66,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 0e3f9c7eeaa541141979c7c9bf175adc, type: 3}
-    m_FontSize: 30
+    m_Font: {fileID: 12800000, guid: d6eeacd492c0e5e46a173e9b069be6b4, type: 3}
+    m_FontSize: 25
     m_FontStyle: 2
     m_BestFit: 0
     m_MinSize: 0

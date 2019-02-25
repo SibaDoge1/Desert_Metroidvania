@@ -13,7 +13,8 @@ public enum MyKeyCode
     Dash = KeyCode.LeftShift,
     Jump = KeyCode.Space,
     Map = KeyCode.M,
-    Interact = KeyCode.Tab
+    Interact = KeyCode.Tab,
+    Esc = KeyCode.Escape
 };
 
 public static class MyInput

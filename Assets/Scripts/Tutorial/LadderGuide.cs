@@ -7,9 +7,9 @@ public class LadderGuide : GuideObject
     public Ladder linkedLadder;
 
     // Update is called once per frame
-    protected override void Update()
+    protected override void Trigger()
     {
-        if (MyInput.GetKey(code) && linkedLadder.isUsingLadder)
+        if (linkedLadder.isUsingLadder)
         {
             Destroy(gameObject);
         }

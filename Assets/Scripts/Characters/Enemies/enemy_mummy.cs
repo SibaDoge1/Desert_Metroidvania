@@ -76,6 +76,7 @@ public class enemy_mummy: RespawnableEnemy
                 direction = vectorToPlayer > 0 ? Direction.right : Direction.left;
                 Move(direction);
                 yield return new WaitForSeconds(tempInfo.preDelay);
+                SoundDelegate.Instance.PlayEffectSound(EffectSoundType.MummyAttack);
 
                 CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
 
@@ -100,6 +101,7 @@ public class enemy_mummy: RespawnableEnemy
     IEnumerator EnemyDead()
     {
         anim.Play("dead");
+        SoundDelegate.Instance.PlayEffectSound(EffectSoundType.MummyDie);
         enemyState = EnemyState.DEAD;
         rigid.velocity = Vector2.zero;
         gameObject.layer = 9;

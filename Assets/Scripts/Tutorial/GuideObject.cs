@@ -15,9 +15,18 @@ public class GuideObject : MonoBehaviour
     // Update is called once per frame
     protected  virtual void Update()
     {
-        if (MyInput.GetKeyDown(code))
+        if (MyInput.GetKey(code))
         {
-            Destroy(gameObject);
+            Vector3 targetScreenPos = Camera.main.WorldToViewportPoint(transform.position);
+            if (targetScreenPos.x >= 0f && targetScreenPos.x <= 1f && targetScreenPos.y >= 0f && targetScreenPos.y <= 1f)
+            {
+                Trigger();
+            }
         }
+    }
+
+    protected virtual void Trigger()
+    {
+        Destroy(gameObject);
     }
 }

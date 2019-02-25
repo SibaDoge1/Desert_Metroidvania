@@ -9,10 +9,10 @@ public class ViewPoint : InteractObject
     protected override void Action()
     {
         //linkedStage.GetMapInfo();
-        if (linkedStage.GetComponent<Stage>().isMapInfoObtained == false)
+        if (transform.parent.GetComponentInParent<Stage>().isMapInfoObtained == false)
         {
             NoticeUI.Instance.MakeNotice("이 지역의 지도를 획득했다", 3f);
-            linkedStage.GetComponent<Stage>().UnlockMapInfo();
+            transform.parent.GetComponentInParent<Stage>().UnlockMapInfo();
         }
     }
 }

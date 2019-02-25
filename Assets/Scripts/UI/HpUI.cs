@@ -31,14 +31,14 @@ public class HpUI : MonoBehaviour
         {
             if (i < content.childCount)
             {
-                content.GetChild(i).GetComponent<HpEntity>().ChangeColor(Color.red);
+                content.GetChild(i).GetComponent<HpEntity>().ChangeColor(true);
             }
         }
         for (int i = PlayManager.Instance.Player.Hp; i < PlayManager.Instance.Player.MaxHp; i++)
         {
             if (i < content.childCount)
             {
-                content.GetChild(i).GetComponent<HpEntity>().ChangeColor(Color.white);
+                content.GetChild(i).GetComponent<HpEntity>().ChangeColor(false);
             }
         }
     }
