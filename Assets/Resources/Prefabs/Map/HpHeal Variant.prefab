@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 4259934073577201627, guid: ff1894cfc64f72c4eac1ace0564b8a30,
         type: 3}
       propertyPath: m_Name
-      value: HpHeal
+      value: HpHeal Variant
       objectReference: {fileID: 0}
     - target: {fileID: 4259934073577201626, guid: ff1894cfc64f72c4eac1ace0564b8a30,
         type: 3}
@@ -25,7 +25,7 @@ PrefabInstance:
     - target: {fileID: 4259934073577201626, guid: ff1894cfc64f72c4eac1ace0564b8a30,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4259934073577201626, guid: ff1894cfc64f72c4eac1ace0564b8a30,
         type: 3}
