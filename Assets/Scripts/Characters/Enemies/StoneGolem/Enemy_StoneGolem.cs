@@ -52,7 +52,7 @@ public class Enemy_StoneGolem : Boss
 
         //초장거리 공격
         tempInfos[2].attackRange = new Vector2(2f, 2f);
-        tempInfos[2].hitBoxPostion = new Vector2(1f, 3f);
+        tempInfos[2].hitBoxPostion = new Vector2(1f, 5f);
         tempInfos[2].damage = 1;
         tempInfos[2].duration = 5f;
         tempInfos[2].preDelay = 1.5f;
