@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ClearObj : InteractObject
 {
     public PotalWithLock potal;
+    private SpriteRenderer bossImage;
     private SpriteRenderer image;
     private bool isActive = false;
 
@@ -13,7 +14,8 @@ public class ClearObj : InteractObject
     {
         gameObject.SetActive(true);
         sprite.GetComponent<Animator>().Play("Die");
-        image = sprite.GetComponent<SpriteRenderer>();
+        bossImage = sprite.GetComponent<SpriteRenderer>();
+        image = transform.Find("Sprite").GetComponent<SpriteRenderer>();
         sprite.transform.SetParent(transform);
         StartCoroutine(BossClear());
     }
@@ -32,15 +34,13 @@ public class ClearObj : InteractObject
 
     IEnumerator BossClear()
     {
-        float remainTime = 1f;
-        while(image.color.a > 0)
+        float remainTime = 2f;
+        while(remainTime > 0)
         {
-            Color col = image.color;
-            col.a = remainTime / 1f;
-            image.color = col;
             remainTime -= Time.deltaTime;
             yield return null;
         }
+        image.gameObject.SetActive(true);
         isActive = true;
     }
 }
