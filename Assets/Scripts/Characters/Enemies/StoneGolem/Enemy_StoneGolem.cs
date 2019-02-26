@@ -230,8 +230,10 @@ public class Enemy_StoneGolem : Boss
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
                 anim.Play("Throw");
-                yield return new WaitForSeconds(0.8f);
+                yield return new WaitForSeconds(0.1f);
+
                 CombatSystem.Instance.InstantiateProjectile(tempInfo, gameObject.transform);
+                
 
                 yield return new WaitForSeconds(tempInfo.postDelay);
 
@@ -297,7 +299,8 @@ public class Enemy_StoneGolem : Boss
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
                 anim.Play("Throw");
-                yield return new WaitForSeconds(0.8f);
+                yield return new WaitForSeconds(0.1f);
+
                 CombatSystem.Instance.InstantiateProjectile(tempInfo, gameObject.transform);
 
                 yield return new WaitForSeconds(tempInfo.postDelay);
@@ -337,7 +340,7 @@ public class Enemy_StoneGolem : Boss
         Direction dir = direction;
         Vector3 pos = transform.position;
 
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 1; i++)
         {
             CameraManager.Instance.ShakeCam(0.2f, 0.1f);
             InstantiateShockWave(tempInfo, dir, pos);
