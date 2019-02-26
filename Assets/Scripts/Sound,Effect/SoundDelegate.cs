@@ -89,6 +89,11 @@ public class SoundDelegate : MonoBehaviour {
         // bgm.volume = bgmSound;
     }
 
+    public void StopBGM()
+    {
+        bgm.Stop();
+    }
+
 
     public GameObject PlayEffectSound(EffectSoundType ef)
     {

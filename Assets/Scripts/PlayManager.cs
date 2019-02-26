@@ -60,7 +60,7 @@ public class PlayManager : MonoBehaviour
     }
     public void Return()
     {
-        FadeTool.Instance.FadeInOut(2f, 2f, ReturnToCheckPoint);
+        FadeTool.Instance.FadeInOut(0.5f, 0.2f, ReturnToCheckPoint);
     }
 
     public void ReturnToCheckPoint()
@@ -71,12 +71,6 @@ public class PlayManager : MonoBehaviour
     }
     public void GoToTitle()
     {
-        StartCoroutine(BossClear());
-    }
-
-    IEnumerator BossClear()
-    {
-        yield return new WaitForSeconds(5f);
         GlobalData.SetChangeScene("Scenes/MainMenu");
         Time.timeScale = 1f;
         FadeTool.Instance.FadeOut(1f, LoadScene);

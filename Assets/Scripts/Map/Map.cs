@@ -86,7 +86,10 @@ public class Map : MonoBehaviour
             case "Stage_B2": SoundDelegate.Instance.PlayBGM(BGM.B1B2); break;
             case "Stage_C1": SoundDelegate.Instance.PlayBGM(BGM.C1C2); break;
             case "Stage_C2": SoundDelegate.Instance.PlayBGM(BGM.C1C2); break;
-            case "Stage_C3": SoundDelegate.Instance.PlayBGM(BGM.C3); break;
+            case "Stage_C3":
+                SoundDelegate.Instance.PlayBGM(BGM.C3);
+                if (SaveManager.GetIsClear() == true)
+                    SoundDelegate.Instance.StopBGM(); break;
         }
     }
 

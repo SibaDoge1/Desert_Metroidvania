@@ -410,15 +410,17 @@ public class Enemy_StoneGolem : Boss
         SoundDelegate.Instance.PlayEffectSound(EffectSoundType.HitGolem);
     }
 
-
+    public GameObject clearObj;
     protected override void OnDieCallBack() //죽을 때
     {
         SaveManager.SetBossKillInfo(myID, true);
         SaveManager.SetIsClear(true);
         NoticeUI.Instance.MakeNotice(noticeStr, 6f);
-        PlayManager.Instance.GoToTitle();
+        SoundDelegate.Instance.StopBGM();
+        clearObj.GetComponent<ClearObj>().Active(sprite);
         gameObject.SetActive(false);
     }
+    
 
 
 }
