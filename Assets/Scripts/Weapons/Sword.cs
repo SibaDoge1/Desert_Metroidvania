@@ -31,7 +31,7 @@ public class Sword : Weapon
         //평타3
         tempInfos[2].attackRange = new Vector2(1f, 1f);
         tempInfos[2].hitBoxPostion = new Vector2(1f, 0f);
-        tempInfos[2].damage = 1;
+        tempInfos[2].damage = 2;
         tempInfos[2].duration = 0.15f;
         tempInfos[2].preDelay = 0f;
         tempInfos[2].postDelay = 0.1f;
