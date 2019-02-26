@@ -40,7 +40,7 @@ public class Enemy_StoneGolem : Boss
         tempInfos[0].monsterattackInfo.attackIndex = 0;
 
         //하단 공격
-        tempInfos[1].attackRange = new Vector2(5f, 3f);
+        tempInfos[1].attackRange = new Vector2(4f, 3f);
         tempInfos[1].hitBoxPostion = new Vector2(2f, 1f);
         tempInfos[1].damage = 2;
         tempInfos[1].duration = 0.4f;
