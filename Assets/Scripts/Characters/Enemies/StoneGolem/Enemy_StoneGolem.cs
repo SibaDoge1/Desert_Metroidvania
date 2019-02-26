@@ -195,6 +195,8 @@ public class Enemy_StoneGolem : Boss
                 anim.Play("prev_Smash");
                 yield return new WaitForSeconds(tempInfo.preDelay);
                 anim.Play("Smash");
+                StartCoroutine(LandShake());
+
                 SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
 
                 CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform,dir);
@@ -211,6 +213,8 @@ public class Enemy_StoneGolem : Boss
                 anim.Play("prev_Stomp");
                 yield return new WaitForSeconds(tempInfo.preDelay);
                 anim.Play("Stomp");
+                StartCoroutine(LandShake());
+
                 SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
 
                 CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform,dir);
@@ -249,6 +253,8 @@ public class Enemy_StoneGolem : Boss
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
                 anim.Play("DoubleSmash");
+                StartCoroutine(LandShake());
+
                 yield return new WaitForSeconds(0.4f);
                 SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
 
@@ -268,6 +274,8 @@ public class Enemy_StoneGolem : Boss
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
                 anim.Play("DoubleSmash");
+                StartCoroutine(LandShake());
+
                 SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
 
                 yield return new WaitForSeconds(0.4f);
@@ -279,6 +287,8 @@ public class Enemy_StoneGolem : Boss
                     StartCoroutine(Attack_Meteor());
                     yield return new WaitForSeconds(tempInfo.duration - 0.4f);
                     anim.Play("DoubleSmash");
+                    StartCoroutine(LandShake());
+
                     SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
 
                     yield return new WaitForSeconds(0.4f);
@@ -317,6 +327,8 @@ public class Enemy_StoneGolem : Boss
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
                 anim.Play("DoubleSmash");
+                StartCoroutine(LandShake());
+
                 yield return new WaitForSeconds(0.4f);
                 SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
 
@@ -346,6 +358,8 @@ public class Enemy_StoneGolem : Boss
             InstantiateShockWave(tempInfo, dir, pos);
             yield return new WaitForSeconds(tempInfo.preDelay - 0.4f);
             anim.Play("DoubleSmash");
+            StartCoroutine(LandShake());
+
             yield return new WaitForSeconds(0.4f);
         }
     }
@@ -431,7 +445,18 @@ public class Enemy_StoneGolem : Boss
         clearObj.GetComponent<ClearObj>().Active(sprite);
         gameObject.SetActive(false);
     }
-    
 
 
+    IEnumerator LandShake()
+    {
+        float timer = 0f;
+        yield return new WaitForSeconds(0.1f);
+
+        while (timer < 0.3f)
+        {
+            CameraManager.Instance.MoveCam(Random.insideUnitCircle * 0.2f + (Vector2)CameraManager.Instance.transform.position);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+    }
 }
