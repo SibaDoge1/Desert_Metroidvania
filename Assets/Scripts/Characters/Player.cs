@@ -71,6 +71,10 @@ public class Player : Character
             isJumping = false;
             anim.SetBool("isJumping", false);
         }
+        if (isJumpSkillUsing && isGround)
+        {
+            isJumpSkillUsing = false;
+        }
 
         DisplayInfo();
         ladderActionAnim();
@@ -247,6 +251,8 @@ public class Player : Character
         Move(vec);
     }
 
+    bool isJumpSkillUsing = false;
+
     public void JumpAgain()
     {
         isJumping = true;
@@ -254,6 +260,7 @@ public class Player : Character
         StartCoroutine("JumpRoutine");
         anim.SetBool("isJumping", true);
         anim.Play("jump_Start");
+        isJumpSkillUsing = true;
     }
 
     /*
@@ -294,10 +301,12 @@ protected void JumpStop()
 
                 return;
             }
-            else if (MyInput.GetKey(MyKeyCode.Down) && !IsGround)
+            else if (MyInput.GetKey(MyKeyCode.Down) && !IsGround && !isJumpSkillUsing)
             {
                 if (SaveManager.GetSkillUnlockInfo(1))
+                {
                     EquipManager.Instance.equipedWeapon.JumpSkillAction(atkBuff, attackSpd);
+                }
 
                 return;
             }
