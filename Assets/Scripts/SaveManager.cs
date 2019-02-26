@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using Newtonsoft.Json;
+using System.Runtime.InteropServices;
 
 [Serializable]
 public class SaveData
@@ -39,6 +40,7 @@ public class SaveData
 
 public static class SaveManager
 {
+
     private static string Ext = ".ini";
     private static string FileName = "save";
     private static string Path = Application.dataPath;
@@ -228,14 +230,14 @@ public static class SaveManager
     {
         string json = JsonConvert.SerializeObject(data);
         FileStream file = new FileStream(path + "/" + filename + Ext, FileMode.Create);
-        if(file == null)
+        if (file == null)
         {
             Debug.LogError("file Create Error!");
             return false;
         }
         StreamWriter writer = new StreamWriter(file);
         writer.Write(json);
-
+        
         writer.Close();
         Debug.Log("SaveComplete" + json);
         return true;
