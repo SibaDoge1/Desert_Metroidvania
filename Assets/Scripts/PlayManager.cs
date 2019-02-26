@@ -13,6 +13,7 @@ public class PlayManager : MonoBehaviour
     private MapViewer viewer;
     private Pause pause;
     private bool isFirstSaved = false;
+    private voidFunc[] OnUsingSkill;
 
     void Awake()
     {
@@ -27,6 +28,7 @@ public class PlayManager : MonoBehaviour
         player = GameObject.Find("Player").GetComponent<Player>();
         pause = GameObject.Find("Canvas").transform.Find("Pause").GetComponent<Pause>();
         player.MakePalette();
+        OnUsingSkill = new voidFunc[5];
     }
 
     void Start()
@@ -47,6 +49,11 @@ public class PlayManager : MonoBehaviour
         }
         if (!isFirstSaved)
         {
+            for (int i = 0; i < Map.Instance.stages.Count; i++)
+            {
+                if (Map.Instance.CurStage != Map.Instance.stages[i])
+                    Map.Instance.stages[i].DeActive();
+            }
             SaveManager.SaveToFile();
             isFirstSaved = true;
         }
@@ -88,5 +95,18 @@ public class PlayManager : MonoBehaviour
         get { return player; } set { player = value; }
     }
 
+    public void DoSkill(Skill skill)
+    {
+        if(OnUsingSkill[(int)skill] != null)
+            OnUsingSkill[(int)skill]();
+    }
+    public void AddSkillFunc(Skill skill, voidFunc func)
+    {
+        OnUsingSkill[(int)skill] += func;
+    }
+    public void DeleteSkillFunc(Skill skill, voidFunc func)
+    {
+        OnUsingSkill[(int)skill] -= func;
+    }
 }
 

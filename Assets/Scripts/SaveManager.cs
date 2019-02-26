@@ -126,7 +126,10 @@ public static class SaveManager
     public static bool GetMapInfo(int stage)
     {
         if (!saveData.MapInfo.ContainsKey(stage))
+        {
             saveData.MapInfo.Add(stage, false);
+            return false;
+        }
         return saveData.MapInfo[stage];
     }
 

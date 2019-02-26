@@ -137,7 +137,7 @@ public class Player : Character
     {
         float timer = 0;
         IsSuper = dashInvincibleTime;
-
+        PlayManager.Instance.DoSkill(Skill.Dash);
         SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Dash);
         while (timer < dashTime)
         {

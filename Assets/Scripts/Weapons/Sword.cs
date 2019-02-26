@@ -107,6 +107,7 @@ public class Sword : Weapon
 
     public override void DashAttack(float atk, float atkSpd)
     {
+        PlayManager.Instance.DoSkill(Skill.JumpSkill);
         AttackInfo tempInfo = attackInfos[3];
         tempInfo.damage += atk;
         tempInfo.duration *= atkSpd;
@@ -133,6 +134,10 @@ public class Sword : Weapon
 
         yield return new WaitForSeconds(info.preDelay);
         SoundDelegate.Instance.PlayEffectSound((EffectSoundType)atkCount);
+        if(info.attackID.Equals("attack_skill1"))
+            PlayManager.Instance.DoSkill(Skill.Attack3);
+        else if (info.attackID.Equals("attack2"))
+            PlayManager.Instance.DoSkill(Skill.Attack2);
         PlayManager.Instance.Player.anim.Play(info.attackID, 0, 0);
 
         CombatSystem.Instance.InstantiateHitBox(info, gameObject.transform);
@@ -153,6 +158,7 @@ public class Sword : Weapon
         PlayManager.Instance.Player.IsMovable = false;
 
         yield return new WaitForSeconds(info.preDelay);
+        PlayManager.Instance.DoSkill(Skill.DashSkill);
 
         CombatSystem.Instance.InstantiateHitBox(info, gameObject.transform);
 
@@ -170,6 +176,7 @@ public class Sword : Weapon
 
         string path = "Prefabs/Colliders/JumpSkillCollider";
         SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Dash);
+        PlayManager.Instance.DoSkill(Skill.JumpSkill);
 
         GameObject col = CombatSystem.Instance.InstantiateHitBox(info, gameObject.transform, path);
 
