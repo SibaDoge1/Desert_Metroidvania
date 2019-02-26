@@ -71,12 +71,6 @@ public class PlayManager : MonoBehaviour
     }
     public void GoToTitle()
     {
-        StartCoroutine(BossClear());
-    }
-
-    IEnumerator BossClear()
-    {
-        yield return new WaitForSeconds(5f);
         GlobalData.SetChangeScene("Scenes/MainMenu");
         Time.timeScale = 1f;
         FadeTool.Instance.FadeOut(1f, LoadScene);

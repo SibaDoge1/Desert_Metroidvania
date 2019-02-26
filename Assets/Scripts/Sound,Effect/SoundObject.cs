@@ -13,6 +13,12 @@ public class SoundObject : MonoBehaviour
         src.Play();
         isPlayed = true;
     }
+    public void Stop()
+    {
+        src = transform.GetComponent<AudioSource>();
+        isPlayed = false;
+        src.Stop();
+    }
 
     // Update is called once per frame
     void Update()
