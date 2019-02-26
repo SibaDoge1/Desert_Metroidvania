@@ -133,7 +133,7 @@ public class CombatSystem : MonoBehaviour
         return damagingCollider.gameObject;
     }
 
-    public void InstantiateProjectile(AttackInfo attackInfo, Transform transform_attacker)
+    public GameObject InstantiateProjectile(AttackInfo attackInfo, Transform transform_attacker)
     {   //투사체 생성
         BoxCollider2D damagingCollider_Collider2D = Instantiate(_projectile, transform_attacker.position, Quaternion.identity).GetComponent<BoxCollider2D>();
         Projectile damagingCollider = damagingCollider_Collider2D.gameObject.GetComponent<Projectile>();
@@ -172,6 +172,8 @@ public class CombatSystem : MonoBehaviour
 
         damagingCollider.parentTransform = transform_attacker;
         damagingCollider.DestroyCollider(attackInfo.duration);
+
+        return damagingCollider.gameObject;
     }
 
 }

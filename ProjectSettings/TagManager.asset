@@ -8,6 +8,7 @@ TagManager:
   - Tile
   - Ladder
   - Boundary
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Flying
   - Player
   - Indicator
-  - 
+  - meteor
   - 
   - 
   - 

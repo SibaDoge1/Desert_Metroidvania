@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackable: 0
-  cooltime: 0
+  cooltime: 2
 --- !u!61 &388274832
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -288,7 +288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackable: 0
-  cooltime: 0
+  cooltime: 2
 --- !u!61 &689489363
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -562,6 +562,8 @@ MonoBehaviour:
   isKilled: 0
   noticeStr: 
   stoneImage: {fileID: 21300000, guid: 7c70302c12b59da4a9fd789bb3c922b8, type: 3}
+  shockWaveEffect: {fileID: 2973305734985509327, guid: bddb597b80c08dc4bae5c57dcb9a0d09,
+    type: 3}
   clearObj: {fileID: 0}
 --- !u!1 &1108872917
 GameObject:
@@ -665,7 +667,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackable: 0
-  cooltime: 20
+  cooltime: 15
 --- !u!61 &1274810076
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -863,7 +865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackable: 0
-  cooltime: 20
+  cooltime: 15
 --- !u!1 &8788922229124911546
 GameObject:
   m_ObjectHideFlags: 0

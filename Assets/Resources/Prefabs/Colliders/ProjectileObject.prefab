@@ -74,6 +74,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   colliderSprite: {fileID: 21300000, guid: 7dd9bed92e6a7e94c880805ccfe14a21, type: 3}
+  parentTransform: {fileID: 0}
+  hitEffect: {fileID: 0}
 --- !u!1 &6407261055014035349
 GameObject:
   m_ObjectHideFlags: 0
