@@ -150,7 +150,7 @@ public class Player : Character
                 break;
             }
 
-            spd = Mathf.Lerp(Spd * 8f, Spd, timer / dashTime);
+            spd = Mathf.Lerp(Spd * 4f, Spd * 2f, timer / dashTime);
             Move(dir);
 
             timer += Time.fixedDeltaTime;
@@ -399,11 +399,16 @@ protected void JumpStop()
             anim.SetBool("isFalling", false);
 
         }
+
+
+    }
+
+    private void OnCollisionEnter2D(Collision2D col)
+    {
         if (col.gameObject.tag == "Tile" && isDashing)
         {
             stopDash = true;
         }
-
     }
     #endregion
 
