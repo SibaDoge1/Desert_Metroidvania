@@ -11,7 +11,6 @@ public class FlyingEnemy : RespawnableEnemy
         base.Awake();
 
         damage = 1f;
-
         rigid.gravityScale = 0f;
         enemyType = EnemyType.FLY;
     }

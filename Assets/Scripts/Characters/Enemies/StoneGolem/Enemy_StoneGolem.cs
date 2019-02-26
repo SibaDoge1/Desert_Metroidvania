@@ -8,6 +8,8 @@ public class Enemy_StoneGolem : Boss
     GameObject meteorLine;
     GameObject meteor;
     private SpriteRenderer image;
+    public Sprite stoneImage;
+
 
     protected override void Update()
     {
@@ -24,7 +26,7 @@ public class Enemy_StoneGolem : Boss
         anim = transform.Find("Sprite").GetComponent<Animator>();
         image = transform.Find("Sprite").GetComponent<SpriteRenderer>();
 
-        AttackInfo[] tempInfos = new AttackInfo[6];
+        AttackInfo[] tempInfos = new AttackInfo[8];
 
         //상단 공격
         tempInfos[0].attackRange = new Vector2(4f, 8f);
@@ -57,11 +59,11 @@ public class Enemy_StoneGolem : Boss
         tempInfos[2].postDelay = 3f;
         tempInfos[2].cooltime = 12f;            //임시 적용
 
-        tempInfos[2].monsterattackInfo.attackValue = 1;     //자기도 맞음 고쳐야함
+        tempInfos[2].monsterattackInfo.attackValue = 100;
         tempInfos[2].monsterattackInfo.attackIndex = 2;
 
         tempInfos[2].projectileInfo.projectileSpd = 8f;
-        tempInfos[2].projectileInfo.attackSprite = null;
+        tempInfos[2].projectileInfo.attackSprite = stoneImage;
         tempInfos[2].projectileInfo.proType = ProjectileType.TOPLAYER;
 
         //중거리 공격 내려찍기
@@ -87,17 +89,45 @@ public class Enemy_StoneGolem : Boss
         tempInfos[4].monsterattackInfo.attackValue = 1;
         tempInfos[4].monsterattackInfo.attackIndex = 4;
 
-        //중거리 공격 충격파
-        tempInfos[5].attackRange = new Vector2(2f, 6f);
-        tempInfos[5].hitBoxPostion = new Vector2(2f, 2.5f);
+        //초장거리 공격2
+        tempInfos[5].attackRange = new Vector2(2f, 2f);
+        tempInfos[5].hitBoxPostion = new Vector2(1f, 3f);
         tempInfos[5].damage = 1;
-        tempInfos[5].duration = 1.5f;
+        tempInfos[5].duration = 5f;
         tempInfos[5].preDelay = 1.5f;
-        tempInfos[5].postDelay = 0f;
+        tempInfos[5].postDelay = 3f;
+        tempInfos[5].cooltime = 12f;            //임시 적용
 
-        tempInfos[5].projectileInfo.projectileSpd = 3f;
-        tempInfos[5].projectileInfo.attackSprite = null;
-        tempInfos[5].projectileInfo.proType = ProjectileType.DIRECTION;
+        tempInfos[5].monsterattackInfo.attackValue = 100;
+        tempInfos[5].monsterattackInfo.attackIndex = 2;
+
+        tempInfos[5].projectileInfo.projectileSpd = 8f;
+        tempInfos[5].projectileInfo.attackSprite = stoneImage;
+        tempInfos[5].projectileInfo.proType = ProjectileType.TOPLAYER;
+
+        //중거리 공격 내려찍기2
+        tempInfos[6].attackRange = new Vector2(4f, 8f);
+        tempInfos[6].hitBoxPostion = new Vector2(2f, 3.5f);
+        tempInfos[6].damage = 1;
+        tempInfos[6].duration = 0.3f;
+        tempInfos[6].preDelay = 1.5f;
+        tempInfos[6].postDelay = 6f;
+        tempInfos[6].cooltime = 18f;
+
+        tempInfos[6].monsterattackInfo.attackValue = 1;
+        tempInfos[6].monsterattackInfo.attackIndex = 3;
+
+        //중거리 공격 충격파
+        tempInfos[7].attackRange = new Vector2(2f, 6f);
+        tempInfos[7].hitBoxPostion = new Vector2(2f, 2.5f);
+        tempInfos[7].damage = 1;
+        tempInfos[7].duration = 1.5f;
+        tempInfos[7].preDelay = 1.5f;
+        tempInfos[7].postDelay = 0f;
+
+        tempInfos[7].projectileInfo.projectileSpd = 3f;
+        tempInfos[7].projectileInfo.attackSprite = null;
+        tempInfos[7].projectileInfo.proType = ProjectileType.DIRECTION;
 
         foreach (var tempInfo in tempInfos)
         {
@@ -135,7 +165,7 @@ public class Enemy_StoneGolem : Boss
             Vector2 playerPos = PlayManager.Instance.Player.transform.position; //var는 웬만하면 안쓰는게 좋음
             float vectorToPlayer = playerPos.x - transform.position.x;
 
-            direction = vectorToPlayer > 0 ? Direction.right : Direction.left;
+            if(!isAttack) direction = vectorToPlayer > 0 ? Direction.right : Direction.left;
 
             yield return new WaitForSeconds(0.5f);
         }
@@ -143,18 +173,16 @@ public class Enemy_StoneGolem : Boss
 
     protected override IEnumerator Attack(float atk, float atkSpd, AttackInfo attackInfo)
     {
-        Debug.Log("Start");
-
+        isAttack = true;
+    
         anim.SetBool("isWalking", false);
         patternChangable = false;
         AttackInfo tempInfo;
         Vector2 playerPos = PlayManager.Instance.Player.transform.position;
         float vectorToPlayer = playerPos.x - transform.position.x;
-        direction = vectorToPlayer > 0 ? Direction.right : Direction.left;
-        //attackInfo.monsterattackInfo.attackIndex = 4;
         SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
-       
-        Move(direction);
+        Direction dir = vectorToPlayer > 0 ? Direction.right : Direction.left;
+        Move(dir);
 
         switch (attackInfo.monsterattackInfo.attackIndex)
         {
@@ -164,11 +192,12 @@ public class Enemy_StoneGolem : Boss
                 tempInfo.duration *= atkSpd;
                 tempInfo.preDelay *= atkSpd;
                 tempInfo.postDelay *= atkSpd;
-                anim.Play("prev_Smash");
 
+                anim.Play("prev_Smash");
                 yield return new WaitForSeconds(tempInfo.preDelay);
+                Move(dir);
                 anim.Play("Smash");
-                CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
+                CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform,dir);
 
                 yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
                 break;
@@ -181,8 +210,9 @@ public class Enemy_StoneGolem : Boss
 
                 anim.Play("prev_Stomp");
                 yield return new WaitForSeconds(tempInfo.preDelay);
+                Move(dir);
                 anim.Play("Stomp");
-                CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
+                CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform,dir);
 
                 yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
                 break;
@@ -197,6 +227,7 @@ public class Enemy_StoneGolem : Boss
                 anim.Play("prev_Throw");
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
+                Move(dir);
                 anim.Play("Throw");
                 yield return new WaitForSeconds(0.8f);
                 CombatSystem.Instance.InstantiateProjectile(tempInfo, gameObject.transform);
@@ -214,9 +245,10 @@ public class Enemy_StoneGolem : Boss
                 anim.Play("prev_DoubleSmash");
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
+                Move(dir);
                 anim.Play("DoubleSmash");
                 yield return new WaitForSeconds(0.4f);
-                CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
+                CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform,dir);
                 StartCoroutine(ShootShockWave());
 
                 yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
@@ -231,6 +263,7 @@ public class Enemy_StoneGolem : Boss
                 anim.Play("prev_DoubleSmash");
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
+                Move(dir);
                 anim.Play("DoubleSmash");
                 yield return new WaitForSeconds(0.4f);
                 for (int i = 0; i < 6; i++)
@@ -246,8 +279,45 @@ public class Enemy_StoneGolem : Boss
 
                 yield return new WaitForSeconds(tempInfo.postDelay);
                 break;
-        }
+            case 5:
+                tempInfo = attackInfos[5];
+                tempInfo.damage += atk;
+                tempInfo.duration *= atkSpd;
+                tempInfo.preDelay *= atkSpd;
+                tempInfo.postDelay *= atkSpd;
 
+
+                anim.Play("prev_Throw");
+
+                yield return new WaitForSeconds(tempInfo.preDelay);
+                anim.Play("Throw");
+                yield return new WaitForSeconds(0.8f);
+                CombatSystem.Instance.InstantiateProjectile(tempInfo, gameObject.transform);
+
+                yield return new WaitForSeconds(tempInfo.postDelay);
+
+                break;
+            case 6:
+                tempInfo = attackInfos[6];
+                tempInfo.damage += atk;
+                tempInfo.duration *= atkSpd;
+                tempInfo.preDelay *= atkSpd;
+                tempInfo.postDelay *= atkSpd;
+
+                anim.Play("prev_DoubleSmash");
+
+                yield return new WaitForSeconds(tempInfo.preDelay);
+                anim.Play("DoubleSmash");
+                yield return new WaitForSeconds(0.4f);
+                CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
+                StartCoroutine(ShootShockWave());
+
+                yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
+                break;
+
+        }
+        isAttack = false;
+        Debug.Log("end");
         patternChangable = true;
 
         yield return null;
@@ -255,7 +325,7 @@ public class Enemy_StoneGolem : Boss
 
     IEnumerator ShootShockWave()
     {
-        AttackInfo tempInfo = attackInfos[5];
+        AttackInfo tempInfo = attackInfos[7];
         Direction dir = direction;
         Vector3 pos = transform.position;
 
@@ -278,7 +348,7 @@ public class Enemy_StoneGolem : Boss
 
         Vector2 meteorVec2;
         meteorVec2.x = Random.Range(transform.position.x + 20f, transform.position.x - 20f);
-        meteorVec2.y = transform.position.y+20f;
+        meteorVec2.y = transform.position.y + 20f;
         GameObject tempLine2 = Instantiate(meteorLine, meteorVec2, Quaternion.identity);
 
         Vector2 meteorVec3;

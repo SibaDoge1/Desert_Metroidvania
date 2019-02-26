@@ -60,7 +60,7 @@ public class PlayManager : MonoBehaviour
     }
     public void Return()
     {
-        FadeTool.Instance.FadeInOut(1f, 1f, ReturnToCheckPoint);
+        FadeTool.Instance.FadeInOut(2f, 2f, ReturnToCheckPoint);
     }
 
     public void ReturnToCheckPoint()

@@ -53,6 +53,32 @@ public class CombatSystem : MonoBehaviour
     GameObject _damagingCollider;
     GameObject _projectile;
 
+    public GameObject InstantiateHitBox(AttackInfo attackInfo, Transform transform_attacker,Direction direction)
+    //attacker의 transform을 기준으로 DamagingCollider 생성
+    {
+        BoxCollider2D damagingCollider_Collider2D = Instantiate(_damagingCollider, transform_attacker.position, Quaternion.identity).GetComponent<BoxCollider2D>();
+        DamagingCollider damagingCollider = damagingCollider_Collider2D.gameObject.GetComponent<DamagingCollider>();
+
+        damagingCollider_Collider2D.size = attackInfo.attackRange;
+        Vector3 tempV3 = damagingCollider_Collider2D.transform.position;
+        tempV3.x += attackInfo.hitBoxPostion.x * (int)direction;
+        tempV3.y += attackInfo.hitBoxPostion.y;
+        damagingCollider_Collider2D.transform.position = tempV3;
+
+        damagingCollider.damage = attackInfo.damage;
+
+        if (PlayManager.Instance.isTestMode)
+        {
+            damagingCollider.ChangeSprite(attackInfo.attackRange);
+        }
+
+        damagingCollider.gameObject.transform.SetParent(transform_attacker);
+        damagingCollider.DestroyCollider(attackInfo.duration);
+        damagingCollider.parentTransform = transform_attacker;
+
+        return damagingCollider.gameObject;
+    }
+
     public GameObject InstantiateHitBox(AttackInfo attackInfo, Transform transform_attacker)
         //attacker의 transform을 기준으로 DamagingCollider 생성
     {

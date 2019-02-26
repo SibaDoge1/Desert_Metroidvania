@@ -30,6 +30,8 @@ public abstract class Enemy : Character
 
     protected Vector2 dir_Flying;
 
+    protected bool isAttack;
+
     public AttackRanageCollider[] attackRangeColliders;
 
     protected override void Awake()
@@ -153,7 +155,7 @@ public abstract class Enemy : Character
             enemyCurState = enemyState;
         }
 
-        if (enemyCurState != EnemyState.ATTACK && enemyCurState != EnemyState.DEAD)
+        if (enemyCurState != EnemyState.DEAD)
         {
             switch (enemyType)
             {

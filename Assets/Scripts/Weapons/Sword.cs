@@ -173,6 +173,7 @@ public class Sword : Weapon
         onAttack = true;
         PlayManager.Instance.Player.IsMovable = false;
         PlayManager.Instance.Player.stopJumpSkill = false;
+        PlayManager.Instance.Player.anim.Play("jumpAttack");
 
         string path = "Prefabs/Colliders/JumpSkillCollider";
         SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Dash);
