@@ -6,6 +6,7 @@ public class SoundObject : MonoBehaviour
 {
     private bool isPlayed = false;
     private AudioSource src;
+    public BGM bgm;
     public void Play()
     {
         src = transform.GetComponent<AudioSource>();

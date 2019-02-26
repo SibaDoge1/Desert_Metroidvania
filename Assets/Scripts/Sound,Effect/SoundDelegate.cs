@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum BGM
 {
+    None = -1,
     A1A2,
     B1B2,
     C1C2,
@@ -31,7 +32,7 @@ public enum EffectSoundType
 }
 public class SoundDelegate : MonoBehaviour {
     #region variables
-    AudioSource bgm;
+    SoundObject bgm;
 
     private static float bgmSound = 1f;
     public static float BGMSound
@@ -74,14 +75,17 @@ public class SoundDelegate : MonoBehaviour {
             Destroy(gameObject);
         }
 
-        bgm = transform.Find("BGM").GetComponent<AudioSource>();
+        bgm = transform.Find("BGM").GetComponent<SoundObject>();
     }
 
     public void PlayBGM(BGM b)
     {
+        if (bgm.bgm == b)
+            return;
         Destroy(bgm.gameObject);
         GameObject madeObj = Instantiate(bgmAudioClips[(int)b], transform.position, Quaternion.identity, transform);
-        bgm = madeObj.GetComponent<AudioSource>();
+        bgm = madeObj.GetComponent<SoundObject>();
+        bgm.bgm = b;
         // bgm.volume = bgmSound;
     }
 
