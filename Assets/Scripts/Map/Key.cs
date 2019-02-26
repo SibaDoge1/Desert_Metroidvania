@@ -27,9 +27,11 @@ public class Key : InteractObject
         {
             isObtained = true;
             GameObject obj = Instantiate(gameObject, transform.position, transform.rotation, transform.parent);
-            obj.GetComponent<SpriteRenderer>().flipX = true;
-            gameObject.SetActive(false);
+            Destroy(obj.GetComponent<Key>());
+            obj.transform.Find("Image").transform.localPosition = new Vector2(-0.4f, -0.2f);
+            obj.transform.Find("Image").transform.rotation = Quaternion.Euler(new Vector3(0, 0, 45));
             PlayManager.Instance.Player.equip.AddItem(gameObject);
+            gameObject.SetActive(false);
         }
     }
 
@@ -47,5 +49,6 @@ public class Key : InteractObject
             timer += Time.deltaTime;
             yield return null;
         }
+        Destroy(this);
     }
 }
