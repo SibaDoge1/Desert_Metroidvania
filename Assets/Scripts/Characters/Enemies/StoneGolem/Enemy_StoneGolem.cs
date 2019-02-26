@@ -34,7 +34,7 @@ public class Enemy_StoneGolem : Boss
         tempInfos[0].damage = 1;
         tempInfos[0].duration = 0.4f;
         tempInfos[0].preDelay = 1.5f;
-        tempInfos[0].postDelay = 1.5f;
+        tempInfos[0].postDelay = 2f;
 
         tempInfos[0].monsterattackInfo.attackValue = 5;
         tempInfos[0].monsterattackInfo.attackIndex = 0;
@@ -45,7 +45,7 @@ public class Enemy_StoneGolem : Boss
         tempInfos[1].damage = 2;
         tempInfos[1].duration = 0.4f;
         tempInfos[1].preDelay = 1.8f;
-        tempInfos[1].postDelay = 1.5f;
+        tempInfos[1].postDelay = 3f;
 
         tempInfos[1].monsterattackInfo.attackValue = 5;
         tempInfos[1].monsterattackInfo.attackIndex = 1;
@@ -56,7 +56,7 @@ public class Enemy_StoneGolem : Boss
         tempInfos[2].damage = 1;
         tempInfos[2].duration = 5f;
         tempInfos[2].preDelay = 1.5f;
-        tempInfos[2].postDelay = 1.5f;
+        tempInfos[2].postDelay = 3f;
         tempInfos[2].cooltime = 12f;            //임시 적용
 
         tempInfos[2].monsterattackInfo.attackValue = 100;
@@ -72,7 +72,7 @@ public class Enemy_StoneGolem : Boss
         tempInfos[3].damage = 1;
         tempInfos[3].duration = 0.3f;
         tempInfos[3].preDelay = 1.5f;
-        tempInfos[3].postDelay = 2f;
+        tempInfos[3].postDelay = 6f;
         tempInfos[3].cooltime = 18f;
 
         tempInfos[3].monsterattackInfo.attackValue = 1;    
@@ -84,7 +84,7 @@ public class Enemy_StoneGolem : Boss
         tempInfos[4].damage = 1;
         tempInfos[4].duration = 0.3f;
         tempInfos[4].preDelay = 2.5f;
-        tempInfos[4].postDelay = 2.5f;
+        tempInfos[4].postDelay = 7f;
 
         tempInfos[4].monsterattackInfo.attackValue = 1;
         tempInfos[4].monsterattackInfo.attackIndex = 4;
@@ -95,7 +95,7 @@ public class Enemy_StoneGolem : Boss
         tempInfos[5].damage = 1;
         tempInfos[5].duration = 5f;
         tempInfos[5].preDelay = 1.5f;
-        tempInfos[5].postDelay = 1.5f;
+        tempInfos[5].postDelay = 3f;
         tempInfos[5].cooltime = 12f;            //임시 적용
 
         tempInfos[5].monsterattackInfo.attackValue = 100;
@@ -111,7 +111,7 @@ public class Enemy_StoneGolem : Boss
         tempInfos[6].damage = 1;
         tempInfos[6].duration = 0.3f;
         tempInfos[6].preDelay = 1.5f;
-        tempInfos[6].postDelay = 2f;
+        tempInfos[6].postDelay = 6f;
         tempInfos[6].cooltime = 18f;
 
         tempInfos[6].monsterattackInfo.attackValue = 1;
