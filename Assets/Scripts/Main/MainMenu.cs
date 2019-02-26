@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
 {
     public delegate void voidFunc();
     private Image flower;
+    private bool isLoading;
 
     void Awake()
     {/*
@@ -38,6 +39,8 @@ public class MainMenu : MonoBehaviour
 
     public void OnStartButtonDown()
     {
+        if (isLoading) return;
+        isLoading = true;
         SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Button);
         GlobalData.isNewStart = true;
         GlobalData.SetChangeScene("Scenes/Stage");
@@ -46,6 +49,8 @@ public class MainMenu : MonoBehaviour
 
     public void OnContinueButtonDown()
     {
+        if (isLoading) return;
+        isLoading = true;
         SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Button);
         GlobalData.isNewStart = false;
         GlobalData.SetChangeScene("Scenes/Stage");
@@ -60,7 +65,7 @@ public class MainMenu : MonoBehaviour
 
     public void LoadScene()
     {
-
+        isLoading = false;
         SceneManager.LoadScene("Scenes/LoadingScene");
     }
 
