@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Player : Character
 {
+    private bool isLive;
     private bool isMovable;
     public bool IsMovable { get { return isMovable; } set { isMovable = value; } }
     public BoxCollider2D MyCollider { get; private set; }
@@ -32,6 +33,7 @@ public class Player : Character
     {
         base.Start();
         isMovable = true;
+        isLive = true;
         MyCollider = gameObject.GetComponent<BoxCollider2D>();
         //hpUI = GameObject.Find("Canvas").transform.Find("StatInfo").Find("HP").Find("Text").GetComponent<Text>();
         dashCoolUI = GameObject.Find("Canvas").transform.Find("StatInfo").Find("DashCool").Find("Text").GetComponent<Text>();
@@ -50,39 +52,41 @@ public class Player : Character
         //if (MyInput.GetKeyDown(KeyCode.Q)) circleWeapon(WeaponList.sword);
         //if (MyInput.GetKeyDown(KeyCode.W)) circleWeapon(WeaponList.shield);
         //if (MyInput.GetKeyDown(KeyCode.E)) circleWeapon(WeaponList.fist);
-
-        if (isGround) jumpCount = 0;
-        if (isDashable > 0f) isDashable = Mathf.Clamp(isDashable - Time.deltaTime, 0, dashCoolTime);
-        if (Map.Instance.CheckOutSide(transform.position)) OnDieCallBack();
-        if (MyInput.GetKeyDown(MyKeyCode.Attack)) Action();
-        if (MyInput.GetKeyUp(MyKeyCode.Right)) anim.SetBool("isRunning", false); //달리기 애니메이션 버그, 이걸 밖으로 빼니 고쳐짐
-        if (MyInput.GetKeyUp(MyKeyCode.Left)) anim.SetBool("isRunning", false);
-        if (IsMovable)
+        if (isLive)
         {
-            if (SaveManager.GetSkillUnlockInfo(0))
+            if (isGround) jumpCount = 0;
+            if (isDashable > 0f) isDashable = Mathf.Clamp(isDashable - Time.deltaTime, 0, dashCoolTime);
+            if (Map.Instance.CheckOutSide(transform.position)) OnDieCallBack();
+            if (MyInput.GetKeyDown(MyKeyCode.Attack)) Action();
+            if (MyInput.GetKeyUp(MyKeyCode.Right)) anim.SetBool("isRunning", false); //달리기 애니메이션 버그, 이걸 밖으로 빼니 고쳐짐
+            if (MyInput.GetKeyUp(MyKeyCode.Left)) anim.SetBool("isRunning", false);
+            if (IsMovable)
             {
-                if (MyInput.GetKeyDown(MyKeyCode.Dash) && isDashable <= 0f && isGround && !isDashing)
-                    Dash();
+                if (SaveManager.GetSkillUnlockInfo(0))
+                {
+                    if (MyInput.GetKeyDown(MyKeyCode.Dash) && isDashable <= 0f && isGround && !isDashing)
+                        Dash();
+                }
+
+
+                if (MyInput.GetKeyDown(MyKeyCode.Jump)) Jump();
+            }
+            if (isGround && isJumping)
+            {
+                isJumping = false;
+                anim.SetBool("isJumping", false);
+            }
+            if (isJumpSkillUsing && isGround)
+            {
+                isJumpSkillUsing = false;
             }
 
+            DisplayInfo();
+            ladderActionAnim();
 
-            if (MyInput.GetKeyDown(MyKeyCode.Jump)) Jump();
+            CheckFalling();
+            previousPos = transform.position;
         }
-        if (isGround && isJumping)
-        {
-            isJumping = false;
-            anim.SetBool("isJumping", false);
-        }
-        if (isJumpSkillUsing && isGround)
-        {
-            isJumpSkillUsing = false;
-        }
-
-        DisplayInfo();
-        ladderActionAnim();
-
-        CheckFalling();
-        previousPos = transform.position;
     }
 
     protected override void FixedUpdate() //물리연산용
@@ -330,8 +334,9 @@ protected void JumpStop()
 
     IEnumerator PlayerDead()
     {
-        anim.Play("dead");
-
+        isLive = false;
+        isMovable = false;
+        anim.Play("dead");  
         yield return new WaitForSeconds(2f);
 
         gameObject.SetActive(false);
