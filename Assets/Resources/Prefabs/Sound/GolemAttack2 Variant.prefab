@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &3031652709666017849
+--- !u!1001 &7838394173122033213
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 7249053008991481447, guid: dc5aef5009b19564da229b489e8d4fbb,
         type: 3}
       propertyPath: m_Name
-      value: Attack1 Variant
+      value: GolemAttack2 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 2090202537104293124, guid: dc5aef5009b19564da229b489e8d4fbb,
         type: 3}
@@ -71,16 +71,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 34a6604d716bde74b920d398ed4f2640, type: 3}
+      objectReference: {fileID: 8300000, guid: 2032a3660082e184aa8376d23186c3bf, type: 3}
     - target: {fileID: 4535682796979658774, guid: dc5aef5009b19564da229b489e8d4fbb,
         type: 3}
       propertyPath: m_Volume
-      value: 0.166
-      objectReference: {fileID: 0}
-    - target: {fileID: 4535682796979658774, guid: dc5aef5009b19564da229b489e8d4fbb,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
+      value: 0.547
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc5aef5009b19564da229b489e8d4fbb, type: 3}

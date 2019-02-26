@@ -306,13 +306,7 @@ protected void JumpStop()
             else if (MyInput.GetKey(MyKeyCode.Down) && !IsGround && !isJumpSkillUsing)
             {
                 if (SaveManager.GetSkillUnlockInfo(1))
-<<<<<<< HEAD
-                {
-                    EquipManager.Instance.equipedWeapon.JumpSkillAction(atkBuff, attackSpd);
-                }
-=======
                     PlayManager.Instance.Player.equip.equipedWeapon.JumpSkillAction(atkBuff, attackSpd);
->>>>>>> KSY_System
 
                 return;
             }

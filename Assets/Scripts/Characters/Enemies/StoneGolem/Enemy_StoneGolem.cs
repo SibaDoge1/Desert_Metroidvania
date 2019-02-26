@@ -180,7 +180,6 @@ public class Enemy_StoneGolem : Boss
         AttackInfo tempInfo;
         Vector2 playerPos = PlayManager.Instance.Player.transform.position;
         float vectorToPlayer = playerPos.x - transform.position.x;
-        SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
         Direction dir = vectorToPlayer > 0 ? Direction.right : Direction.left;
         Move(dir);
 
@@ -195,8 +194,9 @@ public class Enemy_StoneGolem : Boss
 
                 anim.Play("prev_Smash");
                 yield return new WaitForSeconds(tempInfo.preDelay);
-                Move(dir);
                 anim.Play("Smash");
+                SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
+
                 CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform,dir);
 
                 yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
@@ -210,8 +210,9 @@ public class Enemy_StoneGolem : Boss
 
                 anim.Play("prev_Stomp");
                 yield return new WaitForSeconds(tempInfo.preDelay);
-                Move(dir);
                 anim.Play("Stomp");
+                SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
+
                 CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform,dir);
 
                 yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
@@ -223,11 +224,11 @@ public class Enemy_StoneGolem : Boss
                 tempInfo.preDelay *= atkSpd;
                 tempInfo.postDelay *= atkSpd;
 
+                SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack2);
 
                 anim.Play("prev_Throw");
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
-                Move(dir);
                 anim.Play("Throw");
                 yield return new WaitForSeconds(0.8f);
                 CombatSystem.Instance.InstantiateProjectile(tempInfo, gameObject.transform);
@@ -245,9 +246,10 @@ public class Enemy_StoneGolem : Boss
                 anim.Play("prev_DoubleSmash");
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
-                Move(dir);
                 anim.Play("DoubleSmash");
                 yield return new WaitForSeconds(0.4f);
+                SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
+
                 CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform,dir);
                 StartCoroutine(ShootShockWave());
 
@@ -263,8 +265,9 @@ public class Enemy_StoneGolem : Boss
                 anim.Play("prev_DoubleSmash");
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
-                Move(dir);
                 anim.Play("DoubleSmash");
+                SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
+
                 yield return new WaitForSeconds(0.4f);
                 for (int i = 0; i < 6; i++)
                 {
@@ -274,6 +277,8 @@ public class Enemy_StoneGolem : Boss
                     StartCoroutine(Attack_Meteor());
                     yield return new WaitForSeconds(tempInfo.duration - 0.4f);
                     anim.Play("DoubleSmash");
+                    SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
+
                     yield return new WaitForSeconds(0.4f);
                 }
 
@@ -286,6 +291,7 @@ public class Enemy_StoneGolem : Boss
                 tempInfo.preDelay *= atkSpd;
                 tempInfo.postDelay *= atkSpd;
 
+                SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack2);
 
                 anim.Play("prev_Throw");
 
@@ -309,6 +315,8 @@ public class Enemy_StoneGolem : Boss
                 yield return new WaitForSeconds(tempInfo.preDelay);
                 anim.Play("DoubleSmash");
                 yield return new WaitForSeconds(0.4f);
+                SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
+
                 CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
                 StartCoroutine(ShootShockWave());
 

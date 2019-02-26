@@ -28,7 +28,8 @@ public enum EffectSoundType
     Button,
     Dash,
     Buff,
-    Jump
+    Jump,
+    GolemAttack2
 }
 public class SoundDelegate : MonoBehaviour {
     #region variables
@@ -76,6 +77,12 @@ public class SoundDelegate : MonoBehaviour {
         }
 
         bgm = transform.Find("BGM").GetComponent<SoundObject>();
+           
+
+    }
+
+    public void SetVolume()
+    {
     }
 
     public void PlayBGM(BGM b)

@@ -3,7 +3,11 @@ guid: 7e7d0e396892b1349b66605b27bdb318
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - colliderSprite: {instanceID: 0}
+  - parentTransform: {instanceID: 0}
+  - hitEffect: {fileID: 3140057158756138516, guid: 092fe1c06701e9048a02c7b4e7d7f197,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
