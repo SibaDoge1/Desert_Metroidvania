@@ -42,7 +42,7 @@ public class EventTrigger : InteractObject
 
     public void Trigger()
     {
-        if(linkedKey == null || linkedKey.transform.parent == EquipManager.Instance.transform)
+        if(linkedKey == null || linkedKey.transform.parent == PlayManager.Instance.Player.equip.transform)
         {
             switch (eventType)
             {

@@ -19,11 +19,13 @@ public class Player : Character
     public bool isElevator;
     private GameObject groundObject;
     private Vector3 previousPos;
+    public EquipManager equip { get; private set; }
 
 
     protected override void Awake()
     {
         base.Awake();
+        equip = transform.Find("Equip").GetComponent<EquipManager>();
     }
 
     protected override void Start()
@@ -277,18 +279,18 @@ protected void JumpStop()
 
     private void circleWeapon(WeaponList _weapon) //무기교체
     {
-        EquipManager.Instance.changeWeapon(_weapon);
+        PlayManager.Instance.Player.equip.changeWeapon(_weapon);
     }
 
     private void Action() //장착된 무기의 action을 실행
     {
-        if (!EquipManager.Instance.equipedWeapon.onAttack)
+        if (!PlayManager.Instance.Player.equip.equipedWeapon.onAttack)
         {
             if (isDashing)
             {
                 if (SaveManager.GetSkillUnlockInfo(2))
                 {
-                    EquipManager.Instance.equipedWeapon.DashAttack(atkBuff, attackSpd);
+                    PlayManager.Instance.Player.equip.equipedWeapon.DashAttack(atkBuff, attackSpd);
                     StartCoroutine(DashAttacking());
                 }
 
@@ -297,14 +299,14 @@ protected void JumpStop()
             else if (MyInput.GetKey(MyKeyCode.Down) && !IsGround)
             {
                 if (SaveManager.GetSkillUnlockInfo(1))
-                    EquipManager.Instance.equipedWeapon.JumpSkillAction(atkBuff, attackSpd);
+                    PlayManager.Instance.Player.equip.equipedWeapon.JumpSkillAction(atkBuff, attackSpd);
 
                 return;
             }
             else
             {
-                if (EquipManager.Instance.equipedWeapon.atkCooltime <= 0f)
-                    EquipManager.Instance.equipedWeapon.Action(atkBuff, attackSpd);
+                if (PlayManager.Instance.Player.equip.equipedWeapon.atkCooltime <= 0f)
+                    PlayManager.Instance.Player.equip.equipedWeapon.Action(atkBuff, attackSpd);
             }
         }
 
@@ -426,7 +428,6 @@ protected void JumpStop()
         GameObject clone = Instantiate(gameObject, transform.position, transform.rotation);
         clone.transform.SetParent(transform.parent);
         PlayManager.Instance.Player = clone.GetComponent<Player>();
-        EquipManager.SetInstance(clone.transform.Find("Equip").GetComponent<EquipManager>());
         clone.SetActive(true);
         Destroy(gameObject);
     }

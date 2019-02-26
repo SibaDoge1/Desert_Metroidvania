@@ -23,7 +23,7 @@ public class PotalWithLock : Potal
             ChangeStage();
             return;
         }
-        else if (linkedKey != null && linkedKey.transform.parent == EquipManager.Instance.transform)
+        else if (linkedKey != null && linkedKey.transform.parent == PlayManager.Instance.Player.equip.transform)
         {
             Unlock();
         }

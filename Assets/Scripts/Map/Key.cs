@@ -16,7 +16,7 @@ public class Key : InteractObject
             obj.transform.Find("Image").transform.localPosition = new Vector2(-0.4f, -0.2f);
             obj.transform.Find("Image").transform.rotation = Quaternion.Euler(new Vector3(0, 0,45));
             obj.GetComponent<Key>().StartShake();
-            EquipManager.Instance.AddItem(gameObject);
+            PlayManager.Instance.Player.equip.AddItem(gameObject);
             gameObject.SetActive(false);
         }
     }
@@ -29,7 +29,7 @@ public class Key : InteractObject
             GameObject obj = Instantiate(gameObject, transform.position, transform.rotation, transform.parent);
             obj.GetComponent<SpriteRenderer>().flipX = true;
             gameObject.SetActive(false);
-            EquipManager.Instance.AddItem(gameObject);
+            PlayManager.Instance.Player.equip.AddItem(gameObject);
         }
     }
 
