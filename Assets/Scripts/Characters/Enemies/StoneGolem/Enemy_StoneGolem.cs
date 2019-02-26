@@ -9,7 +9,7 @@ public class Enemy_StoneGolem : Boss
     GameObject meteor;
     private SpriteRenderer image;
     public Sprite stoneImage;
-
+    public GameObject shockWaveEffect;
 
     protected override void Update()
     {
@@ -59,7 +59,7 @@ public class Enemy_StoneGolem : Boss
         tempInfos[2].postDelay = 1.5f;
         tempInfos[2].cooltime = 12f;            //임시 적용
 
-        tempInfos[2].monsterattackInfo.attackValue = 100;
+        tempInfos[2].monsterattackInfo.attackValue = 1;
         tempInfos[2].monsterattackInfo.attackIndex = 2;
 
         tempInfos[2].projectileInfo.projectileSpd = 8f;
@@ -75,7 +75,7 @@ public class Enemy_StoneGolem : Boss
         tempInfos[3].postDelay = 2f;
         tempInfos[3].cooltime = 18f;
 
-        tempInfos[3].monsterattackInfo.attackValue = 1;    
+        tempInfos[3].monsterattackInfo.attackValue = 100;    
         tempInfos[3].monsterattackInfo.attackIndex = 3;
 
         //전체 공격 내려찍기
@@ -352,15 +352,20 @@ public class Enemy_StoneGolem : Boss
         Direction dir = direction;
         Vector3 pos = transform.position;
 
-        for (int i = 0; i < 1; i++)
-        {
-            CameraManager.Instance.ShakeCam(0.2f, 0.1f);
-            InstantiateShockWave(tempInfo, dir, pos);
-            yield return new WaitForSeconds(tempInfo.preDelay - 0.4f);
-            anim.Play("DoubleSmash");
-            StartCoroutine(LandShake());
+        CameraManager.Instance.ShakeCam(0.2f, 0.1f);
+        anim.Play("DoubleSmash");
 
-            yield return new WaitForSeconds(0.4f);
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject shockWave = InstantiateShockWave(tempInfo, dir, pos);
+            if (shockWaveEffect != null)
+            {
+                GameObject effect_Temp = Instantiate(shockWaveEffect, shockWave.transform.position, Quaternion.identity);
+                effect_Temp.transform.parent = shockWave.transform;
+            }
+            //StartCoroutine(LandShake());
+
+            yield return new WaitForSeconds(0.2f);
         }
     }
 
@@ -394,7 +399,7 @@ public class Enemy_StoneGolem : Boss
         tempMeteor3.GetComponent<DamagingCollider>().parentTransform = transform;
     }
 
-    private void InstantiateShockWave(AttackInfo attackInfo, Direction dir, Vector3 pos)
+    private GameObject InstantiateShockWave(AttackInfo attackInfo, Direction dir, Vector3 pos)
     {   //눼 맞워오 누더기골램이애오
         GameObject _projectile = Resources.Load("Prefabs/Colliders/ProjectileObject") as GameObject;
 
@@ -428,6 +433,8 @@ public class Enemy_StoneGolem : Boss
 
         damagingCollider.parentTransform = transform;
         damagingCollider.DestroyCollider(attackInfo.duration);
+
+        return damagingCollider.gameObject;
     }
 
     public override void PlayHitSound()
