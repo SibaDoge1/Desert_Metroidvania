@@ -32,31 +32,31 @@ public class Enemy_StoneGolem : Boss
         tempInfos[0].attackRange = new Vector2(4f, 8f);
         tempInfos[0].hitBoxPostion = new Vector2(2f, 3.5f);
         tempInfos[0].damage = 1;
-        tempInfos[0].duration = 0.4f;
-        tempInfos[0].preDelay = 1.5f;
-        tempInfos[0].postDelay = 2f;
+        tempInfos[0].duration = 0.2f;
+        tempInfos[0].preDelay = 1f;
+        tempInfos[0].postDelay = 1.5f;
 
         tempInfos[0].monsterattackInfo.attackValue = 5;
         tempInfos[0].monsterattackInfo.attackIndex = 0;
 
         //하단 공격
-        tempInfos[1].attackRange = new Vector2(5f, 3f);
+        tempInfos[1].attackRange = new Vector2(4f, 3f);
         tempInfos[1].hitBoxPostion = new Vector2(2f, 1f);
-        tempInfos[1].damage = 2;
-        tempInfos[1].duration = 0.4f;
-        tempInfos[1].preDelay = 1.8f;
-        tempInfos[1].postDelay = 3f;
+        tempInfos[1].damage = 1;
+        tempInfos[1].duration = 0.2f;
+        tempInfos[1].preDelay = 1.2f;
+        tempInfos[1].postDelay = 1.5f;
 
         tempInfos[1].monsterattackInfo.attackValue = 5;
         tempInfos[1].monsterattackInfo.attackIndex = 1;
 
         //초장거리 공격
         tempInfos[2].attackRange = new Vector2(2f, 2f);
-        tempInfos[2].hitBoxPostion = new Vector2(1f, 3f);
+        tempInfos[2].hitBoxPostion = new Vector2(1f, 5f);
         tempInfos[2].damage = 1;
         tempInfos[2].duration = 5f;
         tempInfos[2].preDelay = 1.5f;
-        tempInfos[2].postDelay = 3f;
+        tempInfos[2].postDelay = 1.5f;
         tempInfos[2].cooltime = 12f;            //임시 적용
 
         tempInfos[2].monsterattackInfo.attackValue = 100;
@@ -70,9 +70,9 @@ public class Enemy_StoneGolem : Boss
         tempInfos[3].attackRange = new Vector2(4f, 8f);
         tempInfos[3].hitBoxPostion = new Vector2(2f, 3.5f);
         tempInfos[3].damage = 1;
-        tempInfos[3].duration = 0.3f;
+        tempInfos[3].duration = 0.2f;
         tempInfos[3].preDelay = 1.5f;
-        tempInfos[3].postDelay = 6f;
+        tempInfos[3].postDelay = 2f;
         tempInfos[3].cooltime = 18f;
 
         tempInfos[3].monsterattackInfo.attackValue = 1;    
@@ -82,9 +82,9 @@ public class Enemy_StoneGolem : Boss
         tempInfos[4].attackRange = new Vector2(4f, 8f);
         tempInfos[4].hitBoxPostion = new Vector2(2f, 3.5f);
         tempInfos[4].damage = 1;
-        tempInfos[4].duration = 0.3f;
+        tempInfos[4].duration = 0.2f;
         tempInfos[4].preDelay = 2.5f;
-        tempInfos[4].postDelay = 7f;
+        tempInfos[4].postDelay = 2.5f;
 
         tempInfos[4].monsterattackInfo.attackValue = 1;
         tempInfos[4].monsterattackInfo.attackIndex = 4;
@@ -95,7 +95,7 @@ public class Enemy_StoneGolem : Boss
         tempInfos[5].damage = 1;
         tempInfos[5].duration = 5f;
         tempInfos[5].preDelay = 1.5f;
-        tempInfos[5].postDelay = 3f;
+        tempInfos[5].postDelay = 1.5f;
         tempInfos[5].cooltime = 12f;            //임시 적용
 
         tempInfos[5].monsterattackInfo.attackValue = 100;
@@ -109,9 +109,9 @@ public class Enemy_StoneGolem : Boss
         tempInfos[6].attackRange = new Vector2(4f, 8f);
         tempInfos[6].hitBoxPostion = new Vector2(2f, 3.5f);
         tempInfos[6].damage = 1;
-        tempInfos[6].duration = 0.3f;
+        tempInfos[6].duration = 0.2f;
         tempInfos[6].preDelay = 1.5f;
-        tempInfos[6].postDelay = 6f;
+        tempInfos[6].postDelay = 2f;
         tempInfos[6].cooltime = 18f;
 
         tempInfos[6].monsterattackInfo.attackValue = 1;
@@ -180,7 +180,6 @@ public class Enemy_StoneGolem : Boss
         AttackInfo tempInfo;
         Vector2 playerPos = PlayManager.Instance.Player.transform.position;
         float vectorToPlayer = playerPos.x - transform.position.x;
-        SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
         Direction dir = vectorToPlayer > 0 ? Direction.right : Direction.left;
         Move(dir);
 
@@ -195,8 +194,11 @@ public class Enemy_StoneGolem : Boss
 
                 anim.Play("prev_Smash");
                 yield return new WaitForSeconds(tempInfo.preDelay);
-                Move(dir);
                 anim.Play("Smash");
+                StartCoroutine(LandShake());
+
+                SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
+
                 CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform,dir);
 
                 yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
@@ -210,8 +212,11 @@ public class Enemy_StoneGolem : Boss
 
                 anim.Play("prev_Stomp");
                 yield return new WaitForSeconds(tempInfo.preDelay);
-                Move(dir);
                 anim.Play("Stomp");
+                StartCoroutine(LandShake());
+
+                SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
+
                 CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform,dir);
 
                 yield return new WaitForSeconds(tempInfo.postDelay + tempInfo.duration);
@@ -223,14 +228,16 @@ public class Enemy_StoneGolem : Boss
                 tempInfo.preDelay *= atkSpd;
                 tempInfo.postDelay *= atkSpd;
 
+                SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack2);
 
                 anim.Play("prev_Throw");
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
-                Move(dir);
                 anim.Play("Throw");
-                yield return new WaitForSeconds(0.8f);
+                yield return new WaitForSeconds(0.1f);
+
                 CombatSystem.Instance.InstantiateProjectile(tempInfo, gameObject.transform);
+                
 
                 yield return new WaitForSeconds(tempInfo.postDelay);
 
@@ -245,9 +252,12 @@ public class Enemy_StoneGolem : Boss
                 anim.Play("prev_DoubleSmash");
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
-                Move(dir);
                 anim.Play("DoubleSmash");
+                StartCoroutine(LandShake());
+
                 yield return new WaitForSeconds(0.4f);
+                SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
+
                 CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform,dir);
                 StartCoroutine(ShootShockWave());
 
@@ -263,8 +273,11 @@ public class Enemy_StoneGolem : Boss
                 anim.Play("prev_DoubleSmash");
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
-                Move(dir);
                 anim.Play("DoubleSmash");
+                StartCoroutine(LandShake());
+
+                SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
+
                 yield return new WaitForSeconds(0.4f);
                 for (int i = 0; i < 6; i++)
                 {
@@ -274,6 +287,10 @@ public class Enemy_StoneGolem : Boss
                     StartCoroutine(Attack_Meteor());
                     yield return new WaitForSeconds(tempInfo.duration - 0.4f);
                     anim.Play("DoubleSmash");
+                    StartCoroutine(LandShake());
+
+                    SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
+
                     yield return new WaitForSeconds(0.4f);
                 }
 
@@ -286,12 +303,14 @@ public class Enemy_StoneGolem : Boss
                 tempInfo.preDelay *= atkSpd;
                 tempInfo.postDelay *= atkSpd;
 
+                SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack2);
 
                 anim.Play("prev_Throw");
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
                 anim.Play("Throw");
-                yield return new WaitForSeconds(0.8f);
+                yield return new WaitForSeconds(0.1f);
+
                 CombatSystem.Instance.InstantiateProjectile(tempInfo, gameObject.transform);
 
                 yield return new WaitForSeconds(tempInfo.postDelay);
@@ -308,7 +327,11 @@ public class Enemy_StoneGolem : Boss
 
                 yield return new WaitForSeconds(tempInfo.preDelay);
                 anim.Play("DoubleSmash");
+                StartCoroutine(LandShake());
+
                 yield return new WaitForSeconds(0.4f);
+                SoundDelegate.Instance.PlayEffectSound(EffectSoundType.GolemAttack);
+
                 CombatSystem.Instance.InstantiateHitBox(tempInfo, gameObject.transform);
                 StartCoroutine(ShootShockWave());
 
@@ -329,12 +352,14 @@ public class Enemy_StoneGolem : Boss
         Direction dir = direction;
         Vector3 pos = transform.position;
 
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 1; i++)
         {
             CameraManager.Instance.ShakeCam(0.2f, 0.1f);
             InstantiateShockWave(tempInfo, dir, pos);
             yield return new WaitForSeconds(tempInfo.preDelay - 0.4f);
             anim.Play("DoubleSmash");
+            StartCoroutine(LandShake());
+
             yield return new WaitForSeconds(0.4f);
         }
     }
@@ -420,7 +445,18 @@ public class Enemy_StoneGolem : Boss
         clearObj.GetComponent<ClearObj>().Active(sprite);
         gameObject.SetActive(false);
     }
-    
 
 
+    IEnumerator LandShake()
+    {
+        float timer = 0f;
+        yield return new WaitForSeconds(0.1f);
+
+        while (timer < 0.3f)
+        {
+            CameraManager.Instance.MoveCam(Random.insideUnitCircle * 0.2f + (Vector2)CameraManager.Instance.transform.position);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+    }
 }

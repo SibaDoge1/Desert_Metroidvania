@@ -64,6 +64,7 @@ public class Sword : Weapon
 
     private int atkCount;
     private float isAtkCounting;
+    
 
     private void Update()
     {

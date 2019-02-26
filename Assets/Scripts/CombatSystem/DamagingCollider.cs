@@ -13,10 +13,16 @@ public class DamagingCollider : MonoBehaviour
     {
         //if (c.transform.parent == null) return;
 
-        if ((parentTransform.tag != "Enemy" && c.tag == "Enemy") || c.tag == "Player")
+        if ( c.tag == "Player")
         {   
             //무적 시간? 있나?
             c.GetComponent<Character>().GetDamage(damage, transform);
+           
+        }
+        else if((parentTransform.tag != "Enemy" && c.tag == "Enemy"))
+        {
+            c.GetComponent<Character>().GetDamage(damage, transform);
+
             if (hitEffect != null)
             {
                 Instantiate(hitEffect, transform.position, transform.rotation);

@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 7249053008991481447, guid: dc5aef5009b19564da229b489e8d4fbb,
         type: 3}
       propertyPath: m_Name
-      value: Attack2
+      value: Attack2 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 2090202537104293124, guid: dc5aef5009b19564da229b489e8d4fbb,
         type: 3}
@@ -72,5 +72,10 @@ PrefabInstance:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: 2bf8046e1d01dae4f9c14c6f22f37588, type: 3}
+    - target: {fileID: 4535682796979658774, guid: dc5aef5009b19564da229b489e8d4fbb,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.26
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc5aef5009b19564da229b489e8d4fbb, type: 3}
