@@ -38,7 +38,7 @@ public class StatChanger : MonoBehaviour
         }
         else if(statType == StatType.Trap)
         {
-            linkedChar.GetDamage(linkedChar.Hp,transform);
+            linkedChar.GetDamage(linkedChar.Hp,transform, true);
             DestroyMe();
         }
         else if(statType == StatType.MaxHeal)

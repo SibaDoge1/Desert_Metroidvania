@@ -206,6 +206,17 @@ public abstract class Character : InGameObj
 
     }
 
+    public void GetDamage(float damage, Transform col, bool isForcible)
+        //강제로 데미지 줌
+    {
+        Hp -= (int)damage;
+
+        if (Hp <= 0)
+        {
+            OnDieCallBack();
+        }
+    }
+
     public virtual void PlayHitSound()
     {
         SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Hit);
