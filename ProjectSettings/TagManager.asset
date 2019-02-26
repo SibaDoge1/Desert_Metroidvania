@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - Tile
+  - Ladder
+  - Boundary
   layers:
   - Default
   - TransparentFX
@@ -13,11 +17,11 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Object
+  - DeadObject
+  - Flying
+  - Player
+  - Indicator
   - 
   - 
   - 
