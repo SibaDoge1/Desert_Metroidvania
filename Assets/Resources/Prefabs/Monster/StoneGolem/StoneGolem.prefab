@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackable: 0
-  cooltime: 30
+  cooltime: 20
 --- !u!61 &148945278
 BoxCollider2D:
   m_ObjectHideFlags: 0

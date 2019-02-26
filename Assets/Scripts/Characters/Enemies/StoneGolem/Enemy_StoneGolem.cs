@@ -32,8 +32,8 @@ public class Enemy_StoneGolem : Boss
         tempInfos[0].attackRange = new Vector2(4f, 8f);
         tempInfos[0].hitBoxPostion = new Vector2(2f, 3.5f);
         tempInfos[0].damage = 1;
-        tempInfos[0].duration = 0.4f;
-        tempInfos[0].preDelay = 1.5f;
+        tempInfos[0].duration = 0.2f;
+        tempInfos[0].preDelay = 1f;
         tempInfos[0].postDelay = 1.5f;
 
         tempInfos[0].monsterattackInfo.attackValue = 5;
@@ -42,9 +42,9 @@ public class Enemy_StoneGolem : Boss
         //하단 공격
         tempInfos[1].attackRange = new Vector2(4f, 3f);
         tempInfos[1].hitBoxPostion = new Vector2(2f, 1f);
-        tempInfos[1].damage = 2;
-        tempInfos[1].duration = 0.4f;
-        tempInfos[1].preDelay = 1.8f;
+        tempInfos[1].damage = 1;
+        tempInfos[1].duration = 0.2f;
+        tempInfos[1].preDelay = 1.2f;
         tempInfos[1].postDelay = 1.5f;
 
         tempInfos[1].monsterattackInfo.attackValue = 5;
@@ -70,7 +70,7 @@ public class Enemy_StoneGolem : Boss
         tempInfos[3].attackRange = new Vector2(4f, 8f);
         tempInfos[3].hitBoxPostion = new Vector2(2f, 3.5f);
         tempInfos[3].damage = 1;
-        tempInfos[3].duration = 0.3f;
+        tempInfos[3].duration = 0.2f;
         tempInfos[3].preDelay = 1.5f;
         tempInfos[3].postDelay = 2f;
         tempInfos[3].cooltime = 18f;
@@ -82,7 +82,7 @@ public class Enemy_StoneGolem : Boss
         tempInfos[4].attackRange = new Vector2(4f, 8f);
         tempInfos[4].hitBoxPostion = new Vector2(2f, 3.5f);
         tempInfos[4].damage = 1;
-        tempInfos[4].duration = 0.3f;
+        tempInfos[4].duration = 0.2f;
         tempInfos[4].preDelay = 2.5f;
         tempInfos[4].postDelay = 2.5f;
 
@@ -109,7 +109,7 @@ public class Enemy_StoneGolem : Boss
         tempInfos[6].attackRange = new Vector2(4f, 8f);
         tempInfos[6].hitBoxPostion = new Vector2(2f, 3.5f);
         tempInfos[6].damage = 1;
-        tempInfos[6].duration = 0.3f;
+        tempInfos[6].duration = 0.2f;
         tempInfos[6].preDelay = 1.5f;
         tempInfos[6].postDelay = 2f;
         tempInfos[6].cooltime = 18f;
