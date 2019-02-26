@@ -81,7 +81,7 @@ public class PlayManager : MonoBehaviour
         SceneManager.LoadScene("Scenes/LoadingScene");
     }
 
-    public bool isTestMode = true;
+    public bool isTestMode = false;
 
     private Player player = null;
     public Player Player

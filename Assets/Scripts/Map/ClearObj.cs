@@ -13,7 +13,7 @@ public class ClearObj : InteractObject
     public void Active(GameObject sprite)
     {
         gameObject.SetActive(true);
-        sprite.GetComponent<Animator>().Play("Die");
+        sprite.GetComponent<Animator>().Play("Dead");
         bossImage = sprite.GetComponent<SpriteRenderer>();
         image = transform.Find("Sprite").GetComponent<SpriteRenderer>();
         sprite.transform.SetParent(transform);
