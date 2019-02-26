@@ -217,6 +217,12 @@ public abstract class Character : InGameObj
         }
     }
 
+    public void Kill()
+    //강제로 데미지 줌
+    {
+        OnDieCallBack();
+    }
+
     public virtual void PlayHitSound()
     {
         SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Hit);

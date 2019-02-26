@@ -38,7 +38,7 @@ public class StatChanger : MonoBehaviour
         }
         else if(statType == StatType.Trap)
         {
-            linkedChar.GetDamage(linkedChar.Hp,transform, true);
+            linkedChar.Kill();
             DestroyMe();
         }
         else if(statType == StatType.MaxHeal)
@@ -73,7 +73,8 @@ public class StatChanger : MonoBehaviour
         }
         transform.SetParent(linkedChar.transform.Find("StatChangers"));
         linkedChar.AddStatChanger(this);
-        EffectDelegate.Instance.MadeEffect(EffectType.LightWall, linkedChar.transform);
+        if (type != StatType.Trap)
+            EffectDelegate.Instance.MadeEffect(EffectType.LightWall, linkedChar.transform);
         if (cha.gameObject.CompareTag("Player") && 
             statType != StatType.HP && statType != StatType.MaxHP && statType != StatType.MaxHeal && statType != StatType.Trap)
         {
