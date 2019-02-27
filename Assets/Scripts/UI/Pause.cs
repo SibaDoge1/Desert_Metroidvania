@@ -14,6 +14,11 @@ public class Pause : MonoBehaviour
     {
     }
 
+    public void update()
+    {
+        Debug.Log(Time.timeScale);
+    }
+
     public void Toggle()
     {
         SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Button);
@@ -32,6 +37,7 @@ public class Pause : MonoBehaviour
     {
         isOn = true;
         Time.timeScale = 0f;
+        Time.fixedDeltaTime = 0f;
         gameObject.SetActive(true);
     }
 

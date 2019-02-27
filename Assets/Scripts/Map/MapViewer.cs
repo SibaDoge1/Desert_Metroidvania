@@ -35,7 +35,7 @@ public class MapViewer : MonoBehaviour
         indicator.SetActive(true);
         for(int i =0; i<Map.Instance.stages.Count; i++)
         {
-            if(SaveManager.GetMapInfo(Map.Instance.stages[i].myID) == true)
+            if(SaveManager.GetMapInfo(Map.Instance.stages[i].myID) == true || Map.Instance.stages[i] == Map.Instance.CurStage)
             {
                 Map.Instance.stages[i].gameObject.SetActive(true);
             }

@@ -131,8 +131,7 @@ public class Sword : Weapon
     {
         onAttack = true;
         PlayManager.Instance.Player.IsMovable = false;
-
-
+        
         yield return new WaitForSeconds(info.preDelay);
         SoundDelegate.Instance.PlayEffectSound((EffectSoundType)atkCount);
         if(info.attackID.Equals("attack_skill1"))
@@ -142,12 +141,12 @@ public class Sword : Weapon
         PlayManager.Instance.Player.anim.Play(info.attackID, 0, 0);
 
         CombatSystem.Instance.InstantiateHitBox(info, gameObject.transform);
-
+        
         yield return new WaitForSeconds(info.duration);
-
+        
 
         yield return new WaitForSeconds(info.postDelay);
-
+        
         PlayManager.Instance.Player.IsMovable = true;
         onAttack = false;
 
