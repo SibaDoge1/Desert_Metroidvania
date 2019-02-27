@@ -151,7 +151,7 @@ public class Player : Character
         SoundDelegate.Instance.PlayEffectSound(EffectSoundType.Dash);
         while (timer < dashTime)
         {
-            yield return null; //물리적인 이동같은건 fixedUpdate로
+            yield return new WaitForFixedUpdate(); //물리적인 이동같은건 fixedUpdate로
 
             if (stopDash)
             {
